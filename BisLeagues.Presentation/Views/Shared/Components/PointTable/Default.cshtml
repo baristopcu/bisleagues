@@ -1,0 +1,32 @@
+﻿<!-- Point Table -->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 r-full-width">
+    <div class="last-matches styel-1">
+        <h3><span>PUAN TABLOSU</span></h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team</th>
+                    <th>P</th>
+                    <th>W</th>
+                    <th>L</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int order = 1; }
+                @foreach (var row in Model)
+                {
+
+                    <tr>
+                        <td>@order</td>
+                        <td>@row.Team.Name</td>
+                        <td>@row.MatchCount</td>
+                        <td>@row.Average</td>
+                        <td>@row.Point</td>
+                    </tr>
+                    order++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

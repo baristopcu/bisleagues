@@ -1,0 +1,133 @@
+﻿@model BisLeagues.Presentation.ViewModels.MatchViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+}
+@section Heading{
+
+    <!-- Page Heading banner -->
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" data-appear-top-offset="600" data-parallax="scroll" data-image-src="~/Assets/images/inner-banner/img-04.jpg">
+        <div class="container">
+            <div class="pager-heading match-detail white-heading">
+                <span class="pull-left"><img src="@Model.UpComingMatch.Home.LogoUrl" alt=""></span>
+                <div class="match-vs-heading position-center-center">
+                    <div class="left-tiem-acounter">
+                        <ul id="countdown-3" class="countdown">
+                            <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün</li>
+                            <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat</li>
+                            <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika</li>
+                        </ul>
+                    </div>
+                    <span class="result-vs">vs</span>
+                    <div class="location-marker">
+                        <ul>
+                            <li></li>
+                            <li><i class="fa fa-clock-o"></i> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</li>
+                        </ul>
+                    </div>
+                </div>
+                <span class="pull-right"><img src="@Model.UpComingMatch.Away.LogoUrl" alt=""></span>
+            </div>
+        </div>
+    </div>
+    <!-- Page Heading banner -->
+
+}
+<!-- Match -->
+<div class="theme-padding white-bg">
+    <div class="container">
+        <div class="row">
+            <!-- match Contenet -->
+            <div class="matches-shedule-holder">
+                <div class="col-lg-9 col-sm-8">
+
+                    <!-- Matches Dates Shedule -->
+                    <div class="matches-dates-shedule">
+                        <ul>
+                            @foreach (var match in Model.Matches)
+                            {
+                                <li>
+                                    <span class="pull-left"><img src="@match.Home.LogoUrl" alt=""></span>
+                                    <span class="pull-right"><img src="@match.Away.LogoUrl" alt=""></span>
+                                    <div class="detail">
+                                        <a href="#">Match Detail<i class="fa fa-angle-double-right"></i></a>
+                                        <strong>@match.Home.Name<i class="red-color"> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</i> @match.Away.Name</strong>
+                                        <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- Matches Dates Shedule -->
+                    <!-- Pagination -->
+                    <div class="pagination-holder">
+                        <ul class="pagination">
+                            <li><a href="#"><i class="fa fa-angle-double-left"></i>Previous</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">7</a></li>
+                            <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
+                            <li><a href="#">28</a></li>
+                            <li><a href="#">Next<i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- Pagination -->
+
+                </div>
+            </div>
+            <!-- match Contenet -->
+            <!-- Aside -->
+            <div class="col-lg-3 col-sm-4">
+
+                <!-- Aside Widget -->
+                <div class="aside-widget">
+                    <a href="#"><img src="~/Assets/images/adds-02.jpg" alt=""></a>
+                </div>
+                <!-- Aside Widget -->
+                <!-- Aside Widget -->
+                <div class="aside-widget">
+                    <h3><span>Popular News</span></h3>
+                    <div class="Popular-news">
+                        <ul>
+                            <li>
+                                <img src="~/Assets/images/popular-news/img-01.jpg" alt="">
+                                <h5><a href="#">Two touch penalties, imaginary cards</a></h5>
+                                <span class="red-color"><i class="fa fa-clock-o"></i>22 Feb, 2016</span>
+                            </li>
+                            <li>
+                                <img src="~/Assets/images/popular-news/img-02.jpg" alt="">
+                                <h5><a href="#">Two touch penalties, imaginary cards</a></h5>
+                                <span class="red-color"><i class="fa fa-clock-o"></i>22 Feb, 2016</span>
+                            </li>
+                            <li>
+                                <img src="~/Assets/images/popular-news/img-03.jpg" alt="">
+                                <h5><a href="#">Two touch penalties, imaginary cards</a></h5>
+                                <span class="red-color"><i class="fa fa-clock-o"></i>22 Feb, 2016</span>
+                            </li>
+                            <li>
+                                <img src="~/Assets/images/popular-news/img-04.jpg" alt="">
+                                <h5><a href="#">Two touch penalties, imaginary cards</a></h5>
+                                <span class="red-color"><i class="fa fa-clock-o"></i>22 Feb, 2016</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Aside Widget -->
+                <!-- Aside Widget -->
+                <div class="aside-widget">
+                    <h3><span>Archive</span></h3>
+                    <div id="calendar" class="calendar"></div>
+                </div>
+                <!-- Aside Widget -->
+
+            </div>
+            <!-- Aside -->
+
+        </div>
+    </div>
+</div>
+<!-- Match -->

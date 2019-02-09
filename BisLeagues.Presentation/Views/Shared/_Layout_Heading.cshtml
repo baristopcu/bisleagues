@@ -1,0 +1,41 @@
+﻿<!doctype html>
+<html class="no-js" lang="tr">
+<head>
+
+    <partial name="_Partials/_Head" />
+
+</head>
+<body>
+
+    <!-- Wrapper -->
+    <div class="wrap push">
+
+        <!-- Header -->
+        <header class="header style-3">
+
+            <partial name="_Partials/_TopBar" />
+
+            <partial name="_Partials/_Nav" />
+
+        </header>
+        <!-- Header -->
+
+        <partial name="_Partials/_Breadcrumb" />
+
+        @RenderSection("Heading", required: false)
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            @RenderBody()
+
+        </main>
+        <!-- Main Content -->
+
+        <partial name="_Partials/_Footer" />
+        @RenderSection("Scripts", required: false)
+
+
+
+</body>          
+</html>

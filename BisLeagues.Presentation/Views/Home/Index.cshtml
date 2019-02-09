@@ -1,0 +1,400 @@
+﻿@model BisLeagues.Presentation.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_Slider.cshtml";
+
+}
+@section Slider
+    {
+    <partial name="_Partials/_Slider" model="Model.TopNews" />
+
+}
+
+<!-- Next Match -->
+<div class="next-match style-2">
+    <div class="container p-0">
+
+        <!-- Macth left Time -->
+        <div class="col-sm-6 bg-2">
+            <div class="left-match-time">
+                <h2>Gelecek Maç</h2>
+                <ul id="countdown-1" class="countdown">
+                    <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün </li>
+                    <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat </li>
+                    <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika </li>
+                </ul>
+                <span>@(Model.UpComingMatch != null ? TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm") : "Sırada maç yok !")</span>
+            </div>
+        </div>
+        <!-- Macth left Time -->
+        <!-- Vs Team -->
+        <div class="col-sm-6 bg-1">
+            <div class="vs-team">
+                <div class="team-btw-match">
+                    @if (Model.UpComingMatch != null)
+                    {
+                        <ul>
+                            <li>
+                                <img src="@Model.UpComingMatch.Home.LogoUrl" alt="">
+                                <span>@Model.UpComingMatch.Home.Name</span>
+                            </li>
+                            <li>
+                                <img src="@Model.UpComingMatch.Away.LogoUrl" alt="">
+                                <span>@Model.UpComingMatch.Away.Name</span>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Vs Team -->
+
+    </div>
+</div>
+<!-- Next Match -->
+<!-- Match Detail -->
+<section class="theme-padding-bottom bg-fixed">
+    <div class="container">
+        <br />
+        <br />
+        <br />
+        <!-- Match Detail Content -->
+        <div class="match-detail-content">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <!-- Match Fixture -->
+                        @await Component.InvokeAsync("Fixture", new { numberOfItems = 10 })
+                        <!-- Match Fixture -->
+                        <!-- Upcoming Fixture -->
+                        <div class="col-sm-8 col-xs-7 r-full-width">
+                            <h3><span><i class="red-color">GELECEK </i>MAÇLAR</span><a class="view-all pull-right" href="#">view all<i class="fa fa-angle-double-right"></i></a></h3>
+                            <div class="upcoming-fixture">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="logo-width-name"><img src="~/Assets/images/team-logos-small/img-01.png" alt="">Portugal</div>
+                                                </td>
+                                                <td class="upcoming-fixture-date"><span>6 Feb 2016 15:00</span></td>
+                                                <td>
+                                                    <div class="logo-width-name w-icon"><img src="~/Assets/images/team-logos-small/img-02.png" alt="">Germany</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="logo-width-name"><img src="~/Assets/images/team-logos-small/img-03.png" alt="">Spain</div>
+                                                </td>
+                                                <td class="upcoming-fixture-date"><span>6 Feb 2016 15:00</span></td>
+                                                <td>
+                                                    <div class="logo-width-name w-icon"><img src="~/Assets/images/team-logos-small/img-04.png" alt="">Man Utd</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="logo-width-name"><img src="~/Assets/images/team-logos-small/img-05.png" alt="">Hondrus</div>
+                                                </td>
+                                                <td class="upcoming-fixture-date"><span>6 Feb 2016 15:00</span></td>
+                                                <td>
+                                                    <div class="logo-width-name w-icon"><img src="~/Assets/images/team-logos-small/img-06.png" alt="">Ivory Cost</div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Upcoming Fixture -->
+
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row">
+                        <!-- Latest News -->
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="latest-news-holder">
+                                <h3><span>HABERLER</span></h3>
+
+                                <!-- latest-news Slider -->
+                                <div class="row no-gutters white-bg">
+
+                                    <!-- Slider -->
+                                    <div class="col-sm-9">
+                                        <ul id="latest-news-slider" class="latest-news-slider">
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-01.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-02.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-03.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-04.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-01.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-02.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                            <li>
+                                                <img src="~/Assets/images/latest-news/img-03.jpg" alt="">
+                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Slider -->
+                                    <!-- Thumnail -->
+                                    <div class="col-sm-3">
+                                        <ul id="latest-news-thumb" class="latest-news-thumb">
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                            <li>
+                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
+                                                <span>February 11, 2016</span>
+                                            </li>
+                                        </ul>
+                                        <ul class="news-thumb-arrows">
+                                            <li class="prev"><span class="fa fa-angle-up"></span></li>
+                                            <li class="next"><span class="fa fa-angle-down"></span></li>
+                                        </ul>
+                                    </div>
+                                    <!-- Thumnail -->
+
+                                </div>
+                                <!-- latest-news Slider -->
+
+                            </div>
+                        </div>
+                        <!-- Latest News -->
+                        <!-- Point Table -->
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div style="margin-top:24px;">
+                                @await Component.InvokeAsync("PointTable", new { numberOfItems = 6 })
+                            </div>
+                        </div>
+                        <!-- Point Table -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Match Detail Content -->
+
+    </div>
+</section>
+<!-- Match Detail -->
+<!-- Player Features And History -->
+<!-- Gallery And Team -->
+<div class="theme-padding gallery-holder">
+
+    <!-- Gallery v-3 -->
+    <div class="theme-padding-bottom">
+        <div class="container">
+
+            <!-- Main Heading -->
+            <h3><span>GALERI</span></h3>
+            <!-- Main Heading -->
+            <!-- Gallery Columns -->
+            <div class="gallery">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 r-full-width p-0">
+                            <figure class="gallery-figure">
+                                <img src="~/Assets/images/gallery-v3/img-01.jpg" alt="">
+                                <figcaption class="overlay">
+                                    <div class="position-center-center">
+                                        <ul class="btn-list">
+                                            <li><a href="~/Assets/images/gallery-v3/img-1-1.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                            <li><a class="fa fa-eye" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                            <figure class="gallery-figure">
+                                <img src="~/Assets/images/gallery-v3/img-02.jpg" alt="">
+                                <figcaption class="overlay">
+                                    <div class="position-center-center">
+                                        <ul class="btn-list">
+                                            <li><a href="~/Assets/images/gallery-v3/img-1-2.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                            <li><a class="fa fa-eye" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                            <figure class="gallery-figure">
+                                <img src="~/Assets/images/gallery-v3/img-03.jpg" alt="">
+                                <figcaption class="overlay">
+                                    <div class="position-center-center">
+                                        <ul class="btn-list">
+                                            <li><a href="~/Assets/images/gallery-v3/img-1-3.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                            <li><a class="fa fa-eye" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                            <figure class="gallery-figure">
+                                <img src="~/Assets/images/gallery-v3/img-04.jpg" alt="">
+                                <figcaption class="overlay">
+                                    <div class="position-center-center">
+                                        <ul class="btn-list">
+                                            <li><a href="~/Assets/images/gallery-v3/img-1-4.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                            <li><a class="fa fa-eye" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                            <figure class="gallery-figure">
+                                <img src="~/Assets/images/gallery-v3/img-05.jpg" alt="">
+                                <figcaption class="overlay">
+                                    <div class="position-center-center">
+                                        <ul class="btn-list">
+                                            <li><a href="~/Assets/images/gallery-v3/img-1-5.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                            <li><a class="fa fa-eye" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 r-full-width p-0">
+                            <figure class="gallery-figure">
+                                <img src="~/Assets/images/gallery-v3/img-06.jpg" alt="">
+                                <figcaption class="overlay">
+                                    <div class="position-center-center">
+                                        <ul class="btn-list">
+                                            <li><a href="~/Assets/images/gallery-v3/img-1-6.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                            <li><a class="fa fa-link" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Gallery Columns -->
+
+        </div>
+    </div>
+    <!-- Gallery v-3 -->
+    <!-- Separator -->
+    <div class="container text-center">
+        <span class="sprater"><i class="fa fa-futbol-o"></i></span>
+    </div>
+    <!-- Separator -->
+    <!-- Team -->
+    <div class="container">
+        <div class="team-holder theme-padding-top">
+
+            <!-- Main Heading -->
+            <div class="main-heading-holder">
+                <div class="main-heading">
+                    <h2>Zirvede ki dört takım</h2>
+                    <p>Zirvede ki takımların kartları</p>
+                </div>
+            </div>
+            <!-- Main Heading -->
+            <!-- Team Row -->
+            <div id="team-slider" class="team-slider">
+                @foreach (var team in Model.TopTeams)
+                {
+                    <!-- Team Column -->
+                    <div class="item">
+                        <div class="team-column">
+                            <img src="~/Assets/images/team/img-01.jpg" alt="">
+                            <div class="team-detail">
+                                <h5>
+                                    <a href="#">
+                                        @team.Name
+                                    </a>
+                                </h5>
+                                <span class="desination">@team.County.Name</span>
+                                <div class="detail-inner">
+                                    <ul>
+                                        <li>Kuruluş Tarihi</li>
+                                        <li>Şehir</li>
+                                        <li>İlçe</li>
+                                        <li>Sosyal Medya</li>
+                                        <li>Sosyal Medya</li>
+
+                                    </ul>
+                                    <ul>
+                                        <li>
+                                            @team.CreatedOnUtc.Value.ToShortDateString()
+                                        </li>
+                                        <li>
+                                            @team.City.Name
+                                        </li>
+                                        <li>
+                                            @team.County.Name
+                                        </li>
+                                        <li>Sosyal Medya</li>
+
+                                        <li>
+                                            <ul class="social-icons">
+                                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                                <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team Column -->
+                }
+            </div>
+            <!-- Team Row -->
+
+        </div>
+    </div>
+    <!-- Team -->
+
+</div>
+<!-- Gallery And Team -->

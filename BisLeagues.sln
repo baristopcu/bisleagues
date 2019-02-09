@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BisLeagues.Core", "BisLeagues.Core\BisLeagues.Core.csproj", "{2DE79791-9CE5-4F45-ADA3-6F81758CF98B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BisLeagues.Presentation", "BisLeagues.Presentation\BisLeagues.Presentation.csproj", "{091086F8-C443-4422-8285-BCF119391422}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DE79791-9CE5-4F45-ADA3-6F81758CF98B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE79791-9CE5-4F45-ADA3-6F81758CF98B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE79791-9CE5-4F45-ADA3-6F81758CF98B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE79791-9CE5-4F45-ADA3-6F81758CF98B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091086F8-C443-4422-8285-BCF119391422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091086F8-C443-4422-8285-BCF119391422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091086F8-C443-4422-8285-BCF119391422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091086F8-C443-4422-8285-BCF119391422}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86FDB1D3-9D13-473D-AC45-26D0C85D53BE}
+	EndGlobalSection
+EndGlobal

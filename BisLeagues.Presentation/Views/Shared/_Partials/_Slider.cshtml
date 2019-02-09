@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BisLeagues.Core.Models.New>
+<!-- Banner slider -->
+<div id="animated-slider" class="carousel slide carousel-fade">
+
+    <!-- Wrapper for slides -->
+    <div class="inner-banner-2">
+        <div class="carousel-inner" role="listbox">
+            @{ bool first = true;}
+            @foreach (var item in Model)
+            {
+                <!-- Item -->
+                <div class="item @{if (first) { first = false; @Html.Raw("active"); }}">
+                    <img class="fullscreen" src="@item.CoverPhoto" alt="">
+                    <div class="position-center-x full-width">
+                        <div class="container">
+                            <div class="banner-layer pull-left">
+                                <img class="animated fadeIn delay-1s" src="~/Assets/images/banner-slider-2/banner-layer-1.png" alt="">
+                            </div>
+                            <div class="banner-caption style-1 p-white h-white pull-right">
+                                <h1 class="animated fadeInUp delay-3s">@item.Caption</h1>
+                                <p class="animated fadeInUp delay-4s">@item.ShortDescription</p>
+                                <a class="btn lg blue-btn animated fadeInRight delay-4s" href="#">Detaya git</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item -->
+            }
+        </div>
+    </div>
+    <!-- Wrapper for slides -->
+    <!-- Nan Control -->
+    <!--  <a class="slider-nav next" href="#inner-slider" data-slide="prev"><i class="fa fa-long-arrow-right"></i></a>
+     <a class="slider-nav prev" href="#inner-slider" data-slide="next"><i class="fa fa-long-arrow-left"></i></a> -->
+    <!-- Nan Control -->
+    <!-- News Slider -->
+    <div class="news-slider style-2">
+        <div class="container">
+            <div class="news-slider-holder">
+                <div class="alert-spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+                <ul id="ticker" class="ticker">
+                    @foreach (var item in Model.Reverse())
+                    {
+                        <li><span>Gündem :</span>@item.Caption</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- News Slider -->
+
+</div>
+<!-- Banner slider -->

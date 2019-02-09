@@ -1,0 +1,61 @@
+﻿@model BisLeagues.Presentation.ViewModels.FixtureViewModel
+<div class="col-sm-4 col-xs-5 r-full-width">
+    <div class="next-matches">
+        <h4>GELECEK MAÇLAR</h4>
+        <div id="matches-detail-slider" class="matches-detail-slider">
+            @foreach (var match in Model.MatchesPartOne)
+            {
+                <div class="item matches-detail" style="background: url(/Assets/images/country-flags-bg.jpg);">
+                    <!-- <div class="time-left">
+                        <ul id="countdown-1" class="countdown">
+                            <li><span class="days">00</span>D:</li>
+                            <li><span class="hours">00</span>H:</li>
+                            <li><span class="minutes">00</span>M:</li>
+                            <li><span class="seconds">00</span>S</li>
+                        </ul>
+                    </div> -->
+                    <span class="left-date">@match.MatchDate</span>
+                    <div class="team-btw-match">
+                        <ul>
+                            <li>
+                                <img src="@match.Home.LogoUrl" alt="">
+                                <span>@match.Home.Name</span>
+                            </li>
+                            <li>
+                                <img src="@match.Away.LogoUrl" alt="">
+                                <span>@match.Away.Name</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+            @foreach (var match in Model.MatchesPartTwo)
+            {
+                <div class="item matches-detail" style="background: url(Assets/images/country-flags-bg.jpg);">
+                    <!-- <div class="time-left">
+                        <ul id="countdown-1" class="countdown">
+                            <li><span class="days">00</span>D:</li>
+                            <li><span class="hours">00</span>H:</li>
+                            <li><span class="minutes">00</span>M:</li>
+                            <li><span class="seconds">00</span>S</li>
+                        </ul>
+                    </div> -->
+                    <span class="left-date">@match.MatchDate</span>
+                    <div class="team-btw-match">
+                        <ul>
+                            <li>
+                                <img src="@match.Home.LogoUrl" alt="">
+                                <span>@match.Home.Name</span>
+                            </li>
+                            <li>
+                                <img src="@match.Away.LogoUrl" alt="">
+                                <span>@match.Away.Name</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
