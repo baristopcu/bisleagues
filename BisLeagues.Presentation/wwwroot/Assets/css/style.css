@@ -202,11 +202,15 @@ background: rgba(0,0,0,0.6); z-index: -1;}
 -ms-transform: translate(-50%, -50%);
 transform: translate(-50%, -50%);}
 
-.position-center-x{ position: absolute; top: 50%;
--webkit-transform: translate(0, -50%);
--moz-transform: translate(0, -50%);
--ms-transform: translate(0, -50%);
-transform: translate(0, -50%);}
+.position-center-x {
+    position: absolute;
+    top: 20%;
+    word-wrap: break-word;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+}
 
 .position-center-y{ left: 50%; position: absolute;
 -webkit-transform: translate(-50%, 0);
@@ -1394,14 +1398,15 @@ left: 0; width: 100%; visibility: hidden; opacity: 0;}
 .header.style-2 .search-bar-holder .form-control{ background: #f7f7f7;} 
 .header.style-2 .search-bar-holder .search-bar i{ background: #d8302f; color: #fff;}
 
+.carousel-inner {max-height: 800px;}
 .carousel-inner > .item > a > img, .carousel-inner > .item > img{ width: 100%;}
 .header.style-2 .logo{ position: absolute; left: -4px; top: -10px;}
-.banner-layer{ margin: 0 0 0 -100px;}
+.banner-layer{ margin: 0 0 0 -100px; width: 40%;}
 .banner-layer img{ position: absolute; top: 10px;}
 
 .add-banners-slider .item img{ width: 100%;} 
 
-.inner-banner-2 .banner-caption{ padding: 100px 0 0;}
+.inner-banner-2 .banner-caption{ padding: 100px 0 0; width:50%;}
 .inner-banner-2 .banner-caption h1{ font-size: 54px;}
 .inner-banner-2 .banner-caption h1 span{ color: #ffcb05;}
 .inner-banner-2 .banner-caption .btn{ text-transform: uppercase; font-size: 15px; font-weight: normal;}
@@ -1414,7 +1419,7 @@ left: 0; width: 100%; visibility: hidden; opacity: 0;}
 .next-match.style-2 .bg-1::before,
 .next-match.style-2 .bg-2::before{ content: ""; position: absolute; height: 100%; width: 999px; top: 0; z-index: -1}
 .next-match.style-2 .bg-1::before{ left: -999px; background: #ffcb0b;}
-.next-match.style-2 .bg-2::before{ right: -999px; background: #d8302f;}
+.next-match.style-2 .bg-2::before{ right: -999px; background: #41af67;}
 .next-match.style-2 .left-match-time{ text-align: center; padding: 30.2px 0;}
 .next-match.style-2 .left-match-time ul{ margin: 0 0 5px; border: 1px solid rgba( 0,0,0,0.2); display: inline-block; padding: 10px 20px;}
 .next-match.style-2 .left-match-time ul li{ font-size: 18px; text-transform: capitalize; color: #000;}

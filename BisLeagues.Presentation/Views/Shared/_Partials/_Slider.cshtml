@@ -10,13 +10,13 @@
             {
                 <!-- Item -->
                 <div class="item @{if (first) { first = false; @Html.Raw("active"); }}">
-                    <img class="fullscreen" src="@item.CoverPhoto" alt="">
+                    <img class="fullscreen" src="~/Assets/images/slider_layer.jpg" alt="">
                     <div class="position-center-x full-width">
                         <div class="container">
-                            <div class="banner-layer pull-left">
-                                <img class="animated fadeIn delay-1s" src="~/Assets/images/banner-slider-2/banner-layer-1.png" alt="">
+                            <div class="banner-layer pull-right">
+                                <img class="animated fadeIn delay-1s" src="http://lorempixel.com/g/700/600/" alt="">
                             </div>
-                            <div class="banner-caption style-1 p-white h-white pull-right">
+                            <div class="banner-caption style-1 p-white h-white pull-left">
                                 <h1 class="animated fadeInUp delay-3s">@item.Caption</h1>
                                 <p class="animated fadeInUp delay-4s">@item.ShortDescription</p>
                                 <a class="btn lg blue-btn animated fadeInRight delay-4s" href="#">Detaya git</a>
