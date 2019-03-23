@@ -61,8 +61,6 @@ namespace BisLeagues.Core.Data
 
                 entity.Property(e => e.CreatedOnUtc).HasColumnType("date");
 
-                entity.Property(e => e.LogoUrl).HasMaxLength(250);
-
                 entity.Property(e => e.Name).HasMaxLength(250);
 
 
@@ -110,6 +108,9 @@ namespace BisLeagues.Core.Data
             modelBuilder.Entity<New>()
                 .ToTable("New")
                 .HasOne(p => p.Season);
+
+            modelBuilder.Entity<Photo>()
+                .ToTable("Photo");
         }
     }
 }

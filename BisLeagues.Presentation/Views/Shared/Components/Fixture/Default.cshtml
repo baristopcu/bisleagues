@@ -6,23 +6,15 @@
             @foreach (var match in Model.MatchesPartOne)
             {
                 <div class="item matches-detail" style="background: url(@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 360, height = 328 })">
-                    <!-- <div class="time-left">
-                        <ul id="countdown-1" class="countdown">
-                            <li><span class="days">00</span>D:</li>
-                            <li><span class="hours">00</span>H:</li>
-                            <li><span class="minutes">00</span>M:</li>
-                            <li><span class="seconds">00</span>S</li>
-                        </ul>
-                    </div> -->
                     <span class="left-date">@match.MatchDate</span>
                     <div class="team-btw-match">
                         <ul>
                             <li>
-                                <img src="@match.Home.LogoUrl" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name">
                                 <span>@match.Home.Name</span>
                             </li>
                             <li>
-                                <img src="@match.Away.LogoUrl" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name">
                                 <span>@match.Away.Name</span>
                             </li>
                         </ul>
@@ -31,24 +23,16 @@
             }
             @foreach (var match in Model.MatchesPartTwo)
             {
-                <div class="item matches-detail" style="background: url(Assets/images/country-flags-bg.jpg);">
-                    <!-- <div class="time-left">
-                        <ul id="countdown-1" class="countdown">
-                            <li><span class="days">00</span>D:</li>
-                            <li><span class="hours">00</span>H:</li>
-                            <li><span class="minutes">00</span>M:</li>
-                            <li><span class="seconds">00</span>S</li>
-                        </ul>
-                    </div> -->
+                <div class="item matches-detail" style="background: url(@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 360, height = 328 })">
                     <span class="left-date">@match.MatchDate</span>
                     <div class="team-btw-match">
                         <ul>
                             <li>
-                                <img src="@match.Home.LogoUrl" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name">
                                 <span>@match.Home.Name</span>
                             </li>
                             <li>
-                                <img src="@match.Away.LogoUrl" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name">
                                 <span>@match.Away.Name</span>
                             </li>
                         </ul>

@@ -31,24 +31,19 @@ namespace BisLeagues.Presentation.Controllers
 
         }
 
-        //private readonly ITeamRepository _teamRepository;
-
-        //public HomeController(ITeamRepository teamRepository)
-        //{
-        //    _teamRepository = teamRepository;
-        //}
-
         public IActionResult Index()
         {
-            Match upcomingMatch = _matchRepository.GetUpcomingMatch();
+            List<Match> upComingMatches = _matchRepository.GetUpcomingMatchesByLimit(4).ToList();
+            var upComingMatch = upComingMatches.FirstOrDefault();
+            upComingMatches.Remove(upComingMatch);
+            TimeSpan matchCounter = upComingMatch != null ? (upComingMatch.MatchDate - DateTime.UtcNow) : new TimeSpan();
             List<New> topFiveNews = _newRepository.GetTopNewsByLimit(5).ToList();
-            DateTime now = DateTime.UtcNow;
-            TimeSpan matchCounter = upcomingMatch != null ? (upcomingMatch.MatchDate - DateTime.Now) : new TimeSpan();
             int activeSeasonId = _seasonRepository.GetActiveSeasonId();
             List<Team> topTeams = _pointTableService.GetPointTableBySeasonId(activeSeasonId).GetRange(0, 4).Select(x=>x.Team).ToList();
             HomeViewModel model = new HomeViewModel()
             {
-                UpComingMatch = upcomingMatch,
+                UpComingMatches = upComingMatches,
+                UpComingMatch = upComingMatch,
                 UpComingMatchCounter = matchCounter,
                 TopNews = topFiveNews,
                 TopTeams = topTeams

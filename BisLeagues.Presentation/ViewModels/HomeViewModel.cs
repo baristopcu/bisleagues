@@ -8,6 +8,7 @@ namespace BisLeagues.Presentation.ViewModels
 {
     public class HomeViewModel
     {
+        public List<Match> UpComingMatches { get; set; }
         public Match UpComingMatch { get; set; }
         public TimeSpan UpComingMatchCounter { get; set; }
         public List<New> TopNews { get; set; }

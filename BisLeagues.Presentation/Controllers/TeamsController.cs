@@ -54,7 +54,7 @@ namespace BisLeagues.Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,LogoUrl,CreatedOnUtc")] Team team)
+        public async Task<IActionResult> Create([Bind("Id,Name,Logo,CreatedOnUtc")] Team team)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace BisLeagues.Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LogoUrl,CreatedOnUtc")] Team team)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Logo,CreatedOnUtc")] Team team)
         {
             if (id != team.Id)
             {

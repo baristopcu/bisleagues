@@ -30,6 +30,7 @@ namespace BisLeagues.Core.Models
         public int? TeamId { get; set; }
         public int? SeasonId { get; set; }
 
+        public DateTime CreatedOnUtc { get; set; }
 
         public Team Team
         {

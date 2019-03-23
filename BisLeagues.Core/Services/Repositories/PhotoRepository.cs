@@ -8,19 +8,14 @@ using System.Threading.Tasks;
 
 namespace BisLeagues.Core.Services.Repositories
 {
-    public class NewRepository : Repository<New>, INewRepository
+    public class PhotoRepository : Repository<Photo>, IPhotoRepository
     {
         private readonly BisLeaguesContext _dbContext;
 
-        public NewRepository(BisLeaguesContext dbContext) : base(dbContext)
+        public PhotoRepository(BisLeaguesContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
             
-        }
-
-        public IEnumerable<New> GetTopNewsByLimit(int limit)
-        {
-            return _dbContext.News.OrderByDescending(x => x.Id).Take(limit);
         }
     }
 }

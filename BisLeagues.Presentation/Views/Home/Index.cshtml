@@ -35,11 +35,11 @@
                     {
                         <ul>
                             <li>
-                                <img src="@Model.UpComingMatch.Home.LogoUrl" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name">
                                 <span>@Model.UpComingMatch.Home.Name</span>
                             </li>
                             <li>
-                                <img src="@Model.UpComingMatch.Away.LogoUrl" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name">
                                 <span>@Model.UpComingMatch.Away.Name</span>
                             </li>
                         </ul>
@@ -73,33 +73,18 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="logo-width-name"><img src="~/Assets/images/team-logos-small/img-01.png" alt="">Portugal</div>
-                                                </td>
-                                                <td class="upcoming-fixture-date"><span>6 Feb 2016 15:00</span></td>
-                                                <td>
-                                                    <div class="logo-width-name w-icon"><img src="~/Assets/images/team-logos-small/img-02.png" alt="">Germany</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="logo-width-name"><img src="~/Assets/images/team-logos-small/img-03.png" alt="">Spain</div>
-                                                </td>
-                                                <td class="upcoming-fixture-date"><span>6 Feb 2016 15:00</span></td>
-                                                <td>
-                                                    <div class="logo-width-name w-icon"><img src="~/Assets/images/team-logos-small/img-04.png" alt="">Man Utd</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="logo-width-name"><img src="~/Assets/images/team-logos-small/img-05.png" alt="">Hondrus</div>
-                                                </td>
-                                                <td class="upcoming-fixture-date"><span>6 Feb 2016 15:00</span></td>
-                                                <td>
-                                                    <div class="logo-width-name w-icon"><img src="~/Assets/images/team-logos-small/img-06.png" alt="">Ivory Cost</div>
-                                                </td>
-                                            </tr>
+                                            @foreach (var upComingMatchItem in Model.UpComingMatches)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="logo-width-name"><img src="@Url.Action("Resize", "Image", new { url = upComingMatchItem.Home.Logo.Path, width = 36, height = 36 })" alt="">@upComingMatchItem.Home.Name</div>
+                                                    </td>
+                                                    <td class="upcoming-fixture-date"><span>@upComingMatchItem.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span></td>
+                                                    <td>
+                                                        <div class="logo-width-name w-icon"><img src="@Url.Action("Resize", "Image", new { url = upComingMatchItem.Away.Logo.Path, width = 36, height = 36 })" alt="">@upComingMatchItem.Away.Name</div>
+                                                    </td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -123,68 +108,26 @@
                                     <!-- Slider -->
                                     <div class="col-sm-9">
                                         <ul id="latest-news-slider" class="latest-news-slider">
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-01.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-02.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-03.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-04.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-01.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-02.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
-                                            <li>
-                                                <img src="~/Assets/images/latest-news/img-03.jpg" alt="">
-                                                <p>Chelsea captain John Terry is not ready to start against Stoke on Saturday and is struggling to prove his fitness for next week's crunch...<a href="#">Read more</a></p>
-                                            </li>
+                                            @foreach (var newItem in Model.TopNews)
+                                            {
+                                                <li>
+                                                    <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto, width = 615, height = 346 })" alt="@newItem.Caption">
+                                                    <p>@newItem.ShortDescription<a href="#">DEVAMINI OKU</a></p>
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                     <!-- Slider -->
                                     <!-- Thumnail -->
                                     <div class="col-sm-3">
                                         <ul id="latest-news-thumb" class="latest-news-thumb">
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
-                                            <li>
-                                                <p>Fancy footwork by Brito in build up to Atromitos</p>
-                                                <span>February 11, 2016</span>
-                                            </li>
+                                            @foreach (var newItem in Model.TopNews)
+                                            {
+                                                <li>
+                                                    <p>@newItem.Caption</p>
+                                                    <span>@newItem.CreatedOnUtc.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                                                </li>
+                                            }
                                         </ul>
                                         <ul class="news-thumb-arrows">
                                             <li class="prev"><span class="fa fa-angle-up"></span></li>
@@ -218,108 +161,108 @@
 <!-- Match Detail -->
 <!-- Player Features And History -->
 <!-- Gallery And Team -->
-<div class="theme-padding gallery-holder">
+<div class="gallery-holder" style="padding-bottom: 150px;">
 
     <!-- Gallery v-3 -->
-    <div class="theme-padding-bottom">
-        <div class="container">
+    @*<div class="theme-padding-bottom">
+            <div class="container">
 
-            <!-- Main Heading -->
-            <h3><span>GALERI</span></h3>
-            <!-- Main Heading -->
-            <!-- Gallery Columns -->
-            <div class="gallery">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 r-full-width p-0">
-                            <figure class="gallery-figure">
-                                <img src="~/Assets/images/gallery-v3/img-01.jpg" alt="">
-                                <figcaption class="overlay">
-                                    <div class="position-center-center">
-                                        <ul class="btn-list">
-                                            <li><a href="~/Assets/images/gallery-v3/img-1-1.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
-                                            <li><a class="fa fa-eye" href="#"></a></li>
-                                        </ul>
-                                    </div>
-                                </figcaption>
-                            </figure>
+                <!-- Main Heading -->
+                <h3><span>GALERI</span></h3>
+                <!-- Main Heading -->
+                <!-- Gallery Columns -->
+                <div class="gallery">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="~/Assets/images/gallery-v3/img-01.jpg" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a href="~/Assets/images/gallery-v3/img-1-1.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                                <li><a class="fa fa-eye" href="#"></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="~/Assets/images/gallery-v3/img-02.jpg" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a href="~/Assets/images/gallery-v3/img-1-2.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                                <li><a class="fa fa-eye" href="#"></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="~/Assets/images/gallery-v3/img-03.jpg" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a href="~/Assets/images/gallery-v3/img-1-3.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                                <li><a class="fa fa-eye" href="#"></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
                         </div>
-                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
-                            <figure class="gallery-figure">
-                                <img src="~/Assets/images/gallery-v3/img-02.jpg" alt="">
-                                <figcaption class="overlay">
-                                    <div class="position-center-center">
-                                        <ul class="btn-list">
-                                            <li><a href="~/Assets/images/gallery-v3/img-1-2.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
-                                            <li><a class="fa fa-eye" href="#"></a></li>
-                                        </ul>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
-                            <figure class="gallery-figure">
-                                <img src="~/Assets/images/gallery-v3/img-03.jpg" alt="">
-                                <figcaption class="overlay">
-                                    <div class="position-center-center">
-                                        <ul class="btn-list">
-                                            <li><a href="~/Assets/images/gallery-v3/img-1-3.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
-                                            <li><a class="fa fa-eye" href="#"></a></li>
-                                        </ul>
-                                    </div>
-                                </figcaption>
-                            </figure>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="~/Assets/images/gallery-v3/img-04.jpg" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a href="~/Assets/images/gallery-v3/img-1-4.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                                <li><a class="fa fa-eye" href="#"></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="~/Assets/images/gallery-v3/img-05.jpg" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a href="~/Assets/images/gallery-v3/img-1-5.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                                <li><a class="fa fa-eye" href="#"></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="~/Assets/images/gallery-v3/img-06.jpg" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a href="~/Assets/images/gallery-v3/img-1-6.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
+                                                <li><a class="fa fa-link" href="#"></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
-                            <figure class="gallery-figure">
-                                <img src="~/Assets/images/gallery-v3/img-04.jpg" alt="">
-                                <figcaption class="overlay">
-                                    <div class="position-center-center">
-                                        <ul class="btn-list">
-                                            <li><a href="~/Assets/images/gallery-v3/img-1-4.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
-                                            <li><a class="fa fa-eye" href="#"></a></li>
-                                        </ul>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm-6 col-xs-6 r-full-width p-0">
-                            <figure class="gallery-figure">
-                                <img src="~/Assets/images/gallery-v3/img-05.jpg" alt="">
-                                <figcaption class="overlay">
-                                    <div class="position-center-center">
-                                        <ul class="btn-list">
-                                            <li><a href="~/Assets/images/gallery-v3/img-1-5.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
-                                            <li><a class="fa fa-eye" href="#"></a></li>
-                                        </ul>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm-12 col-xs-12 r-full-width p-0">
-                            <figure class="gallery-figure">
-                                <img src="~/Assets/images/gallery-v3/img-06.jpg" alt="">
-                                <figcaption class="overlay">
-                                    <div class="position-center-center">
-                                        <ul class="btn-list">
-                                            <li><a href="~/Assets/images/gallery-v3/img-1-6.jpg" data-rel="prettyPhoto[gallery-v3]"><i class="fa fa-search"></i></a></li>
-                                            <li><a class="fa fa-link" href="#"></a></li>
-                                        </ul>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </div>
+                <!-- Gallery Columns -->
+
             </div>
-            <!-- Gallery Columns -->
-
-        </div>
-    </div>
+        </div>*@
     <!-- Gallery v-3 -->
     <!-- Separator -->
     <div class="container text-center">
@@ -345,7 +288,7 @@
                     <!-- Team Column -->
                     <div class="item">
                         <div class="team-column">
-                            <img src="~/Assets/images/team/img-01.jpg" alt="">
+                            <img src="@Url.Action("Resize", "Image", new { url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
                             <div class="team-detail">
                                 <h5>
                                     <a href="#">

@@ -10,7 +10,7 @@
     <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" data-appear-top-offset="600" data-parallax="scroll" data-image-src="~/Assets/images/inner-banner/img-04.jpg">
         <div class="container">
             <div class="pager-heading match-detail white-heading">
-                <span class="pull-left"><img src="@Model.UpComingMatch.Home.LogoUrl" alt=""></span>
+                <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name"></span>
                 <div class="match-vs-heading position-center-center">
                     <div class="left-tiem-acounter">
                         <ul id="countdown-3" class="countdown">
@@ -27,7 +27,7 @@
                         </ul>
                     </div>
                 </div>
-                <span class="pull-right"><img src="@Model.UpComingMatch.Away.LogoUrl" alt=""></span>
+                <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name"></span>
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@
                             @foreach (var match in Model.Matches)
                             {
                                 <li>
-                                    <span class="pull-left"><img src="@match.Home.LogoUrl" alt=""></span>
-                                    <span class="pull-right"><img src="@match.Away.LogoUrl" alt=""></span>
+                                    <span class="pull-left"><img src="@match.Home.Logo.Path" alt="@match.Home.Name"></span>
+                                    <span class="pull-right"><img src="@match.Away.Logo.Path" alt="@match.Away.Name"></span>
                                     <div class="detail">
                                         <a href="#">Match Detail<i class="fa fa-angle-double-right"></i></a>
                                         <strong>@match.Home.Name<i class="red-color"> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</i> @match.Away.Name</strong>
