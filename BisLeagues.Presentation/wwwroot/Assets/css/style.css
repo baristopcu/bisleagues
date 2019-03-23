@@ -595,8 +595,8 @@ border-radius: 100%; font-family: fontawesome; text-align: center; line-height: 
 .latest-news-slider li p{ margin: 0; padding: 20px;}
 .latest-news-slider li p a{ text-transform: uppercase; display: inline-block;}
 
-.latest-news-thumb{ overflow: hidden;}
-.latest-news-thumb li{ width: 100%; margin: 0!important;}  
+.latest-news-thumb{ overflow: hidden; max-height: 416px;}
+.latest-news-thumb li{ width: 100%; margin: 0!important;  height: 104px;}  
 .latest-news-thumb .slick-list{ margin: 0!important;}
 .latest-news-holder{ margin: 24px 0 0;}
 .latest-news-holder > h3{ text-transform: uppercase;}

@@ -83,7 +83,7 @@ a:hover,
 .top-categories ul li a:hover,
 .main-footer.style-2 .back-to-top:hover,
 .play-icon:hover
-{ background: #000000;}
+{ background: rgb(204,0,0);}
 
 /* Theme Border Color */
 .team-detail,
