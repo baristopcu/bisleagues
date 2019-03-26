@@ -1,5 +1,6 @@
 ﻿using System;
 using BisLeagues.Core.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -17,6 +18,7 @@ namespace BisLeagues.Core.Data
         }
 
         public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<TeamPlayers> TeamPlayerMapping { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
@@ -40,35 +42,40 @@ namespace BisLeagues.Core.Data
         {
             modelBuilder.Entity<Player>(entity =>
             {
-
                 entity.ToTable("Player");
-
                 entity.Property(e => e.BirthDate).HasColumnType("date");
-
                 entity.Property(e => e.Email).HasMaxLength(100);
-
                 entity.Property(e => e.Name).HasMaxLength(50);
-
                 entity.Property(e => e.Surname).HasMaxLength(50);
-
 
             });
 
             modelBuilder.Entity<Team>(entity =>
             {
-
                 entity.ToTable("Team");
-
                 entity.Property(e => e.CreatedOnUtc).HasColumnType("date");
-
                 entity.Property(e => e.Name).HasMaxLength(250);
 
+            });
 
+            modelBuilder.Entity<New>(entity =>
+            {
+                entity.ToTable("New");
+                entity.HasOne(p => p.Season);
+                entity.HasOne(p => p.Match);
+                entity.HasOne(p => p.Team);
 
             });
 
             modelBuilder.Entity<TeamPlayers>()
+                .ToTable("Team_Player_Mapping")
                 .HasKey(tp => new { tp.TeamId, tp.PlayerId });
+
+            modelBuilder.Entity<UsersRoles>()
+                .ToTable("User_UserRole_Mapping")
+                .HasKey(bc => new { bc.UserId, bc.RoleId });
+
+
 
 
             modelBuilder.Entity<City>()
@@ -97,20 +104,11 @@ namespace BisLeagues.Core.Data
                 .ToTable("Score")
                .HasOne(p => p.Result);
 
-            modelBuilder.Entity<New>()
-                 .ToTable("New")
-                 .HasOne(p => p.Team);
-
-            modelBuilder.Entity<New>()
-                .ToTable("New")
-                .HasOne(p => p.Match);
-
-            modelBuilder.Entity<New>()
-                .ToTable("New")
-                .HasOne(p => p.Season);
-
             modelBuilder.Entity<Photo>()
                 .ToTable("Photo");
+
+            modelBuilder.Entity<User>()
+                .ToTable("User");
         }
     }
 }

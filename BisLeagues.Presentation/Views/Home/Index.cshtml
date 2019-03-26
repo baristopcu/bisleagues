@@ -1,4 +1,5 @@
 ﻿@model BisLeagues.Presentation.ViewModels.HomeViewModel
+@inject BisLeagues.Core.Utility.IUserManager UserManager
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout_Slider.cshtml";
@@ -13,13 +14,12 @@
 <!-- Next Match -->
 <div class="next-match style-2">
     <div class="container p-0">
-
         <!-- Macth left Time -->
         <div class="col-sm-6 bg-2">
             <div class="left-match-time">
                 <h2>Gelecek Maç</h2>
                 <ul id="countdown-1" class="countdown">
-                    <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün </li>
+                    <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün</li>
                     <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat </li>
                     <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika </li>
                 </ul>

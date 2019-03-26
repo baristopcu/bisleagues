@@ -7,6 +7,8 @@ using BisLeagues.Core.Interfaces;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Core.Services;
 using BisLeagues.Core.Services.Repositories;
+using BisLeagues.Core.Utility;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +32,15 @@ namespace BisLeagues.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+            });
+
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -46,8 +57,20 @@ namespace BisLeagues.Presentation
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IResultRepository, ResultRepository>();
             services.AddScoped<IPointTableService, PointTableService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<INewRepository, NewRepository>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            // Register application services.
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPasswordService, PasswordService>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -65,11 +88,12 @@ namespace BisLeagues.Presentation
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            AppHttpContext.Services = app.ApplicationServices;
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
