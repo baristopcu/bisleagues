@@ -1,0 +1,33 @@
+﻿@if (TempData["Message"] != null)
+{
+<li style="color:
+    @switch (Convert.ToInt16(TempData["MessageCode"].ToString()))
+        {
+            case 0:@Html.Raw("red"); break;
+            case 1:@Html.Raw("lightgreen"); break;
+            case 2:@Html.Raw("yellow"); break;
+            case 3:@Html.Raw("blue"); break;
+        }">
+
+    <i class="fa
+        @switch (Convert.ToInt16(TempData["MessageCode"].ToString()))
+        {
+            case 0:@Html.Raw("fa-times-circle"); break;
+            case 1:@Html.Raw("fa-check"); break;
+            case 2:@Html.Raw("fa-warning"); break;
+            case 3:@Html.Raw("fa-info-circle"); break;
+        }"></i>&nbsp; &nbsp;
+    <strong>
+        @switch (Convert.ToInt16(TempData["MessageCode"].ToString()))
+        {
+            case 0:@Html.Raw("Oops !"); break;
+        case 1:@Html.Raw("Başarılı !"); break;
+    case 2:@Html.Raw("Dikkat"); break;
+case 3:@Html.Raw("Bilgin Olsun !"); break;
+}
+    </strong>&nbsp;<span style="font-size: larger;">@TempData["Message"]</span>
+</li>
+}
+
+
+

@@ -33,7 +33,16 @@ namespace BisLeagues.Presentation.Controllers
             User user = _userManager.Validate(username, password);
 
             if (user != null)
+            {
                 _userManager.SignIn(this.HttpContext, user, false);
+                MessageCode = 1;
+                Message = "Ne de güzel giriş yaptın.";
+            }
+            else
+            {
+                MessageCode = 0;
+                Message = "Bir şeyleri yanlış girdin hangisi olduğunu söyleyemem.";
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -42,7 +51,8 @@ namespace BisLeagues.Presentation.Controllers
         public IActionResult SignOut()
         {
             _userManager.SignOut(this.HttpContext);
-
+            MessageCode = 1;
+            Message = "Çıktın gittin ama hayırlısı.";
             return RedirectToAction("Index", "Home");
         }
 
