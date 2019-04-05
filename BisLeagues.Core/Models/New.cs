@@ -11,6 +11,7 @@ namespace BisLeagues.Core.Models
         private Team _team;
         private Match _match;
         private Season _season;
+        private Photo _videoCoverPhoto;
 
         private New(ILazyLoader lazyLoader)
         {
@@ -24,7 +25,9 @@ namespace BisLeagues.Core.Models
         public string Content { get; set; }
         public string ShortDescription { get; set; }
         public string CoverPhoto { get; set; }
+        public string VideoUrl { get; set; }
 
+        public int? VideoCoverPhotoId { get; set; }
         public int? WriterId { get; set; } //TODO: Make it foreign key after writer table ready.
         public int? MatchId { get; set; }
         public int? TeamId { get; set; }
@@ -48,6 +51,12 @@ namespace BisLeagues.Core.Models
         {
             get => LazyLoader.Load(this, ref _season);
             set => _season = value;
+        }
+
+        public Photo VideoCoverPhoto
+        {
+            get => LazyLoader.Load(this, ref _videoCoverPhoto);
+            set => _videoCoverPhoto = value;
         }
     }
 }

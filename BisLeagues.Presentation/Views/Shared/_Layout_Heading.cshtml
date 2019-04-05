@@ -7,6 +7,8 @@
 </head>
 <body>
 
+    @RenderSection("AfterBodyStart", required: false)
+
     <!-- Wrapper -->
     <div class="wrap push">
 
@@ -20,7 +22,7 @@
         </header>
         <!-- Header -->
 
-        <partial name="_Partials/_Breadcrumb" />
+        @*<partial name="_Partials/_Breadcrumb" />*@
 
         @RenderSection("Heading", required: false)
 
@@ -33,9 +35,7 @@
         <!-- Main Content -->
 
         <partial name="_Partials/_Footer" />
-        @RenderSection("Scripts", required: false)
-
-
-
-</body>          
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
 </html>
