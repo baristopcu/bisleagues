@@ -19,7 +19,7 @@
                             <div class="banner-caption style-1 p-white h-white pull-left">
                                 <h1 class="animated fadeInUp delay-3s">@item.Caption</h1>
                                 <p class="animated fadeInUp delay-4s">@item.ShortDescription</p>
-                                <a class="btn lg blue-btn animated fadeInRight delay-4s" href="#">Detaya git</a>
+                                <a class="btn lg blue-btn animated fadeInRight delay-4s" href="@Url.Action("Detail","News", new { id = item.Id })">Detaya git</a>
                             </div>
                         </div>
                     </div>

@@ -112,7 +112,7 @@
                                             {
                                                 <li>
                                                     <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto, width = 615, height = 346 })" alt="@newItem.Caption">
-                                                    <p>@newItem.ShortDescription<a href="#">DEVAMINI OKU</a></p>
+                                                    <p>@newItem.ShortDescription<a href="@Url.Action("Detail","News", new { id = newItem.Id })">DEVAMINI OKU</a></p>
                                                 </li>
                                             }
                                         </ul>

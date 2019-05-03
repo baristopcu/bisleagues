@@ -1,8 +1,24 @@
-﻿@model BisLeagues.Core.Models.New
+﻿@model BisLeagues.Presentation.ViewModels.NewViewModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+
+    string homeTag = "";
+    string awayTag = "";
+    if (Model.Result != null)
+    {
+        if (Model.Result.HomeScore > Model.Result.AwayScore)
+        {
+            homeTag = "win-tag";
+            awayTag = "loss-tag";
+        }
+        else if (Model.Result.AwayScore > Model.Result.HomeScore)
+        {
+            homeTag = "loss-tag";
+            awayTag = "win-tag";
+        }
+    }
 }
 
 @section Heading{
@@ -23,18 +39,25 @@
     <!-- Page Heading banner -->
     <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
         <div class="container theme-padding">
-            <ul id="match-detail-slider" class="match-detail-slider">
-                <li>
-                    <div class="pager-heading match-detail h-white">
-                        <span class="pull-left win-tag"><img src="@Url.Action("Resize", "Image", new { url = Model.Match.Home.Logo.Path, width = 200, height = 200 })" alt=""></span>
-                        <div class="vs-match-heading position-center-center">
-                            <strong class="vs-match-result">@Model.Match.<span>Vs</span>1</strong>
-                            <span class="end-time"><i class="fa fa-clock-o"></i>13:57 min (IST)</span>
+            @if (Model.New.Match != null)
+            {
+                <ul id="match-detail-slider" class="match-detail-slider">
+                    <li>
+                        <div class="pager-heading match-detail h-white">
+                            <span class="pull-left @homeTag">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.Match.Home.Logo.Path, width = 200, height = 200 })" alt="">
+                            </span>
+                            <div class="vs-match-heading position-center-center">
+                                <strong class="vs-match-result">@Model.Result.HomeScore<span>Vs</span>@Model.Result.AwayScore</strong>
+                                <span class="end-time"><i class="fa fa-clock-o"></i>@Model.New.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                            </div>
+                            <span class="pull-right @awayTag ">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.Match.Away.Logo.Path, width = 200, height = 200 })" alt="">
+                            </span>
                         </div>
-                        <span class="pull-right loss-tag"><img src="@Url.Action("Resize", "Image", new { url = Model.Match.Away.Logo.Path, width = 200, height = 200 })" alt=""></span>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            }
         </div>
     </div>
     <!-- Page Heading banner -->
@@ -51,33 +74,27 @@
 
                 <!-- Detail -->
                 <div class="match-detail-deep theme-padding-bottom">
-                    <h2>The Exploding Heads look head to the quarter</h2>
-                    <p>Gary Neville says certainty is coming back to his Valencia side in front of Sunday's match against Athletic Bilbao.  Valencia put four objectives past their.</p>
-                    <div class="video video-post">
-                        <img src="~/Assets/images/video-bg-big.jpg" alt="">
-                        <span class="play-lable fa fa-video-camera"></span>
-                        <a class="position-center-center play-icon" href="http://www.youtube.com/watch?v=cH6kxtzovew" data-rel="prettyPhoto[video]"><i class="fa fa-video-camera"></i></a>
-                    </div>
+                    <h2>@Model.New.Caption</h2>
+                    <p>@Model.New.ShortDescription</p>
+                    @{
+                        if (Model.New.VideoCoverPhoto != null && !string.IsNullOrWhiteSpace(Model.New.VideoUrl))
+                        { <div class="video video-post">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.VideoCoverPhoto.Path, width = 1200, height = 500 })" alt="">
+                                <span class="play-lable fa fa-video-camera"></span>
+                                <a class="position-center-center play-icon" href="@Model.New.VideoUrl" data-rel="prettyPhoto[video]"><i class="fa fa-video-camera"></i></a>
+                            </div>
+                        }
+                    }
                     <article>
-                        <p>Nulla cubilia adipiscing lacinia curae arcu orci neque nisi, imperdiet turpis nisl curabitur blandit placerat himenaeos blandit, dictum adipiscing ut dictum bibendum facilisis class vivamus sapien quam dapibus sit sem, donec purus tristique taciti nostra, nullam nunc donec vitae mollis aliquam ante curabitur quisque vestibulum curabitur ornare nibh, consequat tellus mi fusce lorem class.</p>
-                        <p>Inceptos class libero vulputate interdum curabitur vestibulum scelerisque purus, metus vel dictumst etiam vestibulum magna a magna egestas, sit leo massa facilisis conubia cubilia sapien venenatis tempus consectetur erat curabitur consectetur et risus consequat conubia, facilisis ut congue purus metus ligula fusce iaculis etiam ante, scelerisque a consequat lectus iaculis varius ad etiam ut purus sem.</p>
-                        <p>Iaculis placerat ullamcorper eu dapibus ullamcorper ad cubilia potenti, dictumst neque gravida libero vehicula risus sapien fusce, praesent arcu lorem odio ut quisque sit conubia egestas massa phasellus vitae quisque sodales id, inceptos mi augue</p>
-                    </article>
-                    <blockquote>
-                        <p>I like college football, but I'm a huge college basketball fan. I could sit and watch every game of March Madness and be happy.</p>
-                        <span><i class="theme-color">Woody Hayes</i> United State America</span>
-                    </blockquote>
-                    <article>
-                        <p>Malesuada erat maecenas dictumst rhoncus mollis curabitur ad nulla, et convallis curabitur primis facilisis scelerisque volutpat blandit, eu elementum rutrum fringilla morbi sodales accumsan ad etiam ultrices id cubilia mollis et molestie maecenas justo quam, proin sollicitudin. dictum proin lacinia aenean accumsan facilisis adipiscing odio pellentesque et pellentesque.</p>
+                        @Html.Raw(Model.New.Content)
                     </article>
                 </div>
                 <!-- Detail -->
-
-
-
-
             </div>
             <!-- Match Detail Content -->
+            <!-- Men of the match -->
+
+            <!-- Men of the match -->
 
         </div>
     </div>
