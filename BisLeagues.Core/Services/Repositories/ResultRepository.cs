@@ -4,8 +4,6 @@ using BisLeagues.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using BisLeagues.Core.Interfaces.Repositories;
 
 namespace BisLeagues.Core.Services.Repositories
 {
@@ -16,6 +14,13 @@ namespace BisLeagues.Core.Services.Repositories
         public ResultRepository(BisLeaguesContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Result GetLastMatchsResult()
+        {
+            DateTime fromTime = DateTime.UtcNow;
+            Result result = _dbContext.Results.Where(x => x.Match.MatchDate < fromTime && x.Match.IsPlayed == true).OrderByDescending(m => m.Match.MatchDate).FirstOrDefault();
+            return result;
         }
 
         public IEnumerable<Result> GetResultsOfMatches(IEnumerable<Match> matches)

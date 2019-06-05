@@ -18,6 +18,11 @@ namespace BisLeagues.Core.Services.Repositories
             
         }
 
+        public New GetNewByMatchId(int matchId)
+        {
+            return _dbContext.News.Where(x => x.MatchId == matchId).SingleOrDefault();
+        }
+
         public IEnumerable<New> GetTopNewsByLimit(int limit)
         {
             return _dbContext.News.OrderByDescending(x => x.Id).Take(limit);

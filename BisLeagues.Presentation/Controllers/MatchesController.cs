@@ -14,25 +14,25 @@ namespace BisLeagues.Presentation.Controllers
 {
     public class MatchesController : Controller
     {
-        private readonly IPlayerRepository _playerRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly IMatchRepository _matchRepository;
+        private readonly IResultRepository _resultRepository;
 
-        public MatchesController(IPlayerRepository playerRepository, ISeasonRepository seasonRepository, IMatchRepository matchRepository) //: base(playerRepository)
+        public MatchesController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository) //: base(playerRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
-            _playerRepository = playerRepository;
+            _resultRepository = resultRepository;
 
         }
 
         // GET: Matches
-        public IActionResult Index()
+        public IActionResult UpComingMatches()
         {
             List<Match> matches = _matchRepository.GetUpcomingMatches().ToList();
             Match upcomingMatch = _matchRepository.GetUpcomingMatch();
             TimeSpan matchCounter = (upcomingMatch.MatchDate - DateTime.Now);
-            MatchViewModel model = new MatchViewModel()
+            UpComingMatchesViewModel model = new UpComingMatchesViewModel()
             {
                 Matches = matches,
                 UpComingMatch = upcomingMatch,
@@ -40,6 +40,19 @@ namespace BisLeagues.Presentation.Controllers
             };
             return View(model);
         }
-        
+
+        // GET: Matches
+        public IActionResult PastMatches()
+        {
+            List<Match> matches = _matchRepository.GetPastMatches().ToList();
+            Result lastMatchsResult = _resultRepository.GetLastMatchsResult();
+            PastMatchesViewModel model = new PastMatchesViewModel()
+            {
+                Matches = matches,
+                LastMatchsResult = lastMatchsResult
+            };
+            return View(model);
+        }
+
     }
 }

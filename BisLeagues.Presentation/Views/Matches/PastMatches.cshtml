@@ -1,0 +1,116 @@
+﻿@model BisLeagues.Presentation.ViewModels.PastMatchesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+
+    string homeTag = "";
+    string awayTag = "";
+    if (Model.LastMatchsResult != null)
+    {
+        if (Model.LastMatchsResult.HomeScore > Model.LastMatchsResult.AwayScore)
+        {
+            homeTag = "win-tag";
+            awayTag = "loss-tag";
+        }
+        else if (Model.LastMatchsResult.AwayScore > Model.LastMatchsResult.HomeScore)
+        {
+            homeTag = "loss-tag";
+            awayTag = "win-tag";
+        }
+    }
+}
+
+@section Heading{
+
+
+
+    <!-- Page Heading & Breadcrumbs  -->
+    <div class="page-heading-breadcrumbs">
+        <div class="container">
+            <h2>Match Detail</h2>
+            <ul class="breadcrumbs">
+                <li><a href="#">Home</a></li>
+                <li>Match Detail</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading & Breadcrumbs  -->
+    <!-- Page Heading banner -->
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+        <div class="container theme-padding">
+            @if (Model.LastMatchsResult != null && Model.LastMatchsResult.Match != null)
+            {
+                <ul id="match-detail-slider" class="match-detail-slider">
+                    <li>
+                        <div class="pager-heading match-detail h-white">
+                            <span class="pull-left @homeTag">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Home.Logo.Path, width = 200, height = 200 })" alt="">
+                            </span>
+                            <div class="vs-match-heading position-center-center">
+                                <strong class="vs-match-result">@Model.LastMatchsResult.HomeScore<span>Vs</span>@Model.LastMatchsResult.AwayScore</strong>
+                                <span class="end-time"><i class="fa fa-clock-o"></i>@Model.LastMatchsResult.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                            </div>
+                            <span class="pull-right @awayTag ">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Away.Logo.Path, width = 200, height = 200 })" alt="">
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            }
+        </div>
+    </div>
+    <!-- Page Heading banner -->
+
+}
+<!-- Match -->
+<div class="theme-padding white-bg">
+    <div class="container">
+        <div class="row">
+            <!-- match Contenet -->
+            <div class="matches-shedule-holder">
+                <div class="col-lg-12 col-sm-12">
+
+                    <!-- Matches Dates Shedule -->
+                    <div class="matches-dates-shedule">
+                        <ul>
+                            @foreach (var match in Model.Matches)
+                            {
+                                <li>
+                                    <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span>
+                                    <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span>
+                                    <div class="detail">
+                                        <a href="#"><i></i></a>
+                                        <strong>@match.Home.Name<i class="red-color"> | @Model.LastMatchsResult.HomeScore - @Model.LastMatchsResult.AwayScore | </i> @match.Away.Name</strong>
+                                        <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- Matches Dates Shedule -->
+                    <!-- Pagination -->
+                    <div class="pagination-holder">
+                        <ul class="pagination">
+                            <li><a href="#"><i class="fa fa-angle-double-left"></i>Previous</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">7</a></li>
+                            <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
+                            <li><a href="#">28</a></li>
+                            <li><a href="#">Next<i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- Pagination -->
+
+                </div>
+            </div>
+            <!-- match Contenet -->
+
+        </div>
+    </div>
+</div>
+<!-- Match -->

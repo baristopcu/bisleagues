@@ -9,6 +9,7 @@ namespace BisLeagues.Core.Interfaces.Repositories
 {
     public interface IResultRepository : IRepository<Result>
     {
+        Result GetLastMatchsResult();
         IEnumerable<Result> GetResultsOfMatches(IEnumerable<Match> matches);
     }
 }

@@ -338,6 +338,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Matches\PastMatches.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\Components\Fixture\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

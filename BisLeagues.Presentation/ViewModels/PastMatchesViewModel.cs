@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BisLeagues.Presentation.ViewModels
 {
-    public class MatchViewModel
+    public class PastMatchesViewModel
     {
         public IList<Match> Matches;
-        public Match UpComingMatch;
-        public TimeSpan UpComingMatchCounter;
+        public Result LastMatchsResult;
     }
 }
