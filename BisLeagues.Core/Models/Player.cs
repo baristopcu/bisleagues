@@ -8,10 +8,7 @@ namespace BisLeagues.Core.Models
     public partial class Player
     {
         private ICollection<TeamPlayers> _teamPlayers;
-
-        public Player()
-        {
-        }
+        private User _user;
 
         private Player(ILazyLoader lazyLoader)
         {
@@ -25,12 +22,19 @@ namespace BisLeagues.Core.Models
         public string Surname { get; set; }
         public DateTime? BirthDate { get; set; }
         public string Email { get; set; }
+        public int UserId { get; set; }
 
         [JsonProperty("teams")]
         public ICollection<TeamPlayers> TeamPlayers
         {
             get => LazyLoader.Load(this, ref _teamPlayers);
             set => _teamPlayers = value;
+        }
+
+        public User User
+        {
+            get => LazyLoader.Load(this, ref _user);
+            set => _user = value;
         }
     }
 }

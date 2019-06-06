@@ -47,6 +47,7 @@ namespace BisLeagues.Core.Data
                 entity.Property(e => e.Email).HasMaxLength(100);
                 entity.Property(e => e.Name).HasMaxLength(50);
                 entity.Property(e => e.Surname).HasMaxLength(50);
+                entity.HasOne(e => e.User);
 
             });
 
