@@ -13,7 +13,5 @@ namespace BisLeagues.Core.Interfaces.Repositories
         Match GetUpcomingMatch();
         IEnumerable<Match> GetUpcomingMatches();
         IEnumerable<Match> GetUpcomingMatchesByLimit(int limit);
-        IEnumerable<Match> GetPastMatches();
-        IEnumerable<Match> GetPastMatchesByLimit(int limit);
     }
 }

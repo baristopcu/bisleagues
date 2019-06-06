@@ -42,17 +42,5 @@ namespace BisLeagues.Core.Services.Repositories
             IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate).Take(limit);
             return matches;
         }
-
-        public IEnumerable<Match> GetPastMatches()
-        {
-            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.IsPlayed == true && x.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.MatchDate);
-            return matches;
-        }
-
-        public IEnumerable<Match> GetPastMatchesByLimit(int limit)
-        {
-            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.IsPlayed == true && x.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.MatchDate).Take(limit);
-            return matches;
-        }
     }
 }

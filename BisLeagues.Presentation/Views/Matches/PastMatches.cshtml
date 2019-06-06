@@ -74,14 +74,14 @@
                     <!-- Matches Dates Shedule -->
                     <div class="matches-dates-shedule">
                         <ul>
-                            @foreach (var match in Model.Matches)
+                            @foreach (var item in Model.NewsOfPastMatches)
                             {
                                 <li>
-                                    <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span>
-                                    <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span>
+                                    <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = item.Match.Home.Logo.Path, width = 105, height = 105 })" alt="@item.Match.Home.Name"></span>
+                                    <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = item.Match.Away.Logo.Path, width = 105, height = 105 })" alt="@item.Match.Away.Name"></span>
                                     <div class="detail">
-                                        <a href="#"><i></i></a>
-                                        <strong>@match.Home.Name<i class="red-color"> | @Model.LastMatchsResult.HomeScore - @Model.LastMatchsResult.AwayScore | </i> @match.Away.Name</strong>
+                                        <a href="@Url.Action("Detail", "News", new { item.Id })"><i>Maçın Haberine Git</i></a>
+                                        <strong>@item.Match.Home.Name<i class="red-color"> | @Model.LastMatchsResult.HomeScore - @Model.LastMatchsResult.AwayScore | </i> @item.Match.Away.Name</strong>
                                         <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
                                     </div>
                                 </li>

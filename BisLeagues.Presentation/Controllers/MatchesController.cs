@@ -17,12 +17,14 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly IMatchRepository _matchRepository;
         private readonly IResultRepository _resultRepository;
+        private readonly INewRepository _newRepository;
 
-        public MatchesController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository) //: base(playerRepository)
+        public MatchesController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository, INewRepository newRepository) //: base(playerRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
             _resultRepository = resultRepository;
+            _newRepository = newRepository;
 
         }
 
@@ -44,11 +46,11 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult PastMatches()
         {
-            List<Match> matches = _matchRepository.GetPastMatches().ToList();
+            List<New> newsOfPastMatches = _newRepository.GetNewsOfPastMatches().ToList();
             Result lastMatchsResult = _resultRepository.GetLastMatchsResult();
             PastMatchesViewModel model = new PastMatchesViewModel()
             {
-                Matches = matches,
+                NewsOfPastMatches = newsOfPastMatches,
                 LastMatchsResult = lastMatchsResult
             };
             return View(model);

@@ -27,5 +27,17 @@ namespace BisLeagues.Core.Services.Repositories
         {
             return _dbContext.News.OrderByDescending(x => x.Id).Take(limit);
         }
+
+        public IEnumerable<New> GetNewsOfPastMatches()
+        {
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
+            return newsOfMatches;
+        }
+
+        public IEnumerable<New> GetNewsOfPastMatchesByLimit(int limit)
+        {
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate).Take(limit);
+            return newsOfMatches;
+        }
     }
 }
