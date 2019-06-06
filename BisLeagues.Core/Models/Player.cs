@@ -18,10 +18,7 @@ namespace BisLeagues.Core.Models
         private ILazyLoader LazyLoader { get; set; }
 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
         public DateTime? BirthDate { get; set; }
-        public string Email { get; set; }
         public int UserId { get; set; }
 
         [JsonProperty("teams")]
