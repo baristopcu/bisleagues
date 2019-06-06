@@ -52,21 +52,31 @@ namespace BisLeagues.Core.Services.Repositories
         public void Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
+            _dbContext.SaveChanges();
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
             _dbContext.Set<TEntity>().AddRange(entities);
+            _dbContext.SaveChanges();
+        }
+        
+        public void Update(TEntity entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Remove(TEntity entity)
         {
             _dbContext.Set<TEntity>().Remove(entity);
+            _dbContext.SaveChanges();
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             _dbContext.Set<TEntity>().RemoveRange(entities);
+            _dbContext.SaveChanges();
         }
     }
 }
