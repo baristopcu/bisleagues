@@ -20,8 +20,7 @@ namespace BisLeagues.Core.Models
         }
 
         private ILazyLoader LazyLoader { get; set; }
-
-        public int Id { get; set; }
+        
         public int UserId { get; set; }
         public int RoleId { get; set; }
 

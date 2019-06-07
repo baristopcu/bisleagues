@@ -20,11 +20,17 @@ namespace BisLeagues.Presentation.Controllers
     {
         private readonly IUserManager _userManager;
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IPlayerRepository _playerRepository;
+        private readonly IPasswordService _passwordService;
 
-        public AuthenticationController(IUserRepository userRepository, IUserManager userManager) //: base(playerRepository)
+        public AuthenticationController(IUserRepository userRepository, IUserManager userManager, IUserRoleRepository userRoleRepository, IPlayerRepository playerRepository, IPasswordService passwordService) //: base(playerRepository)
         {
             _userManager = userManager;
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
+            _playerRepository = playerRepository;
+            _passwordService = passwordService;
         }
 
         [HttpPost]
@@ -60,29 +66,41 @@ namespace BisLeagues.Presentation.Controllers
         [HttpPost]
         public IActionResult SignUp(SignUpRequestModel requestModel)
         {
+            //TODO's:
+            /*
+             * Null checks
+             * Username unique
+             * Email unique
+             * Password at least 8 character
+             * Role null check
+             * Error handling (try catch)
+             * 
+             */
+            string hashedPassword = _passwordService.CreateHash(requestModel.Password);
             User user = new User()
             {
                 FirstName = requestModel.FirstName,
                 LastName = requestModel.LastName,
                 Username = requestModel.Username,
-                Password = requestModel.Password,
+                Password = hashedPassword,
                 Email = requestModel.Email,
                 CreatedOnUtc = DateTime.UtcNow,
             };
-
             _userRepository.Add(user);
-
-
-            var usersRoles = new UsersRoles()
-            {
-                UserId = user.Id,
-                RoleId = 2,
-            };
-
-            user.UsersRoles.Add(usersRoles);
-
+            var registeredRole = _userRoleRepository.Find(x => x.RoleName == "Registered").SingleOrDefault();
+            user.UsersRoles.Add(new UsersRoles() { UserRole = registeredRole});
             _userRepository.Update(user);
+            var player = new Player()
+            {
+                User = user,
+                BirthDate = requestModel.BirthDate
+            };
+            _playerRepository.Add(player);
 
+            //if everything okey, sign in user
+            _userManager.SignIn(this.HttpContext, user);
+            MessageCode = 1;
+            Message = "Ne de güzel kayıt yaptın.";
             return RedirectToAction("Index", "Home");
         }
 

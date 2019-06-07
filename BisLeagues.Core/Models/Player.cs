@@ -10,6 +10,11 @@ namespace BisLeagues.Core.Models
         private ICollection<TeamPlayers> _teamPlayers;
         private User _user;
 
+        public Player()
+        {
+
+        }
+
         private Player(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;

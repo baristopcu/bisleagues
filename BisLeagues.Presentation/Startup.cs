@@ -64,6 +64,7 @@ namespace BisLeagues.Presentation
             // Register application services.
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
