@@ -10,6 +10,11 @@ namespace BisLeagues.Core.Models
     {
         private ICollection<UsersRoles> _usersRoles;
 
+        public User()
+        {
+
+        }
+
 
         private User(ILazyLoader lazyLoader)
         {

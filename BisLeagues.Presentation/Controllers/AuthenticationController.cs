@@ -12,6 +12,7 @@ using BisLeagues.Presentation.ViewModels;
 using BisLeagues.Core.Interfaces;
 using System.Security.Claims;
 using BisLeagues.Core.Utility;
+using BisLeagues.Presentation.Models.RequestModels;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -24,7 +25,6 @@ namespace BisLeagues.Presentation.Controllers
         {
             _userManager = userManager;
             _userRepository = userRepository;
-
         }
 
         [HttpPost]
@@ -47,12 +47,42 @@ namespace BisLeagues.Presentation.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
         [HttpGet]
         public IActionResult SignOut()
         {
             _userManager.SignOut(this.HttpContext);
             MessageCode = 1;
             Message = "Çıktın gittin ama hayırlısı.";
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult SignUp(SignUpRequestModel requestModel)
+        {
+            User user = new User()
+            {
+                FirstName = requestModel.FirstName,
+                LastName = requestModel.LastName,
+                Username = requestModel.Username,
+                Password = requestModel.Password,
+                Email = requestModel.Email,
+                CreatedOnUtc = DateTime.UtcNow,
+            };
+
+            _userRepository.Add(user);
+
+
+            var usersRoles = new UsersRoles()
+            {
+                UserId = user.Id,
+                RoleId = 2,
+            };
+
+            user.UsersRoles.Add(usersRoles);
+
+            _userRepository.Update(user);
+
             return RedirectToAction("Index", "Home");
         }
 
