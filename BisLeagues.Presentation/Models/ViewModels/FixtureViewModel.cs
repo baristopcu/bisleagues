@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BisLeagues.Presentation.ViewModels
+namespace BisLeagues.Presentation.Models.ViewModels
 {
     public class FixtureViewModel
     {

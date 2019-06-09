@@ -7,147 +7,122 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BisLeagues.Core.Data;
 using BisLeagues.Core.Models;
+using BisLeagues.Core.Interfaces.Repositories;
+using BisLeagues.Presentation.Models.ViewModels;
+using BisLeagues.Presentation.Models.RequestModels;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using BisLeagues.Presentation.BaseControllers;
+using BisLeagues.Core.Utility;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class TeamsController : Controller
+    public class TeamsController : BaseController<TeamsController>
     {
-        private readonly BisLeaguesContext _context;
+        private readonly ICityRepository _cityRepository;
+        private readonly IPhotoRepository _photoRepository;
+        private readonly IUserManager _userManager;
+        private readonly ITeamRepository _teamRepository;
 
-        public TeamsController(BisLeaguesContext context)
+        public TeamsController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository)
         {
-            _context = context;
+            _cityRepository = cityRepository;
+            _photoRepository = photoRepository;
+            _userManager = userManager;
+            _teamRepository = teamRepository;
         }
 
-        // GET: Teams
-        public async Task<IActionResult> Index()
+        public IActionResult Application()
         {
-            return View(await _context.Teams.ToListAsync());
-        }
-
-        // GET: Teams/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                TeamApplicationViewModel model = new TeamApplicationViewModel
+                {
+                    Cities = _cityRepository.GetAll().ToList()
+                };
+                return View(model);
+            }
+            else
+            {
+                MessageCode = 0;
+                Message = "Takım başvurusu yapmadan önce sisteme giriş yapmalısın.";
+                return RedirectToAction("Index", "Home");
+
             }
 
-            var team = await _context.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (team == null)
-            {
-                return NotFound();
-            }
-
-            return View(team);
         }
 
-        // GET: Teams/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Teams/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Logo,CreatedOnUtc")] Team team)
+        public async Task<IActionResult> Application(TeamApplicationRequestModel model)
         {
-            if (ModelState.IsValid)
+            if (!User.Identity.IsAuthenticated)
             {
-                _context.Add(team);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(team);
-        }
-
-        // GET: Teams/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var team = await _context.Teams.FindAsync(id);
-            if (team == null)
-            {
-                return NotFound();
-            }
-            return View(team);
-        }
-
-        // POST: Teams/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Logo,CreatedOnUtc")] Team team)
-        {
-            if (id != team.Id)
-            {
-                return NotFound();
+                MessageCode = 0;
+                Message = "Takım başvurusu yapmadan önce sisteme giriş yapmalısın.";
+                return RedirectToAction("Index", "Home");
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var image = model.Logo;
+                if (image != null && image.Length > 0)
                 {
-                    _context.Update(team);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TeamExists(team.Id))
+                    string extension = Path.GetExtension(image.FileName);
+                    if (extension.Equals(".jpg") || extension.Equals(".jpeg") || extension.Equals(".png"))
                     {
-                        return NotFound();
+                        int limit = 2 * 1024 * 1024; //2MB
+                        if (image.Length < limit)
+                        {
+                            var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\team_logos", fileName);
+                            using (var fileSteam = new FileStream(filePath, FileMode.Create))
+                            {
+                                await image.CopyToAsync(fileSteam);
+                            }
+
+                            var team = new Team()
+                            {
+                                Name = model.TeamName,
+                                CityId = model.City,
+                                CountyId = model.County,
+                                CaptainPlayerId = _userManager.GetCurrentUser(this.HttpContext).Id,
+                                Level = 0,
+                                IsActive = false,
+                                CreatedOnUtc = DateTime.UtcNow
+                            };
+                            team.Logo = new Photo()
+                            {
+                                Name = fileName,
+                                Path = "team_logos/" + fileName,
+                                DisplayOrder = 1,
+                                CreatedOnUtc = DateTime.UtcNow
+                            };
+                            _teamRepository.Add(team);
+                            //TODO: Send notification to admin for confirmation.
+                        }
+                        else
+                        {
+                            Message = "Logo 2MB fazla olamaz dostum.";
+                            return RedirectToAction();
+                        }
                     }
                     else
                     {
-                        throw;
+                        Message = "Sadece \".jpg, .jpeg, .png\" uzantılı fotoğrafları yükleyebilirsin.";
+                        return RedirectToAction();
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(team);
-        }
-
-        // GET: Teams/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            else
             {
-                return NotFound();
+                Message = "Bir şeyleri yanlış yaptın. Dikkatli doldur.";
+                return RedirectToAction();
             }
 
-            var team = await _context.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (team == null)
-            {
-                return NotFound();
-            }
-
-            return View(team);
-        }
-
-        // POST: Teams/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var team = await _context.Teams.FindAsync(id);
-            _context.Teams.Remove(team);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool TeamExists(int id)
-        {
-            return _context.Teams.Any(e => e.Id == id);
+            //Success
+            MessageCode = 1;
+            Message = "Güzel takım kayıt başvurunu aldık, biz bir bakıp hemen onay vericez.";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

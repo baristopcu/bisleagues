@@ -1,4 +1,4 @@
-﻿@if (TempData["Message"] != null)
+﻿@if (TempData["Message"] != null && TempData["MessageCode"] != null)
 {
 <li style="color:
     @switch (Convert.ToInt16(TempData["MessageCode"].ToString()))

@@ -61,6 +61,10 @@ namespace BisLeagues.Presentation
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<INewRepository, NewRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICountyRepository, CountyRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
             // Register application services.
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -95,6 +99,7 @@ namespace BisLeagues.Presentation
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

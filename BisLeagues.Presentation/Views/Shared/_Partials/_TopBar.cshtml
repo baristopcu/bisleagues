@@ -19,10 +19,15 @@
                     <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
                 </ul>
             </li>
+            <li class="language-dropdown">
+                <a id="choses-lang" href="#"><i class="fa fa-users"></i>  TAKIMIM</a>
+                <ul id="language-dropdown">
+                </ul>
+            </li>
             <li class="login-modal">
                 @if (!User.Identity.IsAuthenticated)
                 {
-                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal"><i class="fa fa-user"></i>Üye Girişi</a>
+                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal"><i class="fa fa-user"></i>Üye Girişi / Kayıt Ol</a>
                     <div class="modal fade" id="login-modal">
                         <div class="login-form position-center-center">
                             <h2>Giriş Yap<button class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button></h2>
@@ -104,14 +109,6 @@
                 {
                     <a href="@Url.Action("SignOut", "Authentication")" class="login"><i class="fa fa-sign-out"></i>Çıkış Yap</a>
                 }
-            </li>
-            <li class="language-dropdown">
-                <a id="choses-lang" href="#"><i class="fa fa-globe"></i>Eng<i class="fa fa-caret-down"></i></a>
-                <ul id="language-dropdown">
-                    <li><a href="#"><img src="~/Assets/images/flags/img-02.jpg" alt="">ger</a></li>
-                    <li><a href="#"><img src="~/Assets/images/flags/img-03.jpg" alt="">fra</a></li>
-                    <li><a href="#"><img src="~/Assets/images/flags/img-04.jpg" alt="">bra</a></li>
-                </ul>
             </li>
         </ul>
         <!-- User Login Option -->

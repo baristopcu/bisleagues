@@ -8,7 +8,7 @@ using BisLeagues.Presentation.Models;
 using BisLeagues.Core.Models;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.BaseControllers;
-using BisLeagues.Presentation.ViewModels;
+using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.Interfaces;
 
 namespace BisLeagues.Presentation.Controllers

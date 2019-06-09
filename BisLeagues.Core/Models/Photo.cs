@@ -8,6 +8,11 @@ namespace BisLeagues.Core.Models
 {
     public partial class Photo
     {
+        public Photo()
+        {
+
+        }
+
         private Photo(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;

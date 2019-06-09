@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BisLeagues.Core.Data;
 using BisLeagues.Core.Models;
 using BisLeagues.Core.Interfaces.Repositories;
-using BisLeagues.Presentation.ViewModels;
+using BisLeagues.Presentation.Models.ViewModels;
 
 namespace BisLeagues.Presentation.Controllers
 {

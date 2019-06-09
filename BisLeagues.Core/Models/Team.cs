@@ -12,6 +12,12 @@ namespace BisLeagues.Core.Models
         private City _city;
         private County _county;
         private Photo _logo;
+        private Player _captainPlayer;
+        
+        public Team()
+        {
+
+        }
 
         private Team(ILazyLoader lazyLoader)
         {
@@ -22,12 +28,16 @@ namespace BisLeagues.Core.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime? CreatedOnUtc { get; set; }
 
         public int PhotoId { get; set; }
         public int CityId { get; set; }
         public int CountyId { get; set; }
+        public int CaptainPlayerId { get; set; }
+        public int Level { get; set; }
+        public bool IsActive { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime? CreatedOnUtc { get; set; }
 
 
         public City City
@@ -46,6 +56,12 @@ namespace BisLeagues.Core.Models
         {
             get => LazyLoader.Load(this, ref _logo);
             set => _logo = value;
+        }
+        
+        public Player CaptainPlayer
+        {
+            get => LazyLoader.Load(this, ref _captainPlayer);
+            set => _captainPlayer = value;
         }
 
 

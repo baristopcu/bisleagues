@@ -1,5 +1,5 @@
 ﻿using BisLeagues.Core.Interfaces.Repositories;
-using BisLeagues.Presentation.ViewModels;
+using BisLeagues.Presentation.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

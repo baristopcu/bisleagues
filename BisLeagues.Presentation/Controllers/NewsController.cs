@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BisLeagues.Core.Interfaces.Repositories;
-using BisLeagues.Presentation.ViewModels;
+using BisLeagues.Presentation.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BisLeagues.Presentation.Controllers

@@ -1,7 +1,7 @@
 ﻿using BisLeagues.Core.Interfaces;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Core.ServiceModels;
-using BisLeagues.Presentation.ViewModels;
+using BisLeagues.Presentation.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 

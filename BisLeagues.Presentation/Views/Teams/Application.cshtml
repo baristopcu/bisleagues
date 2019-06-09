@@ -1,0 +1,193 @@
+﻿@model BisLeagues.Presentation.Models.ViewModels.TeamApplicationViewModel
+@{
+    ViewData["Title"] = "CreateTeam";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+}
+@section Head {
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+            background-color: black;
+        }
+
+            .btn-file input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                background: white;
+                cursor: inherit;
+                display: block;
+            }
+
+        #img-upload {
+            width: 100%;
+            max-height: 300px;
+        }
+    </style>
+}
+@section Heading{
+
+    <!-- Page Heading & Breadcrumbs  -->
+    <div class="page-heading-breadcrumbs">
+        <div class="container">
+            <h2>TAKIM OLUŞTUR</h2>
+            <ul class="breadcrumbs">
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                <li>TAKIMINI OLUŞTUR</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading & Breadcrumbs  -->
+    <!-- Page Heading banner -->
+    <div class="overlay-dark theme-padding parallax-window" data-appear-top-offset="600" data-parallax="scroll" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+    </div>
+    <!-- Page Heading banner -->
+}
+
+<!-- Contact -->
+<div class="theme-padding-top white-bg">
+    <div class="container">
+
+        <!-- Main Heading -->
+        <div class="main-heading-holder">
+            <div class="main-heading">
+                <h2>TAKIMINI OLUŞTUR</h2>
+                <p>Takımını oluştur ve heyecana hemen ortak ol.</p>
+            </div>
+        </div>
+        <!-- Main Heading -->
+
+    </div>
+</div>
+<!-- Contact -->
+<!-- Contact Form Holder -->
+<div class="theme-padding-bottom">
+    <div class="container">
+        @if (TempData["Message"] != null)
+        {
+            <div class="row">
+                <div class="hidden-sm col-md-2"></div>
+                <div class="col-sm-12 col-md-8">
+                    <div class="success-cart">
+                        <p style="color: red;"><i style="color: red;" class="fa fa-times-circle-o"></i>@TempData["Message"]</p>
+                    </div>
+                </div>
+                <div class="hidden-sm col-md-2"></div>
+            </div>
+        }
+        <div class="row">
+            <!-- Form -->
+            <div class="hidden-sm col-md-2"></div>
+            <form action="@Url.Action("Application", "Teams")" method="post" class="contact-form col-sm-12 col-md-8" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="teamName" required="required" placeholder="Takım Adı">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="city" name="city" required="required">
+                        <option value="" selected>Şehir</option>
+                        @foreach (var city in Model.Cities)
+                        {
+                            <option value="@city.Id">@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(city.Name.ToLower())</option>
+                        }
+                    </select>
+                    <i style="top: 0.8em;" class="fa fa-globe"></i>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="county" name="county" required="required">
+                        <option value="" selected>Önce şehir seçmelisiniz..</option>
+                    </select>
+                    <i style="top: 0.8em;" class="fa fa-globe"></i>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-default btn-file">
+                                LOGO <input type="file" id="imgInp" name="logo" required="required">
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <img id="img-upload" />
+                </div>
+                <button class="btn red-btn pull-right form-control" style="color:white;">KAYIT OL</button>
+            </form>
+            <div class="hidden-sm col-md-2"></div>
+            <!-- Form -->
+        </div>
+    </div>
+</div>
+<!-- Contact Form Holder -->
+@section Scripts {
+    <script>
+        $(document).on('change', '.btn-file :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+
+        $('.btn-file :file').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-upload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
+    <script type="text/javascript">
+        //Dropdownlist Selectedchange event
+        $("#city").change(function () {
+            $("#county").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCounties", "Utility")', // we are calling json method
+                data: { strCityId: $("#city").val() },
+                dataType: 'json',
+                // here we are get value of selected country and passing same value
+
+                success: function (counties) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $.each(counties, function (i, item) {
+                        $("#county").append('<option value="' + item.value + '">' +
+                            item.text + '</option>');
+                        // here we are adding option for States
+
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex.statusCode);
+                }
+            });
+            return false;
+        });
+    </script>
+}
