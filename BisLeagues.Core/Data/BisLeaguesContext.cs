@@ -40,6 +40,14 @@ namespace BisLeagues.Core.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+                entity.HasOne(e => e.Player);
+
+            });
+
             modelBuilder.Entity<Player>(entity =>
             {
                 entity.ToTable("Player");
@@ -106,8 +114,6 @@ namespace BisLeagues.Core.Data
             modelBuilder.Entity<Photo>()
                 .ToTable("Photo");
 
-            modelBuilder.Entity<User>()
-                .ToTable("User");
         }
     }
 }

@@ -31,6 +31,7 @@ namespace BisLeagues.Core.Services
                     var claims = new[] {
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.Username),
+                        new Claim(ClaimTypes.Email, user.Email),
                     };
                     var identity = new ClaimsIdentity(claims, "1");
                     var principal = new ClaimsPrincipal(identity);

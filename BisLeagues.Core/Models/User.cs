@@ -9,6 +9,7 @@ namespace BisLeagues.Core.Models
     public partial class User
     {
         private ICollection<UsersRoles> _usersRoles;
+        private Player _player;
 
         public User()
         {
@@ -30,6 +31,13 @@ namespace BisLeagues.Core.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public DateTime CreatedOnUtc { get; set; }
+
+
+        public Player Player
+        {
+            get => LazyLoader.Load(this, ref _player);
+            set => _player = value;
+        }
 
         public ICollection<UsersRoles> UsersRoles
         {

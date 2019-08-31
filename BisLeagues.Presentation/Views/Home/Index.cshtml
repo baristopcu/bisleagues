@@ -79,7 +79,7 @@
                                                     <td>
                                                         <div class="logo-width-name"><img src="@Url.Action("Resize", "Image", new { url = upComingMatchItem.Home.Logo.Path, width = 36, height = 36 })" alt="">@upComingMatchItem.Home.Name</div>
                                                     </td>
-                                                    <td class="upcoming-fixture-date"><span>@upComingMatchItem.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span></td>
+                                                    <td class="upcoming-fixture-date"><span>@TimeZoneInfo.ConvertTimeFromUtc(upComingMatchItem.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</span></td>
                                                     <td>
                                                         <div class="logo-width-name w-icon"><img src="@Url.Action("Resize", "Image", new { url = upComingMatchItem.Away.Logo.Path, width = 36, height = 36 })" alt="">@upComingMatchItem.Away.Name</div>
                                                     </td>

@@ -38,5 +38,12 @@ namespace BisLeagues.Presentation.Controllers
 
             return View(model);
         }
+
+        public IActionResult Index()
+        {
+            var news = _newRepository.GetAll().OrderByDescending(x=>x.CreatedOnUtc);
+           
+            return View(news);
+        }
     }
 }

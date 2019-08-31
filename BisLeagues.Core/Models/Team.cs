@@ -29,6 +29,8 @@ namespace BisLeagues.Core.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public int PhotoId { get; set; }
         public int CityId { get; set; }
         public int CountyId { get; set; }

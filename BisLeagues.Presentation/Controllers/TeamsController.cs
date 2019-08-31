@@ -23,13 +23,15 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IPhotoRepository _photoRepository;
         private readonly IUserManager _userManager;
         private readonly ITeamRepository _teamRepository;
+        private readonly IPlayerRepository _playerRepository;
 
-        public TeamsController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository)
+        public TeamsController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository)
         {
             _cityRepository = cityRepository;
             _photoRepository = photoRepository;
             _userManager = userManager;
             _teamRepository = teamRepository;
+            _playerRepository = playerRepository;
         }
 
         public IActionResult Application()
@@ -123,6 +125,28 @@ namespace BisLeagues.Presentation.Controllers
             MessageCode = 1;
             Message = "Güzel takım kayıt başvurunu aldık, biz bir bakıp hemen onay vericez.";
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Detail(int id)
+        {
+            if (id == 0 && User.Identity.IsAuthenticated)
+            {
+                var player = _userManager.GetCurrentUser(this.HttpContext).Player;
+                if (player!=null)
+                {
+                    id = player.TeamPlayers.FirstOrDefault().TeamId;
+                }
+            }
+
+            var team = _teamRepository.Find(x => x.Id == id).FirstOrDefault();
+            if (team == null)
+            {
+                MessageCode = 0;
+                Message = "Böyle bir takım yok ! Hiç olmadı ki";
+                return RedirectToAction("Index", "Home");
+            }
+            return View(team);
+
         }
     }
 }
