@@ -1,0 +1,118 @@
+﻿@model BisLeagues.Core.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+}
+@section Heading{
+
+
+
+    <!-- Page Heading & Breadcrumbs  -->
+    <div class="page-heading-breadcrumbs hidden-xs">
+        <div class="container">
+            <h2>Kullanıcı Detay</h2>
+            <ul class="breadcrumbs">
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                <li>Kullanıcı Detay</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading & Breadcrumbs  -->
+    <!-- Page Heading banner -->
+    <div class="overlay-dark theme-padding parallax-window" data-appear-top-offset="600" data-parallax="scroll" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+    </div>
+    @*<div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">*@
+
+    <!-- Page Heading banner -->
+
+}
+
+<!-- Team Detail -->
+<div class="team-detail-holder theme-padding white-bg">
+    <div class="container">
+
+        <!-- Row Holder -->
+        <div class="row">
+
+            <!-- Team without Hover -->
+            <div class="col-lg-3 col-md-3 col-sm-5">
+                <div class="team-column without-hover">
+                    <img src="@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 269, height = 416 })" alt="">
+                    <div class="team-detail">
+                        <h5>@Model.FirstName @Model.LastName</h5>
+                        <span class="desination"></span>
+                        <div class="detail-inner">
+                            <ul>
+                                <li>Ad</li>
+                                <li>Soyad</li>
+                                <li>Email</li>
+                                <li>Doğum Tarihi</li>
+                                <li>Takım</li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    @Html.DisplayFor(modelItem => Model.FirstName)
+                                </li>
+                                <li>
+                                    @Html.DisplayFor(modelItem => Model.LastName)
+                                </li>
+                                <li>
+                                    @Html.DisplayFor(modelItem => Model.Email)
+                                </li>
+                                <li>
+                                    @(Model.Player.BirthDate.Value.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture))
+                                </li>
+                                <li>
+                                    @(Model.Player.TeamPlayers.FirstOrDefault() != null ? Model.Player.TeamPlayers.First().Team.Name : "Yok")
+                                </li>
+
+                                <li>
+                                    <ul class="social-icons">
+                                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                        <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Team without Hover -->
+            <!-- Detail -->
+            <div class="col-lg-9 col-md-9 col-sm-7">
+
+                <!-- Team Detail Content -->
+                <div class="team-detail-content theme-padding-bottom">
+                    <h2>@Model.FirstName'ın Takımı Hakkında  @Html.Raw(Model.Player.TeamPlayers.FirstOrDefault() != null ? "(" + Model.Player.TeamPlayers.First().Team.Name + ")" : "")</h2>
+                    @Html.Raw(Model.Player.TeamPlayers.FirstOrDefault() != null ? Model.Player.TeamPlayers.First().Team.Description : "Takımı Yok")
+                    @*<div class="tags-holder">
+                            <ul class="tags-list pull-left">
+                                <li><i class="fa fa-tags"></i>Tags</li>
+                                <li><a href="#">Scores</a></li>
+                                <li><a href="#">transfers</a></li>
+                                <li><a href="#">teams</a></li>
+                                <li><a href="#">cups</a></li>
+                            </ul>
+                            <ul class="social-icons pull-right">
+                                <li>Share this post</li>
+                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                            </ul>
+                        </div>*@
+                </div>
+                <!-- Team Detail Content -->
+
+            </div>
+            <!-- Detail -->
+
+        </div>
+        <!-- Row Holder  -->
+
+    </div>
+</div>
+<!-- Team Detail -->

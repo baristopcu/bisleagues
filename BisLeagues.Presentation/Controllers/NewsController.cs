@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BisLeagues.Core.Interfaces.Repositories;
+using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Presentation.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class NewsController : Controller
+    public class NewsController : BaseController<NewsController>
     {
         private readonly INewRepository _newRepository;
         private readonly IResultRepository _resultRepository;
 
-        public NewsController(INewRepository newRepository, IResultRepository resultRepository)
+        public NewsController(INewRepository newRepository, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _newRepository = newRepository;
             _resultRepository = resultRepository;

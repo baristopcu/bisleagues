@@ -12,11 +12,11 @@ namespace BisLeagues.Presentation.BaseControllers
 {
     public abstract partial class BaseController<T> : Controller where T : BaseController<T>
     {
-       // private readonly IPlayerRepository _playerRepository;
+       private readonly ISettingRepository _settingRepository;
 
-        public BaseController(/*IPlayerRepository playerRepository*/)
+        public BaseController(ISettingRepository settingRepository)
         {
-            //_playerRepository = playerRepository;
+            _settingRepository = settingRepository;
         }
 
         /* @MessageCode 
@@ -44,10 +44,18 @@ namespace BisLeagues.Presentation.BaseControllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            //Player player = _playerRepository.Get(1);
+            var objCompanyName = _settingRepository.Find(x => x.Name == "companysettings.companyname").FirstOrDefault();
+            var objCompanyAddress = _settingRepository.Find(x => x.Name == "companysettings.companyaddress").FirstOrDefault();
+            var objCompanyPhone = _settingRepository.Find(x => x.Name == "companysettings.companyphone").FirstOrDefault();
+            var objCompanyEmail = _settingRepository.Find(x => x.Name == "companysettings.companyemail").FirstOrDefault();
+
             if (context.Controller is Controller controller)
             {
-                //controller.ViewBag.CompanyName = player.Name.ToString();
+
+                    controller.ViewBag.CompanyName = objCompanyName != null ? objCompanyName.Value : "";
+                    controller.ViewBag.CompanyAddress = objCompanyAddress != null ? objCompanyAddress.Value : "";
+                    controller.ViewBag.CompanyPhone = objCompanyPhone != null ? objCompanyPhone.Value : "";
+                    controller.ViewBag.CompanyEmail = objCompanyEmail != null ? objCompanyEmail.Value : "";
             }
             base.OnActionExecuting(context);
         }

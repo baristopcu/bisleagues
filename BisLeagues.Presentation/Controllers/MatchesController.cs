@@ -9,17 +9,18 @@ using BisLeagues.Core.Data;
 using BisLeagues.Core.Models;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.Models.ViewModels;
+using BisLeagues.Presentation.BaseControllers;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class MatchesController : Controller
+    public class MatchesController : BaseController<MatchesController>
     {
         private readonly ISeasonRepository _seasonRepository;
         private readonly IMatchRepository _matchRepository;
         private readonly IResultRepository _resultRepository;
         private readonly INewRepository _newRepository;
 
-        public MatchesController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository, INewRepository newRepository) //: base(playerRepository)
+        public MatchesController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository, INewRepository newRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;

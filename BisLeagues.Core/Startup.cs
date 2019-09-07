@@ -47,15 +47,18 @@ namespace BisLeagues
             });
             services.AddMvcCore().AddJsonFormatters(j => j.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
             // Register application services.
-            services.AddScoped<IPlayerRepository, PlayerRepository>();
-            services.AddScoped<ISeasonRepository, SeasonRepository>();
-            services.AddScoped<IMatchRepository, MatchRepository>();
-            services.AddScoped<INewRepository, NewRepository>();
-            services.AddScoped<IUserManager, UserManager>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPasswordService, PasswordService>();
+            //services.AddScoped<ISettingRepository, SettingRepository>();
+            //services.AddScoped<IPlayerRepository, PlayerRepository>();
+            //services.AddScoped<ISeasonRepository, SeasonRepository>();
+            //services.AddScoped<IMatchRepository, MatchRepository>();
+            //services.AddScoped<INewRepository, NewRepository>();
+            //services.AddScoped<IUserManager, UserManager>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>

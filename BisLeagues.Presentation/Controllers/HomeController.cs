@@ -21,7 +21,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly INewRepository _newRepository;
         private readonly IPointTableService _pointTableService;
 
-        public HomeController(IPlayerRepository playerRepository, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository, IPointTableService pointTableService) //: base(playerRepository)
+        public HomeController(IPlayerRepository playerRepository, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository, IPointTableService pointTableService, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;

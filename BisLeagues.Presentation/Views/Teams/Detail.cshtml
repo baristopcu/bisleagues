@@ -1,4 +1,6 @@
-﻿@model BisLeagues.Core.Models.Team
+﻿@model BisLeagues.Presentation.Models.ViewModels.TeamDetailViewModel
+@using BisLeagues.Core.Enums
+@inject BisLeagues.Core.Utility.IUserManager UserManager
 
 @{
     ViewData["Title"] = "Details";
@@ -9,7 +11,7 @@
 
 
     <!-- Page Heading & Breadcrumbs  -->
-    <div class="page-heading-breadcrumbs">
+    <div class="page-heading-breadcrumbs hidden-xs">
         <div class="container">
             <h2>Takım Detay</h2>
             <ul class="breadcrumbs">
@@ -34,98 +36,154 @@
 
         <!-- Row Holder -->
         <div class="row">
+            <div style="margin-top: 50px;">
+                <!-- Team without Hover -->
+                <div class="col-lg-3 col-md-3 col-sm-5">
+                    <div class="team-column without-hover">
+                        <img src="@Url.Action("Resize", "Image", new { url = Model.Team.Logo.Path, width = 269, height = 416 })" alt="">
+                        <div class="team-detail">
+                            <h5>@Model.Team.Name</h5>
+                            <span class="desination">Defender</span>
+                            <div class="detail-inner">
+                                <ul>
+                                    <li>Kuruluş Tarihi</li>
+                                    <li>Şehir</li>
+                                    <li>İlçe</li>
+                                    <li>Sosyal Medya</li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        @Html.DisplayFor(modelItem => Model.Team.CreatedOnUtc)
+                                    </li>
+                                    <li>
+                                        @Html.DisplayFor(modelItem => Model.Team.City.Name)
+                                    </li>
+                                    <li>
+                                        @Html.DisplayFor(modelItem => Model.Team.County.Name)
+                                    </li>
 
-            <!-- Team without Hover -->
-            <div class="col-lg-3 col-md-3 col-sm-5">
-                <div class="team-column without-hover">
-                    <img src="@Url.Action("Resize", "Image", new { url = Model.Logo.Path, width = 269, height = 416 })" alt="">
-                    <div class="team-detail">
-                        <h5>@Model.Name</h5>
-                        <span class="desination">Defender</span>
-                        <div class="detail-inner">
-                            <ul>
-                                <li>Kuruluş Tarihi</li>
-                                <li>Şehir</li>
-                                <li>İlçe</li>
-                                <li>Sosyal Medya</li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    @Html.DisplayFor(modelItem => Model.CreatedOnUtc)
-                                </li>
-                                <li>
-                                    @Html.DisplayFor(modelItem => Model.City.Name)
-                                </li>
-                                <li>
-                                    @Html.DisplayFor(modelItem => Model.County.Name)
-                                </li>
-
-                                <li>
-                                    <ul class="social-icons">
-                                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                        <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                                    <li>
+                                        <ul class="social-icons">
+                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                            <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Team without Hover -->
             </div>
-            <!-- Team without Hover -->
-            <!-- Detail -->
-            <div class="col-lg-9 col-md-9 col-sm-7">
+            <div style="margin-bottom: 50px; margin-left: 10px;">
+                <a href="#detail" data-toggle="tab" class="btn btn-primary">Takım Detay</a>
+                @if (UserManager.GetCurrentUser(this.Context).Player == Model.Team.CaptainPlayer)
+                {
+                    <a href="#requests" data-toggle="tab" class="btn btn-primary">İstekleri Görüntüle</a>
 
-                <!-- Team Detail Content -->
-                <div class="team-detail-content theme-padding-bottom">
-                    <h2>@Model.Name Hakkında</h2>
-                    @Html.Raw(Model.Description)
-                    @*<div class="tags-holder">
-                        <ul class="tags-list pull-left">
-                            <li><i class="fa fa-tags"></i>Tags</li>
-                            <li><a href="#">Scores</a></li>
-                            <li><a href="#">transfers</a></li>
-                            <li><a href="#">teams</a></li>
-                            <li><a href="#">cups</a></li>
-                        </ul>
-                        <ul class="social-icons pull-right">
-                            <li>Share this post</li>
-                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul>
-                    </div>*@
+                }
+            </div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- default tab -->
+                <div role="tabpanel" class="tab-pane in fade active" id="detail">
+                    <!-- Detail -->
+                    <div class="col-lg-9 col-md-9 col-sm-7">
+
+                        <!-- Team Detail Content -->
+                        <div class="team-detail-content theme-padding-bottom">
+                            <h2>@Model.Team.Name Hakkında</h2>
+                            @Html.Raw(Model.Team.Description)
+                        </div>
+                        <!-- Team Detail Content -->
+                        <!-- Palyer Career -->
+                        <div class="palyer-career theme-padding-bottom">
+                            <h2>Takım Oyuncuları</h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad Soyad</th>
+                                            <th>Doğum Tarihi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var mapping in Model.Team.TeamPlayers)
+                                        {
+                                            <tr>
+                                                <td>@mapping.Player.User.FirstName @mapping.Player.User.LastName</td>
+                                                <td>@(mapping.Player.BirthDate.HasValue ? mapping.Player.BirthDate.Value.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture) : "")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Palyer Career -->
+
+                    </div>
+                    <!-- Detail -->
                 </div>
-                <!-- Team Detail Content -->
-                <!-- Palyer Career -->
-                <div class="palyer-career theme-padding-bottom">
-                    <h2>Takım Oyuncuları</h2>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Ad Soyad</th>
-                                    <th>Doğum Tarihi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var mapping in Model.TeamPlayers)
-                                {
-                                <tr>
-                                    <td>@mapping.Player.User.FirstName @mapping.Player.User.LastName</td>
-                                    <td>@(mapping.Player.BirthDate.HasValue ? mapping.Player.BirthDate.Value.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture) : "")</td>
-                                </tr>
-                                }
-                            </tbody>
-                        </table>
+                <div role="tabpanel" class="tab-pane fade" id="requests">
+                    <!-- Detail -->
+                    <div class="col-lg-9 col-md-9 col-sm-7">
+                        @if (UserManager.GetCurrentUser(this.Context).Player == Model.Team.CaptainPlayer)
+                        {
+                            <!-- Palyer Career -->
+                            <div class="palyer-career theme-padding-bottom">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Ad Soyad</th>
+                                                <th>Statu</th>
+                                                <th>Kabul et / Reddet</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var request in Model.TransferRequests)
+                                            {
+                                                <tr>
+                                                    <td>@request.Player.User.FirstName @request.Player.User.LastName</td>
+                                                    <td>
+                                                        @{ switch ((TransferStatus)request.Status)
+                                                            {
+                                                                case TransferStatus.Pending: <text>Bekliyor.</text>; break;
+                                                            case TransferStatus.Confirmed: <text>Onaylandı.</text>; break;
+                                                        case TransferStatus.Rejected: <text>Reddedildi.</text>; break;
+                                                    default: <text>Tanımlanamadı.</text>; break;
+
+                                            }
+                                                        }
+                                                    </td>
+
+                                                    <td>
+                                                        @if ((TransferStatus)request.Status == TransferStatus.Pending)
+                                                        {
+
+                                                            <text>Kabul Et / Reddet</text>
+                                                        }
+                                                        else
+                                                        {
+                                                            <text>İşlem Yapılamaz.</text>
+
+                                                        }
+                                                    </td>
+
+                                            </tr>
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Palyer Career -->
+                        }
+
                     </div>
                 </div>
-                <!-- Palyer Career -->
-
             </div>
-            <!-- Detail -->
 
         </div>
         <!-- Row Holder  -->
@@ -133,3 +191,40 @@
     </div>
 </div>
 <!-- Team Detail -->
+
+@section Scripts{
+
+    <script>
+        var defaultTab = "#image";
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+            var $this_button = $(this);
+
+            // set data-href to default tab if not already set
+            if (!$this_button.attr("data-href"))
+                $this_button.attr("data-href", defaultTab);
+
+            // reset active buttons
+            $('a.active[data-toggle="tab"]').removeClass("active");
+
+            // if not second click // Nice to have feature
+            if ($this_button.attr("href") != defaultTab)
+                $this_button.addClass("active"); // set this button to active
+
+            // reset tabs with href to dafaultTab, ignore this button
+            $("a[data-toggle='tab'][href='" + defaultTab + "']").each(function (i, obj) {
+
+                // ignore this_button
+                //if($(this) != $this_button) // does not work
+                if ($(this).get(0) != $this_button.get(0)) // works
+                {
+                    $(this).attr("href", $(this).attr("data-href"));
+                    $(this).attr("data-href", defaultTab);
+                }
+            });
+
+        });
+    </script>
+
+}

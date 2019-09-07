@@ -24,7 +24,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IPlayerRepository _playerRepository;
         private readonly IPasswordService _passwordService;
 
-        public AuthenticationController(IUserRepository userRepository, IUserManager userManager, IUserRoleRepository userRoleRepository, IPlayerRepository playerRepository, IPasswordService passwordService) //: base(playerRepository)
+        public AuthenticationController(IUserRepository userRepository, IUserManager userManager, IUserRoleRepository userRoleRepository, IPlayerRepository playerRepository, IPasswordService passwordService, ISettingRepository settingRepository) : base(settingRepository)
         {
             _userManager = userManager;
             _userRepository = userRepository;

@@ -52,6 +52,8 @@ namespace BisLeagues.Presentation
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DbConnection"));
             });
+            services.AddScoped<ISettingRepository, SettingRepository>();
+
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IMatchRepository, MatchRepository>();
@@ -71,6 +73,8 @@ namespace BisLeagues.Presentation
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<ITransferRequestRepository, TransferRequestRepository>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {

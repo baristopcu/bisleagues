@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Core.Utility;
+using BisLeagues.Core.Enums;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -24,14 +25,16 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IUserManager _userManager;
         private readonly ITeamRepository _teamRepository;
         private readonly IPlayerRepository _playerRepository;
+        private readonly ITransferRequestRepository _transferRequestRepository;
 
-        public TeamsController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository)
+        public TeamsController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _cityRepository = cityRepository;
             _photoRepository = photoRepository;
             _userManager = userManager;
             _teamRepository = teamRepository;
             _playerRepository = playerRepository;
+            _transferRequestRepository = transferRequestRepository;
         }
 
         public IActionResult Application()
@@ -127,7 +130,7 @@ namespace BisLeagues.Presentation.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Detail(int id)
+        public IActionResult Detail(int id = 0)
         {
             if (id == 0 && User.Identity.IsAuthenticated)
             {
@@ -145,7 +148,19 @@ namespace BisLeagues.Presentation.Controllers
                 Message = "Böyle bir takım yok ! Hiç olmadı ki";
                 return RedirectToAction("Index", "Home");
             }
-            return View(team);
+
+            List<TransferRequest> transferRequests = new List<TransferRequest>();
+            if (_userManager.GetCurrentUser(this.HttpContext).Player == team.CaptainPlayer)
+            {
+                transferRequests = _transferRequestRepository.Find(x => x.Type == (int) TransferTypes.PlayerToTeam).ToList();
+            }
+
+            var model = new TeamDetailViewModel()
+            {
+                Team = team,
+                TransferRequests = transferRequests
+            }; 
+            return View(model);
 
         }
     }

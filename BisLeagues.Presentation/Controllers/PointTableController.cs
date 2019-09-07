@@ -11,15 +11,16 @@ using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.ServiceModels;
 using BisLeagues.Core.Interfaces;
+using BisLeagues.Presentation.BaseControllers;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class PointTableController : Controller
+    public class PointTableController : BaseController<PointTableController>
     {
         private readonly ISeasonRepository _seasonRepository;
         private readonly IPointTableService _pointTableService;
         private readonly IResultRepository _resultRepository;
-        public PointTableController(ISeasonRepository seasonRepository, IPointTableService pointTableService, IResultRepository resultRepository) //: base(playerRepository)
+        public PointTableController(ISeasonRepository seasonRepository, IPointTableService pointTableService, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _pointTableService = pointTableService;

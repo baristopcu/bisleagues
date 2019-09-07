@@ -74,6 +74,18 @@ namespace BisLeagues.Core.Data
 
             });
 
+            modelBuilder.Entity<Setting>(entity =>
+            {
+                entity.ToTable("Setting");
+
+            });
+
+            modelBuilder.Entity<TransferRequest>(entity =>
+            {
+                entity.ToTable("TransferRequest");
+
+            });
+
             modelBuilder.Entity<TeamPlayers>()
                 .ToTable("Team_Player_Mapping")
                 .HasKey(tp => new { tp.TeamId, tp.PlayerId });
@@ -81,9 +93,6 @@ namespace BisLeagues.Core.Data
             modelBuilder.Entity<UsersRoles>()
                 .ToTable("User_UserRole_Mapping")
                 .HasKey(bc => new { bc.UserId, bc.RoleId });
-
-
-
 
             modelBuilder.Entity<City>()
                 .ToTable("City")

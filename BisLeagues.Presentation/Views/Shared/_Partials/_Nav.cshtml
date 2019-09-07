@@ -19,16 +19,9 @@
             <!-- Search Bar -->
             <!-- Nav List -->
             <ul class="nav-list pull-right">
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
                 <li>
-                    <a href="#">@ViewBag.CompanyName</a>
-                    <ul>
-                        <li><a href="home-1.html">Home 1</a></li>
-                        <li><a href="home-2.html">Home 2</a></li>
-                    </ul>
-                </li>
-                <li><a href="about.html">Hakkımızda</a></li>
-                <li>
-                    <a href="@Url.Action("Detail","Teams", new { isMyTeam = true })">Takımım</a>
+                    <a href="@Url.Action("Detail","Teams")">Takımım</a>
                 </li>
                 <li class="mega-dropdown">
                     <a href="@Url.Action("Index", "News")">Haberler</a>
