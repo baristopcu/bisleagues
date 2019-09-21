@@ -135,9 +135,13 @@ namespace BisLeagues.Presentation.Controllers
             if (id == 0 && User.Identity.IsAuthenticated)
             {
                 var player = _userManager.GetCurrentUser(this.HttpContext).Player;
-                if (player!=null)
+                if (player != null)
                 {
-                    id = player.TeamPlayers.FirstOrDefault().TeamId;
+                    var teamPlayers = player.TeamPlayers.FirstOrDefault();
+                    if (teamPlayers != null)
+                    {
+                        id = teamPlayers.TeamId;
+                    }
                 }
             }
 
@@ -149,19 +153,62 @@ namespace BisLeagues.Presentation.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            List<TransferRequest> transferRequests = new List<TransferRequest>();
-            if (_userManager.GetCurrentUser(this.HttpContext).Player == team.CaptainPlayer)
+            List<TransferRequest> incomingTransferRequests = new List<TransferRequest>();
+            List<TransferRequest> outgoingTransferRequests = new List<TransferRequest>();
+            if (_userManager.GetCurrentUser(this.HttpContext)?.Player == team.CaptainPlayer)
             {
-                transferRequests = _transferRequestRepository.Find(x => x.Type == (int) TransferTypes.PlayerToTeam).ToList();
+                incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Team == team).ToList();
+                outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Team == team).ToList();
             }
 
             var model = new TeamDetailViewModel()
             {
                 Team = team,
-                TransferRequests = transferRequests
-            }; 
+                IncomingTransferRequests = incomingTransferRequests,
+                OutgoingTransferRequests = outgoingTransferRequests,
+            };
             return View(model);
 
+        }
+
+        [HttpPost]
+        public IActionResult EditDescription(int teamId, string description)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var player = _userManager.GetCurrentUser(this.HttpContext).Player;
+                var team = _teamRepository.Find(x => x.Id == teamId).FirstOrDefault();
+                if (team == null)
+                {
+                    MessageCode = 0;
+                    Message = "Böyle bir takım yok ! Hiç olmadı ki";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    if (player == team.CaptainPlayer)
+                    {
+                        description = description.Replace("script", "");
+                        team.Description = description;
+                        _teamRepository.Update(team);
+                        MessageCode = 1;
+                        Message = "Takım açıklamasını güncelledik.";
+                        return RedirectToAction("Detail", "Teams", new { id = teamId });
+                    }
+                    else
+                    {
+                        MessageCode = 0;
+                        Message = "Sen kaptan değilsin, düzenleyemezsin !";
+                        return RedirectToAction("Detail", "Teams", new { id = teamId });
+                    }
+                }
+            }
+            else
+            {
+                MessageCode = 0;
+                Message = "Önce bir giriş yap hele !";
+                return RedirectToAction("Detail", "Teams", new { id = teamId });
+            }
         }
     }
 }

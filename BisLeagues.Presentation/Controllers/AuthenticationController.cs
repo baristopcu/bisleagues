@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BisLeagues.Presentation.Models;
 using BisLeagues.Core.Models;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.BaseControllers;
-using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.Interfaces;
-using System.Security.Claims;
 using BisLeagues.Core.Utility;
 using BisLeagues.Presentation.Models.RequestModels;
 

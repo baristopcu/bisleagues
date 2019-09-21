@@ -8,6 +8,10 @@ namespace BisLeagues.Core.Models
         private Team _team;
         private Player _player;
 
+        public TransferRequest()
+        {
+        }
+
         private TransferRequest(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;
