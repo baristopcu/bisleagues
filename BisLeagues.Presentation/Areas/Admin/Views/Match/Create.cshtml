@@ -1,58 +1,73 @@
-﻿
+﻿@model BisLeagues.Presentation.Areas.Admin.Models.ViewModels.CreateMatchViewModel
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-primary">
-                            <h4 class="card-title">Müşteri Oluştur</h4>
-                            <p class="card-category">Müşteri bilgilerini giriniz.</p>
-                        </div>
-                        <div class="card-body">
-                            <form action="@Url.Action("Create", "Match")" method="post">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">İsim</label>
-                                            <input name="name" type="text" class="form-control">
-                                        </div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Maç Oluştur</h4>
+                        <p class="card-category">Maç bilgilerini giriniz.</p>
+                    </div>
+                    <div class="card-body">
+                        <form action="@Url.Action("Create", "Match")" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Sezon Adı</label><br />
+                                        @Model.Season.Name
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Soyisim</label>
-                                            <input name="surname" type="text" class="form-control">
-                                        </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Ev Sahibi Takım</label>
+                                        <select class="form-control" name="home" id="home" data-style="btn btn-link">
+                                            <option value="0" disabled selected>Ev sahibi takımı seçiniz.</option>
+                                            @foreach (var team in Model.Teams)
+                                            {
+                                                <option value="@team.Id">@team.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Email</label>
-                                            <input name="email" type="email" class="form-control">
-                                        </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Deplasman Takım</label>
+                                        <select class="form-control" name="away" id="away" data-style="btn btn-link">
+                                            <option value="0" disabled selected>Deplasman takımı seçiniz.</option>
+                                            @foreach (var team in Model.Teams)
+                                            {
+                                                <option value="@team.Id">@team.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Telefon</label>
-                                            <input name="phone" type="text" class="form-control">
-                                        </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Maç Tarihi</label>
+                                        <input type="text" class="form-control" value="" />
                                     </div>
+
                                 </div>
-                                <button type="submit" class="btn btn-primary pull-right">Müşteri Kayıdını Gerçekleştir</button>
-                                <div class="clearfix"></div>
-                            </form>
-                        </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary pull-right">Maç Oluştur</button>
+                            <div class="clearfix"></div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

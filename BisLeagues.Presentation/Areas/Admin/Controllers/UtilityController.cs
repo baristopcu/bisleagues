@@ -36,5 +36,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
             }
             return Json(new SelectList(slCounties, "Value", "Text"));
         }
+
+
     }
 }
