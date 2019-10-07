@@ -365,7 +365,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\RequestModels\" />
+    <Folder Include="wwwroot\news_picture\" />
+    <Folder Include="wwwroot\video_pictures\" />
   </ItemGroup>
 
 </Project>

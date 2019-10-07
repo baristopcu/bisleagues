@@ -1,0 +1,264 @@
+﻿@model BisLeagues.Presentation.Areas.Admin.Models.ViewModels.EditMatchViewModel
+@inject IJsonHelper Json;
+@{
+    ViewData["Title"] = "Maç Düzenle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Maç Oluştur</h4>
+                        <p class="card-category">Maç bilgilerini giriniz.</p>
+                    </div>
+                    <div class="card-body">
+                        <form action="@Url.Action("Edit", "Match")" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="matchId" value="@Model.Match.Id" />
+                            <div class="col-md-12 row"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Sezon Adı</label><br />
+                                        @Model.Season.Name
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <select class="form-control" name="homeId" id="homeId" data-style="btn btn-link">
+                                            <option value="0" disabled selected>Ev sahibi takımı seçiniz.</option>
+                                            @foreach (var team in Model.Teams)
+                                            {
+                                                <option value="@team.Id" @(Model.Match.HomeId == team.Id ? "selected" : "")>@team.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <select class="form-control" name="awayId" id="awayId" data-style="btn btn-link">
+                                            <option value="0" disabled selected>Deplasman takımı seçiniz.</option>
+                                            @foreach (var team in Model.Teams)
+                                            {
+                                                <option value="@team.Id" @(Model.Match.AwayId == team.Id ? "selected" : "")>@team.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <label class="bmd-label-floating">Maç Tarihi - <span style="color:red">@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy hh:mm")</span></label>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <input type="date" name="matchDate" id="matchDate" class="form-control" value="31.12.2019" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <input type="text" name="matchHour" id="matchHour" class="form-control" value="@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("hh:mm")" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                @*<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Ev Sahibi Takım Golü</label>
+                                        <input type="number" name="homeScore" id="homeScore" class="form-control" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Deplasman Takım Golü</label>
+                                        <input type="number" name="awayScore" id="awayScore" class="form-control" placeholder="" />
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <div class="home-scorers">
+                                            <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddHomeScorer">Yeni Golcü Ekle</a>
+                                            <input type="hidden" id="totalHomeScorers" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <div class="away-scorers">
+                                            <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddAwayScorer">Yeni Golcü Ekle</a>
+                                            <input type="hidden" id="totalAwayScorers" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file-video">
+                                                    Video Fotoğraf <input type="file" id="videoPicture" name="videoPicture">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        <img id="img-upload-video" style="max-width:100%;max-height:100%;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file-news">
+                                                    Haber Fotoğraf <input type="file" id="newsPicture" name="newsPicture">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        <img id="img-upload-news" style="max-width:100%;max-height:100%;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Youtube Video URL</label>
+                                        <input type="text" name="videoUrl" id="videoUrl" class="form-control" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Haber Başlığı</label>
+                                        <input type="text" name="caption" id="caption" class="form-control" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Haber Kısa Açıklama</label>
+                                        <input type="text" name="shortDescription" id="shortDescription" class="form-control" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating"> Haber içeriği</label>
+                                        <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right">Gönder Gitsin</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).on('change', '.btn-file-video :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+        $(document).on('change', '.btn-file-news :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+
+        $('.btn-file-video :file').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+        $('.btn-file-news :file').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+        function readURLVideo(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-upload-video').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function readURLNews(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-upload-news').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#videoPicture").change(function () {
+            readURLVideo(this);
+        });
+        $("#newsPicture").change(function () {
+            readURLNews(this);
+        });
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            var homePlayers = JSON.parse('@Html.Raw(Json.Serialize(@Model.Match.Home.TeamPlayers.Select(x=> new { x.PlayerId , x.Player.User.FirstName, x.Player.User.LastName})))');
+            $("#AddHomeScorer").click(function () {
+                tc = parseInt($("#totalHomeScorers").val());
+                $("div.home-scorers").append('<select class="form-control homeScorersIds_' + tc  + '" name="homeScorersIds[' + tc + '].Id" id="homeScorersIds[' + tc + '].Id" data-style="btn btn-link"><option value="0" disabled selected>Gol Atan Oyuncu</option></select>');
+                homePlayers.forEach(function (element) {
+                    var o = new Option(element["firstName"] + " " + element["lastName"], element["playerId"]);
+                        $(".homeScorersIds_" + tc + "").append(o);
+                });
+                tc = tc + 1;
+                $("#totalHomeScorers").val(tc);
+            });
+
+             var awayPlayers = JSON.parse('@Html.Raw(Json.Serialize(@Model.Match.Away.TeamPlayers.Select(x=> new { x.PlayerId , x.Player.User.FirstName, x.Player.User.LastName})))');
+            $("#AddAwayScorer").click(function () {
+                tc = parseInt($("#totalAwayScorers").val());
+                $("div.away-scorers").append('<select class="form-control awayScorersIds_' + tc + '" name="awayScorersIds[' + tc + '].Id" id="awayScorersIds[' + tc + '].Id" data-style="btn btn-link"><option value="0" disabled selected>Gol Atan Oyuncu</option></select>');
+                awayPlayers.forEach(function (element) {
+                    var o = new Option(element["firstName"] + " " + element["lastName"], element["playerId"]);
+                        $(".awayScorersIds_" + tc + "").append(o);
+                });
+                tc = tc + 1;
+                $("#totalAwayScorers").val(tc);
+            });
+
+
+        });
+    </script>
+}

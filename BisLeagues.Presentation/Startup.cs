@@ -58,6 +58,7 @@ namespace BisLeagues.Presentation
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IResultRepository, ResultRepository>();
+            services.AddScoped<IScoreRepository, ScoreRepository>();
             services.AddScoped<IPointTableService, PointTableService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();

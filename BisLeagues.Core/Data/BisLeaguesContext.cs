@@ -71,6 +71,7 @@ namespace BisLeagues.Core.Data
                 entity.HasOne(p => p.Match);
                 entity.HasOne(p => p.Team);
                 entity.HasOne(p => p.VideoCoverPhoto);
+                entity.HasOne(p => p.CoverPhoto);
 
             });
 

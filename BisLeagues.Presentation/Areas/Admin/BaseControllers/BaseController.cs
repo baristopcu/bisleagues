@@ -3,9 +3,11 @@ using BisLeagues.Core.Models;
 using BisLeagues.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BisLeagues.Presentation.Areas.Admin.BaseControllers
@@ -13,7 +15,7 @@ namespace BisLeagues.Presentation.Areas.Admin.BaseControllers
     [Area("Admin")]
     public abstract partial class BaseController<T> : Controller where T : BaseController<T>
     {
-       private readonly ISettingRepository _settingRepository;
+        private readonly ISettingRepository _settingRepository;
 
         public BaseController(ISettingRepository settingRepository)
         {
@@ -52,11 +54,21 @@ namespace BisLeagues.Presentation.Areas.Admin.BaseControllers
 
             if (context.Controller is Controller controller)
             {
-
-                    controller.ViewBag.CompanyName = objCompanyName != null ? objCompanyName.Value : "";
-                    controller.ViewBag.CompanyAddress = objCompanyAddress != null ? objCompanyAddress.Value : "";
-                    controller.ViewBag.CompanyPhone = objCompanyPhone != null ? objCompanyPhone.Value : "";
-                    controller.ViewBag.CompanyEmail = objCompanyEmail != null ? objCompanyEmail.Value : "";
+                var userRoles = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(y => y.Value).ToList();
+                if (!userRoles.Contains("1"))
+                {
+                    context.Result = new RedirectToRouteResult(
+                        new RouteValueDictionary
+                        {
+                            {"controller", "Home"},
+                            {"action", "Index"},
+                            {"area", "" }
+                        });
+                }
+                controller.ViewBag.CompanyName = objCompanyName != null ? objCompanyName.Value : "";
+                controller.ViewBag.CompanyAddress = objCompanyAddress != null ? objCompanyAddress.Value : "";
+                controller.ViewBag.CompanyPhone = objCompanyPhone != null ? objCompanyPhone.Value : "";
+                controller.ViewBag.CompanyEmail = objCompanyEmail != null ? objCompanyEmail.Value : "";
             }
             base.OnActionExecuting(context);
         }

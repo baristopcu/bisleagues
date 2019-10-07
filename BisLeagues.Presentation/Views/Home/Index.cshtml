@@ -111,7 +111,7 @@
                                             @foreach (var newItem in Model.TopNews)
                                             {
                                                 <li>
-                                                    <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto, width = 615, height = 346 })" alt="@newItem.Caption">
+                                                    <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto.Path, width = 615, height = 346 })" alt="@newItem.Caption">
                                                     <p>@newItem.ShortDescription<a href="@Url.Action("Detail","News", new { id = newItem.Id })">DEVAMINI OKU</a></p>
                                                 </li>
                                             }

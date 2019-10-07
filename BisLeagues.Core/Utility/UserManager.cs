@@ -52,7 +52,10 @@ namespace BisLeagues.Core.Utility
 
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
-            identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+            foreach (var role in user.UsersRoles)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, role.RoleId.ToString()));
+            }
 
             var principal = new ClaimsPrincipal(identity);
 

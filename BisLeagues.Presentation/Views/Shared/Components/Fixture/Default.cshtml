@@ -6,7 +6,7 @@
             @foreach (var match in Model.MatchesPartOne)
             {
                 <div class="item matches-detail" style="background: url(@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 360, height = 328 })">
-                    <span class="left-date">@match.MatchDate</span>
+                    <span class="left-date">@TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm")</span>
                     <div class="team-btw-match">
                         <ul>
                             <li>
@@ -24,7 +24,7 @@
             @foreach (var match in Model.MatchesPartTwo)
             {
                 <div class="item matches-detail" style="background: url(@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 360, height = 328 })">
-                    <span class="left-date">@match.MatchDate</span>
+                    <span class="left-date">@TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm")</span>
                     <div class="team-btw-match">
                         <ul>
                             <li>

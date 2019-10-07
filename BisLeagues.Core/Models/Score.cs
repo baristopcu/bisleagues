@@ -11,6 +11,10 @@ namespace BisLeagues.Core.Models
         private Player _player;
         private Team _scoredTeam;
 
+        public Score()
+        {
+        }
+
         private Score(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;

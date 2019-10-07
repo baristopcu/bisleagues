@@ -1,0 +1,161 @@
+﻿@model BisLeagues.Presentation.Areas.Admin.Models.ViewModels.ListMatchViewModel
+@{
+    ViewData["Title"] = "Maçları Listele";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Filtrele</h4>
+                        <p class="card-category">Filtrele de aradığını bul</p>
+                    </div>
+                    <div class="card-body">
+                        <form action="@Url.Action("List", "Match")" method="get">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Tarih Başlangıç</label>
+
+                                        <div class="form-group">
+                                            <input type="date" name="matchDateFilterStart" id="matchDateFilterStart" class="form-control" placeholder="Tarih Başlangıç" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Tarih Bitiş</label>
+                                        <div class="form-group">
+                                            <input type="date" name="matchDateFilterEnd" id="matchDateFilterEnd" class="form-control"  placeholder="Tarih Bitiş" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="teamId" id="teamId" data-style="btn btn-link">
+                                                <option value="0" disabled selected>Takım</option>
+                                                @foreach (var team in Model.Teams)
+                                                {
+                                                    <option value="@team.Id" @(Model.Filters.TeamId == team.Id ? "selected" : "")>@team.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="margin-top: 25px;">
+                                            <div class="form-check form-check-radio">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" name="IsPlayed" id="IsPlayed" value="0" @(Model.Filters.IsPlayed == 0 ? "checked" : "")>
+                                                    Hepsini Getir
+                                                    <span class="circle">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check-label" style="margin-left: 5px;">
+                                                    <input class="form-check-input" type="radio" name="IsPlayed" id="IsPlayed" value="1" @(Model.Filters.IsPlayed == 1 ? "checked" : "")>
+                                                    Oynananları Getir
+                                                    <span class="circle">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check-label" style="margin-left: 5px;">
+                                                    <input class="form-check-input" type="radio" name="IsPlayed" id="IsPlayed" value="2" @(Model.Filters.IsPlayed == 2 ? "checked" : "")>
+                                                    Oynanmayanları Getir
+                                                    <span class="circle">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-radio">
+
+                                            </div>
+                                            <div class="form-check form-check-radio">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right">Filtrele Bakam</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">Maçlar</h4>
+                        <p class="card-category"> Maçlar aşağıdadır.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Sezon
+                                </th>
+                                <th>
+                                    Takım 1
+                                </th>
+                                <th>
+                                    Takım 2
+                                </th>
+                                <th>
+                                    Oynandı
+                                </th>
+                                <th>
+                                    Tarih
+                                </th>
+                                <th>
+                                    Skor
+                                </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var match in Model.Matches)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @match.Id
+                                            </td>
+                                            <td>
+                                                @match.Season.Name
+                                            </td>
+                                            <td>
+                                                @match.Home.Name
+                                            </td>
+                                            <td>
+                                                @match.Away.Name
+                                            </td>
+                                            <td>
+                                                @(match.IsPlayed ? "Evet" : "Hayır")
+                                            </td>
+                                            <td class="text-primary">
+                                                @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm")
+                                            </td>
+                                            <td class="text-primary">
+                                                @(match.IsPlayed ? match.Result.HomeScore + " - " + match.Result.AwayScore : "Yok")
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

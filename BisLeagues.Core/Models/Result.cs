@@ -9,6 +9,10 @@ namespace BisLeagues.Core.Models
     {
         private Match _match;
 
+        public Result()
+        {
+        }
+
         private Result(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;

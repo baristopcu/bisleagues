@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace BisLeagues.Core.Services.Repositories
 {
-    public class ScoreRepository : Repository<Score>, IScoreRepository
+    public class PlayerRepository : Repository<Player>, IPlayerRepository
     {
         private readonly BisLeaguesContext _dbContext;
 
-        public ScoreRepository(BisLeaguesContext dbContext) : base(dbContext)
+        public PlayerRepository(BisLeaguesContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
             
         }
 
-        public IEnumerable<Score> ListAll()
+        public IEnumerable<Player> ListAll()
         {
-            IEnumerable<Score> scores = _dbContext.Scores;
+            IEnumerable<Player> players = _dbContext.Players;
             //IList<Player> players = _dbContext.Player
             //     .Select(x => new Player { Id = x.Id, Name = x.Name, Surname = x.Surname, BirthDate = x.BirthDate, Email = x.Email, TeamPlayers = new Team { Name = new string { x.TeamPlayers.Select(y => y.Team.Name) } } } ).ToList();
-            return scores;
+            return players;
         }
     }
 }
