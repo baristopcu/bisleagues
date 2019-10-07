@@ -309,7 +309,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                         newsForMatch.Caption = model.Caption;
                                         newsForMatch.Content = model.Content;
                                         newsForMatch.ShortDescription = model.ShortDescription;
-                                        newsForMatch.VideoUrl = model.YoutubeVideoUrl;
+                                        newsForMatch.VideoUrl = model.VideoUrl;
                                         newsForMatch.MatchId = matchId;
                                         newsForMatch.SeasonId = match.SeasonId;
                                         newsForMatch.CreatedOnUtc = DateTime.UtcNow;

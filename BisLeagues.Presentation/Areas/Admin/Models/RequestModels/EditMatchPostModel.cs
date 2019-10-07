@@ -33,7 +33,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
         public IFormFile NewsPicture { get; set; }
 
 
-        public string YoutubeVideoUrl { get; set; }
+        public string VideoUrl { get; set; }
         public string Caption { get; set; }
         public string ShortDescription { get; set; }
         public string Content { get; set; }

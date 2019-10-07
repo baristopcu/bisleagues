@@ -8,6 +8,7 @@ namespace BisLeagues.Core.Models
     public partial class Result
     {
         private Match _match;
+        private IEnumerable<Score> _scores;
 
         public Result()
         {
@@ -29,6 +30,11 @@ namespace BisLeagues.Core.Models
         {
             get => LazyLoader.Load(this, ref _match);
             set => _match = value;
+        }
+        public IEnumerable<Score> Scores
+        {
+            get => LazyLoader.Load(this, ref _scores);
+            set => _scores = value;
         }
     }
 }

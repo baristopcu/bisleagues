@@ -87,6 +87,15 @@ namespace BisLeagues.Core.Data
 
             });
 
+
+            modelBuilder.Entity<Result>(entity =>
+            {
+                entity.ToTable("Result");
+                entity.HasOne(p => p.Match);
+                entity.HasMany(p => p.Scores);
+
+            });
+
             modelBuilder.Entity<TeamPlayers>()
                 .ToTable("Team_Player_Mapping")
                 .HasKey(tp => new { tp.TeamId, tp.PlayerId });
@@ -113,9 +122,6 @@ namespace BisLeagues.Core.Data
                 .HasOne(p => p.Season)
                 .WithMany(b => b.Matches);
 
-            modelBuilder.Entity<Result>()
-                .ToTable("Result")
-                .HasOne(p => p.Match);
 
             modelBuilder.Entity<Score>()
                 .ToTable("Score")

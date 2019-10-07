@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <br />
-                            <label class="bmd-label-floating">Maç Tarihi - <span style="color:red">@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy hh:mm")</span></label>
+                            <label class="bmd-label-floating">Maç Tarihi - <span style="color:red">@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy hh:mm")</span> <span style="color:brown"> -  Maç tarhini düzenlemeyecekseniz boş geçiniz !</span></label>
                             <div class="row">
                                 <div class="col-md-1">
                                     <div class="form-group">
@@ -64,38 +64,62 @@
                                     </div>
                                 </div>
                             </div>
+                            <br />
                             <div class="row">
-                                @*<div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Ev Sahibi Takım Golü</label>
-                                        <input type="number" name="homeScore" id="homeScore" class="form-control" placeholder="" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Deplasman Takım Golü</label>
-                                        <input type="number" name="awayScore" id="awayScore" class="form-control" placeholder="" />
                                     </div>
-                                </div>*@
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         <div class="home-scorers">
-                                            <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddHomeScorer">Yeni Golcü Ekle</a>
-                                            <input type="hidden" id="totalHomeScorers" value="0" />
+                                            <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddHomeScorer">Yeni Golcü Ekle</a><br />
+                                            <input type="hidden" id="totalHomeScorers" value="@Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.HomeId).Count()" />
+                                            @{ int counter = 0; }
+                                            @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.HomeId))
+                                            {
+                                                <select class="form-control homeScorersIds_@counter" name="homeScorersIds[@counter].Id" id="homeScorersIds[@counter].Id" data-style="btn btn-link">
+                                                    <option value="0" disabled selected>Gol Atan Oyuncu</option>
+                                                    @foreach (var player in Model.Match.Home.TeamPlayers.Select(x => x.Player))
+                                                    {
+                                                        <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                                    }
+                                                </select>
+                                                counter++;
+                                            }
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         <div class="away-scorers">
-                                            <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddAwayScorer">Yeni Golcü Ekle</a>
-                                            <input type="hidden" id="totalAwayScorers" value="0" />
+                                            <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddAwayScorer">Yeni Golcü Ekle</a><br />
+                                            <input type="hidden" id="totalAwayScorers" value="@Model.Match.Result.Scores.Where(x=>x.ScoredTeamId == Model.Match.AwayId).Count()" />
+                                            @{ counter = 0; }
+                                            @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId))
+                                            {
+                                                <select class="form-control awayScorersIds_@counter" name="awayScorersIds[@counter].Id" id="awayScorersIds[@counter].Id" data-style="btn btn-link">
+                                                    <option value="0" disabled selected>Gol Atan Oyuncu</option>
+                                                    @foreach (var player in Model.Match.Away.TeamPlayers.Select(x => x.Player))
+                                                    {
+                                                        <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                                    }
+                                                </select>
+                                                counter++;
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <br />
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -107,7 +131,7 @@
                                             </span>
                                             <input type="text" class="form-control" readonly>
                                         </div>
-                                        <img id="img-upload-video" style="max-width:100%;max-height:100%;" />
+                                        <img id="img-upload-video" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.VideoCoverPhoto.Path, width = 300, height = 300})" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -115,7 +139,7 @@
                                         <div class="input-group">
                                             <span class="input-group-btn">
                                                 <span class="btn btn-default btn-file-news">
-                                                    Haber Fotoğraf <input type="file" id="newsPicture" name="newsPicture">
+                                                    Haber Fotoğraf <input type="file" id="newsPicture" name="newsPicture" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.CoverPhoto.Path, width = 300, height = 300})">
                                                 </span>
                                             </span>
                                             <input type="text" class="form-control" readonly>
@@ -124,11 +148,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <br /><br />
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Youtube Video URL</label>
-                                        <input type="text" name="videoUrl" id="videoUrl" class="form-control" placeholder="" />
+                                        <input type="text" name="videoUrl" id="videoUrl" class="form-control" placeholder="" value="@Model.Match.New?.VideoUrl" />
                                     </div>
                                 </div>
                             </div>
@@ -136,13 +161,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Haber Başlığı</label>
-                                        <input type="text" name="caption" id="caption" class="form-control" placeholder="" />
+                                        <input type="text" name="caption" id="caption" class="form-control" placeholder="" value="@Model.Match.New?.Caption" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Haber Kısa Açıklama</label>
-                                        <input type="text" name="shortDescription" id="shortDescription" class="form-control" placeholder="" />
+                                        <input type="text" name="shortDescription" id="shortDescription" class="form-control" placeholder="" value="@Model.Match.New?.ShortDescription" />
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +175,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group bmd-form-group">
                                         <label class="bmd-label-floating"> Haber içeriği</label>
-                                        <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+                                        <textarea class="form-control" name="content" id="content" rows="5">@Model.Match.New?.Caption</textarea>
                                     </div>
                                 </div>
                             </div>

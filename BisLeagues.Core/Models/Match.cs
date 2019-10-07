@@ -13,6 +13,7 @@ namespace BisLeagues.Core.Models
         private Team _home;
         private Team _away;
         private Result _result;
+        private New _new;
 
         public Match()
         {
@@ -52,6 +53,11 @@ namespace BisLeagues.Core.Models
         {
             get => LazyLoader.Load(this, ref _result);
             set => _result = value;
+        }
+        public New New
+        {
+            get => LazyLoader.Load(this, ref _new);
+            set => _new = value;
         }
     }
 }

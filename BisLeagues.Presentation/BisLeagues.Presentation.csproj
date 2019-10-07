@@ -365,7 +365,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\news_picture\" />
+    <Folder Include="wwwroot\news_pictures\" />
     <Folder Include="wwwroot\video_pictures\" />
   </ItemGroup>
 

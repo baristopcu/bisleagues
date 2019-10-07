@@ -121,6 +121,9 @@
                                 <th>
                                     Skor
                                 </th>
+                                <th>
+                                    Yönet
+                                </th>
                                 </thead>
                                 <tbody>
                                     @foreach (var match in Model.Matches)
@@ -146,6 +149,9 @@
                                             </td>
                                             <td class="text-primary">
                                                 @(match.IsPlayed ? match.Result.HomeScore + " - " + match.Result.AwayScore : "Yok")
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Edit","Match", new { match.Id })" class="btn btn-info" style="color: white;">Yönet</a>
                                             </td>
                                         </tr>
 
