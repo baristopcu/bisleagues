@@ -82,18 +82,21 @@
                                     <div class="form-group bmd-form-group">
                                         <div class="home-scorers">
                                             <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddHomeScorer">Yeni Golcü Ekle</a><br />
-                                            <input type="hidden" id="totalHomeScorers" value="@Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.HomeId).Count()" />
+                                            <input type="hidden" id="totalHomeScorers" value="@Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId).Count()" />
                                             @{ int counter = 0; }
-                                            @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.HomeId))
+                                            @if (Model.Match.Result?.Scores != null)
                                             {
-                                                <select class="form-control homeScorersIds_@counter" name="homeScorersIds[@counter].Id" id="homeScorersIds[@counter].Id" data-style="btn btn-link">
-                                                    <option value="0" disabled selected>Gol Atan Oyuncu</option>
-                                                    @foreach (var player in Model.Match.Home.TeamPlayers.Select(x => x.Player))
-                                                    {
-                                                        <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
-                                                    }
-                                                </select>
-                                                counter++;
+                                                @foreach (var score in Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId))
+                                                {
+                                                    <select class="form-control homeScorersIds_@counter" name="homeScorersIds[@counter].Id" id="homeScorersIds[@counter].Id" data-style="btn btn-link">
+                                                        <option value="0" disabled selected>Gol Atan Oyuncu</option>
+                                                        @foreach (var player in Model.Match.Home.TeamPlayers.Select(x => x.Player))
+                                                        {
+                                                            <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                                        }
+                                                    </select>
+                                                    counter++;
+                                                }
                                             }
                                         </div>
                                     </div>
@@ -102,19 +105,23 @@
                                     <div class="form-group bmd-form-group">
                                         <div class="away-scorers">
                                             <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddAwayScorer">Yeni Golcü Ekle</a><br />
-                                            <input type="hidden" id="totalAwayScorers" value="@Model.Match.Result.Scores.Where(x=>x.ScoredTeamId == Model.Match.AwayId).Count()" />
+                                            <input type="hidden" id="totalAwayScorers" value="@Model.Match.Result?.Scores.Where(x=>x.ScoredTeamId == Model.Match.AwayId).Count()" />
                                             @{ counter = 0; }
-                                            @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId))
+                                            @if (Model.Match.Result?.Scores != null)
                                             {
-                                                <select class="form-control awayScorersIds_@counter" name="awayScorersIds[@counter].Id" id="awayScorersIds[@counter].Id" data-style="btn btn-link">
-                                                    <option value="0" disabled selected>Gol Atan Oyuncu</option>
-                                                    @foreach (var player in Model.Match.Away.TeamPlayers.Select(x => x.Player))
-                                                    {
-                                                        <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
-                                                    }
-                                                </select>
-                                                counter++;
+                                                @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId))
+                                                {
+                                                    <select class="form-control awayScorersIds_@counter" name="awayScorersIds[@counter].Id" id="awayScorersIds[@counter].Id" data-style="btn btn-link">
+                                                        <option value="0" disabled selected>Gol Atan Oyuncu</option>
+                                                        @foreach (var player in Model.Match.Away.TeamPlayers.Select(x => x.Player))
+                                                        {
+                                                            <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                                        }
+                                                    </select>
+                                                    counter++;
+                                                }
                                             }
+
                                         </div>
                                     </div>
                                 </div>

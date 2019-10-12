@@ -18,7 +18,7 @@ using BisLeagues.Core.Enums;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class TeamsController : BaseController<TeamsController>
+    public class TeamController : BaseController<TeamController>
     {
         private readonly ICityRepository _cityRepository;
         private readonly IPhotoRepository _photoRepository;
@@ -27,7 +27,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IPlayerRepository _playerRepository;
         private readonly ITransferRequestRepository _transferRequestRepository;
 
-        public TeamsController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _cityRepository = cityRepository;
             _photoRepository = photoRepository;

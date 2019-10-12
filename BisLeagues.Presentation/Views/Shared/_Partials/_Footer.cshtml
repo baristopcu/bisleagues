@@ -87,17 +87,17 @@
         <ul class="respoinve-nav-list">
             <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
             <li>
-                <a href="@Url.Action("Detail","Teams", new { isMyTeam = true })">Takımım</a>
+                <a href="@Url.Action("Detail","Team", new { isMyTeam = true })">Takımım</a>
             </li>
             <li class="mega-dropdown">
                 <a href="@Url.Action("Index", "News")">Haberler</a>
 
             </li>
             <li>
-                <a href="@Url.Action("UpComingMatches", "Matches")">Maçlar</a>
+                <a href="@Url.Action("UpComingMatches", "Match")">Maçlar</a>
                 <ul>
-                    <li><a href="@Url.Action("UpComingMatches", "Matches")">Gelecek Maçlar</a></li>
-                    <li><a href="@Url.Action("PastMatches", "Matches")">Geçmiş Maçlar</a></li>
+                    <li><a href="@Url.Action("UpComingMatches", "Match")">Gelecek Maçlar</a></li>
+                    <li><a href="@Url.Action("PastMatches", "Match")">Geçmiş Maçlar</a></li>
                 </ul>
             </li>
             <li>

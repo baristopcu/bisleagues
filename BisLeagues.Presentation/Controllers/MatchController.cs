@@ -13,14 +13,14 @@ using BisLeagues.Presentation.BaseControllers;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class MatchesController : BaseController<MatchesController>
+    public class MatchController : BaseController<MatchController>
     {
         private readonly ISeasonRepository _seasonRepository;
         private readonly IMatchRepository _matchRepository;
         private readonly IResultRepository _resultRepository;
         private readonly INewRepository _newRepository;
 
-        public MatchesController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository, INewRepository newRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public MatchController(ISeasonRepository seasonRepository, IMatchRepository matchRepository, IResultRepository resultRepository, INewRepository newRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
