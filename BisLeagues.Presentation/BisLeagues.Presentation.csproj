@@ -338,7 +338,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Matches\PastMatches.cshtml">
+    <Content Update="Views\Match\PastMatches.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\News\Index.cshtml">

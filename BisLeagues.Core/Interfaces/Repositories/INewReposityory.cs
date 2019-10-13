@@ -13,5 +13,6 @@ namespace BisLeagues.Core.Interfaces.Repositories
         IEnumerable<New> GetTopNewsByLimit(int limit);
         IEnumerable<New> GetNewsOfPastMatches();
         IEnumerable<New> GetNewsOfPastMatchesByLimit(int limit);
+        IEnumerable<New> GetGeneralNews();
     }
 }

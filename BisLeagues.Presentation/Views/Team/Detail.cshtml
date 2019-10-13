@@ -40,7 +40,7 @@
                 <!-- Team without Hover -->
                 <div class="col-lg-3 col-md-3 col-sm-5">
                     <div class="team-column without-hover">
-                            <img src="@Url.Action("Resize", "Image", new { url = Model.Team.Logo.Path, width = 269, height = 416 })" alt="">
+                        <img src="@Url.Action("Resize", "Image", new { url = Model.Team.Logo.Path, width = 269, height = 416 })" alt="">
                         <div class="team-detail">
                             <h5>@Model.Team.Name</h5>
                             <span class="desination">Defender</span>
@@ -231,7 +231,7 @@
                                                     case TransferStatus.Cancelled: <text>İptal Edildi.</text>; break;
                                                 default: <text>Tanımlanamadı.</text>; break;
 
-                                            }
+                                        }
                                                         }
                                                     </td>
 
@@ -271,7 +271,7 @@
                             <div class="palyer-career theme-padding-bottom about-aurthor">
                                 <form action="@Url.Action("EditDescription", "Team")" method="post">
                                     <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                                    <textarea name="description" style="height: 500px; width: 100%">
+                                    <textarea name="description" id="description" style="height: 500px; width: 100%">
                                     @Model.Team.Description
                                  </textarea><br />
                                     <input type="submit" class="btn btn-success form-control" />
@@ -323,6 +323,16 @@
             });
 
         });
+    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#description'), {
+                removePlugins: [ 'ImageUpload' ],
+                })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 
 }

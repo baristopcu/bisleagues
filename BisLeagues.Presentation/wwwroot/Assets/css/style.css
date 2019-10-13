@@ -1571,3 +1571,5 @@ border-radius: 100%; color: #19160e;}
 
 .copy-rights.style-2 p i{ color: #ffcb0b;}
 .copy-rights.style-2 .back-to-top i{ color: #ffcb0b;}
+
+.ck-editor__editable { min-height: 300px; }

@@ -39,5 +39,11 @@ namespace BisLeagues.Core.Services.Repositories
             IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate).Take(limit);
             return newsOfMatches;
         }
+
+        public IEnumerable<New> GetGeneralNews()
+        {
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.MatchId == null).OrderByDescending(p => p.CreatedOnUtc);
+            return newsOfMatches;
+        }
     }
 }

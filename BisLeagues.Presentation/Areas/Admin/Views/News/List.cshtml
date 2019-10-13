@@ -1,0 +1,103 @@
+﻿@model BisLeagues.Presentation.Areas.Admin.Models.ViewModels.ListNewViewModel
+@{
+    ViewData["Title"] = "Haberleri Listele";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Filtrele</h4>
+                        <p class="card-category">Filtrele de aradığını bul</p>
+                    </div>
+                    <div class="card-body">
+                        <form action="@Url.Action("List", "News")" method="get">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Tarih Başlangıç</label>
+
+                                        <div class="form-group">
+                                            <input type="date" name="dateFilterStart" id="dateFilterStart" class="form-control" placeholder="Tarih Başlangıç" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Tarih Bitiş</label>
+                                        <div class="form-group">
+                                            <input type="date" name="dateFilterEnd" id="dateFilterEnd" class="form-control" placeholder="Tarih Bitiş" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right">Filtrele Bakam</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">Haberler</h4>
+                        <p class="card-category"> Haberler aşağıdadır.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Başlık
+                                </th>
+                                <th>
+                                    Kısa Açıklama
+                                </th>
+                                <th>
+                                    Tarih
+                                </th>
+                                <th>
+                                    Yönet
+                                </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.News)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Id
+                                            </td>
+                                            <td>
+                                                @item.Caption
+                                            </td>
+                                            <td>
+                                                @item.ShortDescription
+                                            </td>
+                                            <td class="text-primary">
+                                                @TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOnUtc, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm")
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Edit","News", new { item.Id })" class="btn btn-info" style="color: white;">Yönet</a>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

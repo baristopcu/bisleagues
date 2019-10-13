@@ -59,3 +59,7 @@
   height: calc(100vh - 70px);
   margin-top: 70px;
 }
+
+.ck-editor__editable {
+    min-height: 300px;
+}

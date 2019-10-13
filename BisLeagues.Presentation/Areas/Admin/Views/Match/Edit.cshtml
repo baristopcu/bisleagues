@@ -182,7 +182,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group bmd-form-group">
                                         <label class="bmd-label-floating"> Haber içeriği</label>
-                                        <textarea class="form-control" name="content" id="content" rows="5">@Model.Match.New?.Caption</textarea>
+                                        <textarea class="form-control" name="content" id="content" rows="15">@Model.Match.New?.Caption</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -266,6 +266,7 @@
     </script>
     <script>
         $(document).ready(function () {
+
             var homePlayers = JSON.parse('@Html.Raw(Json.Serialize(@Model.Match.Home.TeamPlayers.Select(x=> new { x.PlayerId , x.Player.User.FirstName, x.Player.User.LastName})))');
             $("#AddHomeScorer").click(function () {
                 tc = parseInt($("#totalHomeScorers").val());
@@ -293,4 +294,16 @@
 
         });
     </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                removePlugins: ['ImageUpload'],
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+
 }

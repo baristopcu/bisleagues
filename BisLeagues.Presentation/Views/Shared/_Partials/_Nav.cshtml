@@ -1,4 +1,4 @@
-﻿
+﻿@inject BisLeagues.Core.Utility.IUserManager UserManager
     <!-- Nav -->
 <div class="nav-holder">
     <div class="container">
@@ -20,9 +20,18 @@
             <!-- Nav List -->
             <ul class="nav-list pull-right">
                 <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
-                <li>
-                    <a href="@Url.Action("Detail","Team")">Takımım</a>
-                </li>
+                @if (UserManager.GetCurrentUser(this.Context)?.Player?.TeamPlayers?.Count > 0)
+                {
+                    <li>
+                        <a href="@Url.Action("Detail","Team")">Takımım</a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@Url.Action("Application","Team")">Takım Başvuru</a>
+                    </li>
+                }
                 <li class="mega-dropdown">
                     <a href="@Url.Action("Index", "News")">Haberler</a>
 

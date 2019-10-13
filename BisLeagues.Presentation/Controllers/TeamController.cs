@@ -41,6 +41,12 @@ namespace BisLeagues.Presentation.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                if (_userManager.GetCurrentUser(this.HttpContext).Player.TeamPlayers.Count > 0)
+                {
+                    MessageCode = 0;
+                    Message = "Bir takımın varken takım başvurusu oluşturamazsın, önce takımından ayrıl";
+                    return RedirectToAction("Index", "Home");
+                }
                 TeamApplicationViewModel model = new TeamApplicationViewModel
                 {
                     Cities = _cityRepository.GetAll().ToList()
@@ -69,6 +75,13 @@ namespace BisLeagues.Presentation.Controllers
 
             if (ModelState.IsValid)
             {
+
+                if (_userManager.GetCurrentUser(this.HttpContext).Player.TeamPlayers.Count > 0)
+                {
+                    MessageCode = 0;
+                    Message = "Bir takımın varken takım başvurusu oluşturamazsın, önce takımından ayrıl";
+                    return RedirectToAction("Index", "Home");
+                }
                 var image = model.Logo;
                 if (image != null && image.Length > 0)
                 {
@@ -84,13 +97,13 @@ namespace BisLeagues.Presentation.Controllers
                             {
                                 await image.CopyToAsync(fileSteam);
                             }
-
+                            var user = _userManager.GetCurrentUser(this.HttpContext);
                             var team = new Team()
                             {
                                 Name = model.TeamName,
                                 CityId = model.City,
                                 CountyId = model.County,
-                                CaptainPlayerId = _userManager.GetCurrentUser(this.HttpContext).Id,
+                                CaptainPlayerId = user.Player.Id,
                                 Level = 0,
                                 IsActive = false,
                                 CreatedOnUtc = DateTime.UtcNow
@@ -103,7 +116,8 @@ namespace BisLeagues.Presentation.Controllers
                                 CreatedOnUtc = DateTime.UtcNow
                             };
                             _teamRepository.Add(team);
-                            //TODO: Send notification to admin for confirmation.
+                            team.TeamPlayers.Add(new TeamPlayers() { Player = user.Player, Team = team });
+                            _teamRepository.Update(team);
                         }
                         else
                         {
@@ -193,13 +207,13 @@ namespace BisLeagues.Presentation.Controllers
                         _teamRepository.Update(team);
                         MessageCode = 1;
                         Message = "Takım açıklamasını güncelledik.";
-                        return RedirectToAction("Detail", "Teams", new { id = teamId });
+                        return RedirectToAction("Detail", "Team", new { id = teamId });
                     }
                     else
                     {
                         MessageCode = 0;
                         Message = "Sen kaptan değilsin, düzenleyemezsin !";
-                        return RedirectToAction("Detail", "Teams", new { id = teamId });
+                        return RedirectToAction("Detail", "Team", new { id = teamId });
                     }
                 }
             }
@@ -207,7 +221,7 @@ namespace BisLeagues.Presentation.Controllers
             {
                 MessageCode = 0;
                 Message = "Önce bir giriş yap hele !";
-                return RedirectToAction("Detail", "Teams", new { id = teamId });
+                return RedirectToAction("Detail", "Team", new { id = teamId });
             }
         }
     }
