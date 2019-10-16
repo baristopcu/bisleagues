@@ -1,7 +1,7 @@
 ﻿@model BisLeagues.Presentation.Models.ViewModels.HomeViewModel
 @inject BisLeagues.Core.Utility.IUserManager UserManager
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Anasayfa";
     Layout = "~/Views/Shared/_Layout_Slider.cshtml";
 
 }
@@ -36,11 +36,11 @@
                         <ul>
                             <li>
                                 <img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name">
-                                <span>@Model.UpComingMatch.Home.Name</span>
+                                <span><a style="color:black;" href="@Url.Action("Detail", "Team", new { Model.UpComingMatch.Home.Id } )">@Model.UpComingMatch.Home.Name</a></span>
                             </li>
                             <li>
                                 <img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name">
-                                <span>@Model.UpComingMatch.Away.Name</span>
+                                <span><a style="color:black;" href="@Url.Action("Detail", "Team", new { Model.UpComingMatch.Away.Id })">@Model.UpComingMatch.Away.Name</a></span>
                             </li>
                         </ul>
                     }
@@ -68,7 +68,7 @@
                         <!-- Match Fixture -->
                         <!-- Upcoming Fixture -->
                         <div class="col-sm-8 col-xs-7 r-full-width">
-                            <h3><span><i class="red-color">GELECEK </i>MAÇLAR</span><a class="view-all pull-right" href="#">view all<i class="fa fa-angle-double-right"></i></a></h3>
+                            <h3><span><i class="red-color">GELECEK </i>MAÇLAR</span><a class="view-all pull-right" href="@Url.Action("UpComingMatches","Match")">Tümünü Gör<i class="fa fa-angle-double-right"></i></a></h3>
                             <div class="upcoming-fixture">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
@@ -291,7 +291,7 @@
                             <img src="@Url.Action("Resize", "Image", new { url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
                             <div class="team-detail">
                                 <h5>
-                                    <a href="#">
+                                    <a href="@Url.Action("Detail", "Team", new { team.Id })">
                                         @team.Name
                                     </a>
                                 </h5>

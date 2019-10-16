@@ -3,7 +3,7 @@
 @inject BisLeagues.Core.Utility.IUserManager UserManager
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Team.Name;
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 }
 @section Heading{
@@ -77,7 +77,7 @@
                 </div>
                 <!-- Team without Hover -->
             </div>
-            <div style="margin-bottom: 50px; margin-left: 10px;">
+            <div style="margin-bottom: 50px; margin-left: 10px; ">
                 <a href="#detail" data-toggle="tab" class="btn btn-primary">Takım Detay</a>
                 @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
                 {
@@ -127,7 +127,7 @@
                                         @foreach (var mapping in Model.Team.TeamPlayers)
                                         {
                                             <tr>
-                                                <td>@mapping.Player.User.FirstName @mapping.Player.User.LastName</td>
+                                                <td><a href="@Url.Action("Detail", "Profile", new { mapping.Player.User.Id })">@mapping.Player.User.FirstName @mapping.Player.User.LastName</a></td>
                                                 <td>@(mapping.Player.BirthDate.HasValue ? mapping.Player.BirthDate.Value.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture) : "")</td>
                                             </tr>
                                         }
@@ -264,7 +264,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="teamdescedit">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
                         {
                             <!-- Palyer Career -->

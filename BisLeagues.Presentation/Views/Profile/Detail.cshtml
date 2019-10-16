@@ -3,7 +3,7 @@
 @inject BisLeagues.Core.Utility.IUserManager UserManager
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.User.FirstName + " " + Model.User.LastName;
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 }
 @section Heading{
@@ -22,8 +22,7 @@
     </div>
     <!-- Page Heading & Breadcrumbs  -->
     <!-- Page Heading banner -->
-    <div class="overlay-dark theme-padding parallax-window" data-appear-top-offset="600" data-parallax="scroll" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
-    </div>
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">    </div>
     @*<div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">*@
 
     <!-- Page Heading banner -->
@@ -209,7 +208,7 @@
                                                     case TransferStatus.Cancelled: <text>İptal Edildi.</text>; break;
                                                 default: <text>Tanımlanamadı.</text>; break;
 
-                                            }
+                                        }
                                                         }
                                                     </td>
 
@@ -248,12 +247,12 @@
                             <!-- Palyer Career -->
                             <div class="palyer-career theme-padding-bottom about-aurthor">
                                 @*<form action="@Url.Action("EditDescription", "Team")" method="post">
-                                    <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                                    <textarea name="description" style="height: 500px; width: 100%">
-                                    @Model.Team.Description
-                                 </textarea><br />
-                                    <input type="submit" class="btn btn-success form-control" />
-                                </form>*@
+                                        <input type="hidden" name="teamId" value="@Model.Team.Id" />
+                                        <textarea name="description" style="height: 500px; width: 100%">
+                                        @Model.Team.Description
+                                     </textarea><br />
+                                        <input type="submit" class="btn btn-success form-control" />
+                                    </form>*@
                             </div>
                             <!-- Palyer Career -->
                         }

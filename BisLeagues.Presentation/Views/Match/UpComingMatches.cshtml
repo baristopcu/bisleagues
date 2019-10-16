@@ -58,15 +58,15 @@
                         <ul>
                             @foreach (var match in Model.Matches)
                             {
-                                <li>
-                                    <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span>
-                                    <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span>
-                                    <div class="detail">
-                                        <a href="#"><i></i></a>
-                                        <strong>@match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name</strong>
-                                        <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
-                                    </div>
-                                </li>
+                            <li>
+                                <a href="@Url.Action("Detail", "Team", new { match.Home.Id })"><span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span></a>
+                                <a href="@Url.Action("Detail", "Team", new { match.Away.Id })"><span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span></a>
+                                <div class="detail">
+                                    <a href="#"><i></i></a>
+                                    <strong>@match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name</strong>
+                                    <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                                </div>
+                            </li>
                             }
                         </ul>
                     </div>

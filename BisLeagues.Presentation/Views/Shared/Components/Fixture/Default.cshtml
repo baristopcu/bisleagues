@@ -11,11 +11,15 @@
                         <ul>
                             <li>
                                 <img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name">
-                                <span>@match.Home.Name</span>
+                                <a href="@Url.Action("Detail", "Team", new { match.Home.Id })"><span>@match.Home.Name</span></a>
                             </li>
                             <li>
                                 <img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name">
-                                <span>@match.Away.Name</span>
+                                <a href="@Url.Action("Detail", "Team", new { match.Away.Id })">
+                                    <span>
+                                        @match.Away.Name
+                                    </span>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -29,11 +33,15 @@
                         <ul>
                             <li>
                                 <img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name">
-                                <span>@match.Home.Name</span>
+                                <a href="@Url.Action("Detail", "Team", new { match.Home.Id })"><span>@match.Home.Name</span></a>
                             </li>
                             <li>
                                 <img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name">
-                                <span>@match.Away.Name</span>
+                                <a href="@Url.Action("Detail", "Team", new { match.Away.Id })">
+                                    <span>
+                                        @match.Away.Name
+                                    </span>
+                                </a>
                             </li>
                         </ul>
                     </div>

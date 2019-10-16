@@ -57,7 +57,7 @@ namespace BisLeagues.Presentation.Controllers
 
             List<TransferRequest> incomingTransferRequests = new List<TransferRequest>();
             List<TransferRequest> outgoingTransferRequests = new List<TransferRequest>();
-            if (_userManager.GetCurrentUser(this.HttpContext)?.Player == user.Player)
+            if (_userManager.GetCurrentUser(this.HttpContext)?.Player != null && _userManager.GetCurrentUser(this.HttpContext)?.Player == user.Player)
             {
                 incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Player == user.Player).ToList();
                 outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Player == user.Player).ToList();
