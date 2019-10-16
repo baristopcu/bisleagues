@@ -27,6 +27,20 @@ namespace BisLeagues.Presentation.Controllers
             _passwordService = passwordService;
         }
 
+
+        public IActionResult Login()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
@@ -44,7 +58,7 @@ namespace BisLeagues.Presentation.Controllers
                 Message = "Bir şeyleri yanlış girdin hangisi olduğunu söyleyemem.";
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Authentication");
         }
 
 
@@ -55,6 +69,19 @@ namespace BisLeagues.Presentation.Controllers
             MessageCode = 1;
             Message = "Çıktın gittin ama hayırlısı.";
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult SignUp()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
@@ -95,7 +122,7 @@ namespace BisLeagues.Presentation.Controllers
             _userManager.SignIn(this.HttpContext, user);
             MessageCode = 1;
             Message = "Ne de güzel kayıt yaptın.";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("SignUp", "Authentication");
         }
 
         //    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

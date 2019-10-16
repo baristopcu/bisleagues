@@ -339,6 +339,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Authentication\SignUp.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Authentication\Login.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Match\PastMatches.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

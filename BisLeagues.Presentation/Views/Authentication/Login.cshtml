@@ -1,0 +1,109 @@
+﻿@model BisLeagues.Presentation.Models.ViewModels.TeamApplicationViewModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+}
+@section Head {
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+            background-color: black;
+        }
+
+            .btn-file input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                background: white;
+                cursor: inherit;
+                display: block;
+            }
+
+        #img-upload {
+            width: 100%;
+            max-height: 300px;
+        }
+    </style>
+}
+@section Heading{
+
+    <!-- Page Heading & Breadcrumbs  -->
+    <div class="page-heading-breadcrumbs hidden-xs">
+        <div class="container">
+            <h2>GİRİŞ YAP</h2>
+            <ul class="breadcrumbs">
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                <li>GİRİŞ YAP</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading & Breadcrumbs  -->
+    <!-- Page Heading banner -->
+    <div class="overlay-dark theme-padding parallax-window" data-appear-top-offset="600" data-parallax="scroll" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+    </div>
+    <!-- Page Heading banner -->
+}
+
+<!-- Contact -->
+<div class="theme-padding-top white-bg">
+    <div class="container">
+
+        <!-- Main Heading -->
+        <div class="main-heading-holder">
+            <div class="main-heading">
+                <h2>Giriş Yap</h2>
+                <p>Üyeliğin yok mu ? Buradan <a style="color:red;" href="@Url.Action("SignUp", "Authentication")">kayıt ol.</a></p>
+            </div>
+        </div>
+        <!-- Main Heading -->
+
+    </div>
+</div>
+<!-- Contact -->
+<!-- Contact Form Holder -->
+<div class="theme-padding-bottom">
+    <div class="container">
+        @if (TempData["Message"] != null)
+        {
+            <div class="row">
+                <div class="hidden-sm col-md-2"></div>
+                <div class="col-sm-12 col-md-8">
+                    <div class="success-cart">
+                        <p style="color: red;"><i style="color: red;" class="fa fa-times-circle-o"></i>@TempData["Message"]</p>
+                    </div>
+                </div>
+                <div class="hidden-sm col-md-2"></div>
+            </div>
+        }
+        <div class="row">
+            <!-- Form -->
+            <div class="hidden-sm col-md-4"></div>
+            <div class="col-md-4 wrapper">
+                <form action="@Url.Action("Login", "Authentication")" method="post" class="contact-form col-sm-12 col-md-8" enctype="multipart/form-data">
+                    <div class="form-group wrapper">
+                        <i class=" fa fa-envelope"></i>
+                        <input type="text" class="form-control" name="username" placeholder="Kullanıcı Adı">
+                    </div>
+                    <div class="form-group ">
+                        <i class=" fa fa-lock"></i>
+                        <input type="password" class="form-control" name="password" placeholder="*******">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn full-width red-btn">Girelim bakalım</button>
+                    </div>
+                </form>
+            </div>
+            <div class="hidden-sm col-md-4"></div>
+            <!-- Form -->
+        </div>
+    </div>
+</div>
+<!-- Contact Form Holder -->
