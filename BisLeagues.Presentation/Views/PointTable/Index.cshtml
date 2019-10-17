@@ -87,7 +87,11 @@
 
                                         <tr>
                                             <td>@order</td>
-                                            <td>@row.Team.Name</td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Team", new { row.Team.Id })">
+                                                    @row.Team.Name
+                                                </a>
+                                            </td>
                                             <td>@row.MatchCount</td>
                                             <td>@row.Average</td>
                                             <td>@row.Point</td>

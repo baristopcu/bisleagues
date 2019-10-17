@@ -208,6 +208,14 @@ namespace BisLeagues.Presentation.Controllers
 
                 var requestType = (TransferTypes)type;
 
+                var request = _transferRequestRepository.Find(x => x.PlayerId == playerId && x.TeamId == teamId).FirstOrDefault();
+                if (request != null)
+                {
+                    MessageCode = 0;
+                    Message = "Bir transfer teklifi zaten var !";
+                    return RedirectToAction("Index", "Home");
+                }
+
                 if (requestType == TransferTypes.TeamToPlayer)
                 {
                     if (team.CaptainPlayer != _userManager.GetCurrentUser(this.HttpContext)?.Player)

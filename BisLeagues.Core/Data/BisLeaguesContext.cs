@@ -28,6 +28,8 @@ namespace BisLeagues.Core.Data
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<County> Counties { get; set; }
         public virtual DbSet<New> News { get; set; }
+        public virtual DbSet<Gallery> Galleries { get; set; }
+        public virtual DbSet<GalleryPhotos> GalleryPhotoMapping { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -72,6 +74,7 @@ namespace BisLeagues.Core.Data
                 entity.HasOne(p => p.Team);
                 entity.HasOne(p => p.VideoCoverPhoto);
                 entity.HasOne(p => p.CoverPhoto);
+                entity.HasOne(p => p.Gallery);
 
             });
 
@@ -93,6 +96,19 @@ namespace BisLeagues.Core.Data
                 entity.ToTable("Result");
                 entity.HasOne(p => p.Match);
                 entity.HasMany(p => p.Scores);
+
+            });
+
+            modelBuilder.Entity<Gallery>(entity =>
+            {
+                entity.ToTable("Gallery");
+
+            });
+
+            modelBuilder.Entity<GalleryPhotos>(entity =>
+            {
+                entity.ToTable("Gallery_Photo_Mapping");
+                entity.HasKey(tp => new { tp.GalleryId, tp.PhotoId });
 
             });
 

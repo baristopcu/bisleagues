@@ -13,6 +13,7 @@ namespace BisLeagues.Core.Models
         private Season _season;
         private Photo _videoCoverPhoto;
         private Photo _coverPhoto;
+        private Gallery _gallery;
 
         public New()
         {
@@ -38,6 +39,7 @@ namespace BisLeagues.Core.Models
         public int? MatchId { get; set; }
         public int? TeamId { get; set; }
         public int? SeasonId { get; set; }
+        public int? GalleryId { get; set; }
 
         public DateTime CreatedOnUtc { get; set; }
 
@@ -69,6 +71,12 @@ namespace BisLeagues.Core.Models
         {
             get => LazyLoader.Load(this, ref _coverPhoto);
             set => _coverPhoto = value;
+        }
+
+        public Gallery Gallery
+        {
+            get => LazyLoader.Load(this, ref _gallery);
+            set => _gallery = value;
         }
     }
 }

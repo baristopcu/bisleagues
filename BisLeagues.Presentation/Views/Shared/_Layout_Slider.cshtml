@@ -13,6 +13,8 @@
         <!-- Header -->
         <header class="header style-3">
 
+            <div id="message"></div>
+
             <partial name="_Partials/_TopBar" />
 
             <partial name="_Partials/_Nav" />
@@ -24,16 +26,14 @@
 
         <!-- Main Content -->
         <main class="main-content">
-
             @RenderBody()
 
         </main>
         <!-- Main Content -->
 
         <partial name="_Partials/_Footer" />
-        @RenderSection("Scripts", required: false)
-
+        <partial name="_Partials/_Message" />
     </div>
-
-</body>          
+    @RenderSection("Scripts", required: false)
+</body>
 </html>

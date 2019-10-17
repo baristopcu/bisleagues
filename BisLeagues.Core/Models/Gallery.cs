@@ -1,21 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BisLeagues.Core.Models
 {
-    public partial class Photo
+    public partial class Gallery
     {
-
         private ICollection<GalleryPhotos> _galleryPhotos;
-        public Photo()
-        {
-
-        }
-
-        private Photo(ILazyLoader lazyLoader)
+        private Gallery(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;
         }
@@ -24,9 +17,6 @@ namespace BisLeagues.Core.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Path { get; set; }
-        public int DisplayOrder { get; set; }
-        public DateTime CreatedOnUtc { get; set; }
 
         public ICollection<GalleryPhotos> GalleryPhotos
         {

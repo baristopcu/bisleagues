@@ -13,13 +13,14 @@
         <!-- Header -->
         <header class="header style-3">
 
+            <div id="message"></div>
+
             <partial name="_Partials/_TopBar" />
 
             <partial name="_Partials/_Nav" />
 
         </header>
         <!-- Header -->
-
         <!-- Main Content -->
         <main class="main-content">
 
@@ -29,10 +30,10 @@
         <!-- Main Content -->
 
         <partial name="_Partials/_Footer" />
-        @RenderSection("Scripts", required: false)
+        <partial name="_Partials/_Message" />
+    </div>
+    @RenderSection("Scripts", required: false)
 
-        </div>
 
-
-</body>          
+</body>
 </html>
