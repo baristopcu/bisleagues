@@ -242,7 +242,7 @@ transform: translate(-50%, 0);}
 .navbar-brand{ height: auto; width: auto; padding: 0;}
 .theme-padding-top{ padding-top: 80px;}
 .theme-padding-bottom{ padding-bottom: 80px;}
-.theme-padding{ padding: 80px 0;}
+.theme-padding{ padding: 40px 0;}
 .theme-margin-top{ margin-top: 30px;}
 .theme-margin-bottom{ margin-bottom: 30px;}
 .theme-margin{ margin: 30px 0;}
@@ -972,8 +972,10 @@ display: block; margin: 0 0 20px; border-radius: 0;}
 .next-blog span i{ margin: 0 0 0 10px;}
 .next-blog h5{ margin: 0 0 9px; text-align: right; text-transform: capitalize;}
 
+.tab-button{ min-width: 150px; max-width: 150px;}
+
 .about-aurthor-holder{ padding: 30px; overflow: hidden; background: #f9f9f9;}
-.about-aurthor{ position: relative; padding-left: 164px;}
+.about-aurthor{ position: relative;}
 .about-aurthor img{ position: absolute; left: 0;}
 .about-aurthor h5{ margin: 0 0 10px;}
 .about-aurthor p{ margin: 0 0 10px;}

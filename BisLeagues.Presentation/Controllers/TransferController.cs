@@ -158,21 +158,21 @@ namespace BisLeagues.Presentation.Controllers
                 {
                     MessageCode = 0;
                     Message = "Zaten bu takımda değilsin";
-                    return RedirectToAction("Detail", "Teams", new { team.Id });
+                    return RedirectToAction("Detail", "Team", new { team.Id });
                 }
 
                 if (team.CaptainPlayer == player)
                 {
                     MessageCode = 0;
                     Message = "Hoop, kaptanlar yarı yolda bırakmaz !";
-                    return RedirectToAction("Detail", "Teams", new { team.Id });
+                    return RedirectToAction("Detail", "Team", new { team.Id });
                 }
 
                 player.TeamPlayers.Remove(player.TeamPlayers.First());
                 _playerRepository.Update(player);
                 MessageCode = 1;
                 Message = "Artık serbestsin !";
-                return RedirectToAction("Detail", "Teams", new { team.Id });
+                return RedirectToAction("Detail", "Team", new { team.Id });
 
             }
             else
@@ -233,7 +233,7 @@ namespace BisLeagues.Presentation.Controllers
                     Message = "Oyuncu serbest değil ! Bir takımda oyuncu !";
                     if (requestType == TransferTypes.PlayerToTeam)
                     {
-                        return RedirectToAction("Detail", "Teams", new { team.Id });
+                        return RedirectToAction("Detail", "Team", new { team.Id });
 
                     }
                     else
@@ -255,7 +255,7 @@ namespace BisLeagues.Presentation.Controllers
                     Message = "Teklif iletildi, bakalım ne olacak !";
                     if (requestType == TransferTypes.PlayerToTeam)
                     {
-                        return RedirectToAction("Detail", "Teams", new { team.Id });
+                        return RedirectToAction("Detail", "Team", new { team.Id });
 
                     }
                     else

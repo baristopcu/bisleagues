@@ -36,9 +36,9 @@
 
         <!-- Row Holder -->
         <div class="row">
-            <div style="margin-top: 50px;">
+            <div>
                 <!-- Team without Hover -->
-                <div class="col-lg-3 col-md-3 col-sm-5">
+                <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="team-column without-hover">
                         <img src="@Url.Action("Resize", "Image", new { url = Model.Team.Logo.Path, width = 269, height = 416 })" alt="">
                         <div class="team-detail">
@@ -77,24 +77,24 @@
                 </div>
                 <!-- Team without Hover -->
             </div>
-            <div style="margin-bottom: 50px; margin-left: 10px; ">
-                <a href="#detail" data-toggle="tab" class="btn btn-primary">Takım Detay</a>
+            <div style="width: 100%; margin: 0 10% 50px 10%;">
+                <a href="#detail" data-toggle="tab" class="btn btn-primary tab-button">Takım Detay</a>
                 @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
                 {
-                    <a href="#requests" data-toggle="tab" class="btn btn-primary">Gelen İstekler</a>
-                    <a href="#requesteds" data-toggle="tab" class="btn btn-primary">Giden İstekler</a>
-                    <a href="#teamdescedit" data-toggle="tab" class="btn btn-primary">Açıklama Değiştir</a>
+                    <a href="#requests" data-toggle="tab" class="btn btn-primary tab-button">Gelen İstekler</a>
+                    <a href="#requesteds" data-toggle="tab" class="btn btn-primary tab-button">Giden İstekler</a>
+                    <a href="#teamdescedit" data-toggle="tab" class="btn btn-primary tab-button">Açıklama Değiştir</a>
                 }
 
                 @if (User.Identity.IsAuthenticated)
                 {
                     @if (UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId != Model.Team.Id)
                     {
-                        <a href="@Url.Action("CreateRequest", "Transfer", new { teamId = Model.Team.Id, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam })" class="btn btn-success">Transfer İsteği Oluştur</a>
+                        <a href="@Url.Action("CreateRequest", "Transfer", new { teamId = Model.Team.Id, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam })" class="btn btn-success tab-button">Transfer İsteği Oluştur</a>
                     }
                     else
                     {
-                        <a href="@Url.Action("LeaveTeam", "Transfer", new { teamId = Model.Team.Id })" class="btn btn-danger">Takımdan Ayrıl !</a>
+                        <a href="@Url.Action("LeaveTeam", "Transfer", new { teamId = Model.Team.Id })" class="btn btn-danger tab-button">Takımdan Ayrıl !</a>
                     }
                 }
 
@@ -179,8 +179,8 @@
                                                         {
 
                                                             <text>
-                                                                <a href="@Url.Action("HandleRequest", "Transfer", new { requestId = request.Id, status = (int) TransferStatus.Confirmed, redirectTo = "Profile" })" class="btn btn-success"> Kabul Et </a>
-                                                                <a href="@Url.Action("HandleRequest", "Transfer", new { requestId = request.Id, status = (int) TransferStatus.Rejected, redirectTo = "Profile" })" class="btn btn-danger"> Reddet </a>
+                                                                <a href="@Url.Action("HandleRequest", "Transfer", new { requestId = request.Id, status = (int) TransferStatus.Confirmed, redirectTo = "Team" })" class="btn btn-success"> Kabul Et </a>
+                                                                <a href="@Url.Action("HandleRequest", "Transfer", new { requestId = request.Id, status = (int) TransferStatus.Rejected, redirectTo = "Team" })" class="btn btn-danger"> Reddet </a>
                                                             </text>
                                                         }
                                                         else
@@ -241,7 +241,7 @@
 
 
                                                             <text>
-                                                                <a href="@Url.Action("HandleRequest", "Transfer", new { requestId = request.Id, status = (int) TransferStatus.Cancelled, redirectTo = "Profile" })" class="btn btn-danger"> Tekliften Vazgeç </a>
+                                                                <a href="@Url.Action("HandleRequest", "Transfer", new { requestId = request.Id, status = (int) TransferStatus.Cancelled, redirectTo = "Team" })" class="btn btn-danger"> Tekliften Vazgeç </a>
                                                             </text>
                                                         }
                                                         else
