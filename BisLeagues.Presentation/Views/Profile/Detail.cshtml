@@ -82,7 +82,7 @@
                 </div>
             </div>
             <!-- Team without Hover -->
-            <div style="margin-bottom: 50px; margin-left: 10px;">
+            <div style="width: 100%; margin: 0 10% 50px 10%;">
                 <a href="#detail" data-toggle="tab" class="btn btn-primary tab-button">Takım Detay</a>
                 @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.User.Player)
                 {
@@ -247,12 +247,12 @@
                             <!-- Palyer Career -->
                             <div class="palyer-career theme-padding-bottom about-aurthor">
                                 @*<form action="@Url.Action("EditDescription", "Team")" method="post">
-                                        <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                                        <textarea name="description" style="height: 500px; width: 100%">
-                                        @Model.Team.Description
-                                     </textarea><br />
-                                        <input type="submit" class="btn btn-success form-control" />
-                                    </form>*@
+                                <input type="hidden" name="teamId" value="@Model.Team.Id" />
+                                <textarea name="description" style="height: 500px; width: 100%">
+                                @Model.Team.Description
+                             </textarea><br />
+                                <input type="submit" class="btn btn-success form-control" />
+                            </form>*@
                             </div>
                             <!-- Palyer Career -->
                         }
