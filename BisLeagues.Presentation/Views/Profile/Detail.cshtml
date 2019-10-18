@@ -83,19 +83,19 @@
             </div>
             <!-- Team without Hover -->
             <div style="margin-bottom: 50px; margin-left: 10px;">
-                <a href="#detail" data-toggle="tab" class="btn btn-primary">Takım Detay</a>
+                <a href="#detail" data-toggle="tab" class="btn btn-primary tab-button">Takım Detay</a>
                 @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.User.Player)
                 {
-                    <a href="#requests" data-toggle="tab" class="btn btn-primary">Gelen İstekler</a>
-                    <a href="#requesteds" data-toggle="tab" class="btn btn-primary">Giden İstekler</a>
-                    <a href="#editprofile" data-toggle="tab" class="btn btn-primary">Profil Değiştir</a>
+                    <a href="#requests" data-toggle="tab" class="btn btn-primary tab-button">Gelen İstekler</a>
+                    <a href="#requesteds" data-toggle="tab" class="btn btn-primary tab-button">Giden İstekler</a>
+                    <a href="#editprofile" data-toggle="tab" class="btn btn-primary tab-button">Profil Değiştir</a>
                 }
 
                 @if (User.Identity.IsAuthenticated && UserManager.GetCurrentUser(this.Context)?.Player != Model.User.Player)
                 {
 
                     {
-                        <a href="@Url.Action("CreateRequest", "Transfer", new { teamId = UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam })" class="btn btn-success">Transfer İsteği Oluştur</a>
+                        <a href="@Url.Action("CreateRequest", "Transfer", new { teamId = UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam })" class="btn btn-success tab-button">Transfer İsteği Oluştur</a>
                     }
                 }
 
