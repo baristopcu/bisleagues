@@ -5,7 +5,7 @@
                     (function (el) {
                         setTimeout(function () {
                             el.children().remove('div');
-                        }, 3000);
+                        }, 4000);
                     }
                     ($('#message').append('<div class="row"><div class="hidden-sm col-md-2"></div><div class="col-sm-12 col-md-8"><div class="success-cart"><p style="color:@switch (Convert.ToInt16(TempData["MessageCode"].ToString())){case 0:@Html.Raw("red"); break;case 1:@Html.Raw("lightgreen"); break;case 2:@Html.Raw("yellow"); break;case 3:@Html.Raw("blue"); break;}"><i style="color:@switch (Convert.ToInt16(TempData["MessageCode"].ToString())) { case 0:@Html.Raw("red"); break; case 1:@Html.Raw("lightgreen"); break; case 2:@Html.Raw("yellow"); break; case 3:@Html.Raw("blue"); break; } " class="fa @switch (Convert.ToInt16(TempData["MessageCode"].ToString())){case 0:@Html.Raw("fa-times-circle"); break;case 1:@Html.Raw("fa-check"); break; case 2:@Html.Raw("fa-warning"); break;case 3:@Html.Raw("fa-info-circle"); break;}"></i>' + message + '</p></div></div><div class="hidden-sm col-md-2"></div></div>'))); 
     </script>
