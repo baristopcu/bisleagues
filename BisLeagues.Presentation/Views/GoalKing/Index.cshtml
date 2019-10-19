@@ -1,0 +1,108 @@
+﻿@model BisLeagues.Presentation.Models.ViewModels.GoalKingViewModel
+
+@{
+    ViewData["Title"] = "Gol Krallığı";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+
+    string homeTag = "";
+    string awayTag = "";
+    if (Model.LastMatchsResult != null)
+    {
+        if (Model.LastMatchsResult.HomeScore > Model.LastMatchsResult.AwayScore)
+        {
+            homeTag = "win-tag";
+            awayTag = "loss-tag";
+        }
+        else if (Model.LastMatchsResult.AwayScore > Model.LastMatchsResult.HomeScore)
+        {
+            homeTag = "loss-tag";
+            awayTag = "win-tag";
+        }
+    }
+}
+@section Heading{
+
+
+
+    <!-- Page Heading & Breadcrumbs  -->
+    <div class="page-heading-breadcrumbs hidden-xs">
+        <div class="container">
+            <h2>Gol Krallığı</h2>
+            <ul class="breadcrumbs">
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                <li>Gol Krallığı</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading & Breadcrumbs  -->
+    <!-- Page Heading banner -->
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+        <div class="container theme-padding">
+            <ul id="match-detail-slider" class="match-detail-slider">
+                <li>
+                    <div class="pager-heading match-detail h-white">
+                        <span class="pull-left @homeTag">
+                            <img src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Home.Logo.Path, width = 200, height = 200 })" alt="">
+                        </span>
+                        <div class="vs-match-heading position-center-center">
+                            <strong class="vs-match-result">@Model.LastMatchsResult.HomeScore<span>Vs</span>@Model.LastMatchsResult.AwayScore</strong>
+                            <span class="end-time"><i class="fa fa-clock-o"></i>@Model.LastMatchsResult.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                        </div>
+                        <span class="pull-right @awayTag ">
+                            <img src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Away.Logo.Path, width = 200, height = 200 })" alt="">
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading banner -->
+
+}
+
+<div class="theme-padding white-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+
+                <!-- Piont Table -->
+                <div class="macth-fixture">
+                    <h5>Gol Krallığı</h5>
+                    <div class="last-matches styel-3">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Oyuncu</th>
+                                        <th>Takımı</th>
+                                        <th>Gol Sayısı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int order = 1; }
+                                    @foreach (var row in Model.GoalKingRows)
+                                    {
+
+                                        <tr>
+                                            <td>@order</td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
+                                                    @row.Player.User.FirstName @row.Player.User.LastName
+                                                </a>
+                                            </td>
+                                            <td>@row.Player.TeamPlayers.FirstOrDefault().Team.Name</td>
+                                            <td>@row.Goals</td>
+                                        </tr>
+                                        order++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Piont Table -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,9 +32,9 @@
                                         <select class="form-control" name="homeId" id="homeId" data-style="btn btn-link">
                                             <option value="0" disabled selected>Ev sahibi takımı seçiniz.</option>
                                             @foreach (var team in Model.Teams)
-                                            {
+{
                                                 <option value="@team.Id" @(Model.Match.HomeId == team.Id ? "selected" : "")>@team.Name</option>
-                                            }
+}
                                         </select>
                                     </div>
                                 </div>
@@ -43,9 +43,9 @@
                                         <select class="form-control" name="awayId" id="awayId" data-style="btn btn-link">
                                             <option value="0" disabled selected>Deplasman takımı seçiniz.</option>
                                             @foreach (var team in Model.Teams)
-                                            {
+{
                                                 <option value="@team.Id" @(Model.Match.AwayId == team.Id ? "selected" : "")>@team.Name</option>
-                                            }
+}
                                         </select>
                                     </div>
                                 </div>
@@ -61,6 +61,20 @@
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <input type="text" name="matchHour" id="matchHour" class="form-control" value="@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("hh:mm")" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select class="form-control" name="playerOfTheMatchId" id="playerOfTheMatchId" data-style="btn btn-link">
+                                            <option value="0" disabled selected>Maçın Adamı</option>
+                                            @{ var playerList = Model.Match.Home.TeamPlayers.Select(x => x.Player).ToList();
+                                                playerList.AddRange(Model.Match.Away.TeamPlayers.Select(x => x.Player).ToList());}
+
+                                            @foreach (var player in playerList)
+                                            {
+                                                <option value="@player.Id" @(Model.Match.Result?.PlayerOfTheMatchId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>

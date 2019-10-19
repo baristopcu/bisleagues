@@ -48,7 +48,7 @@
                                 <li>Ad</li>
                                 <li>Soyad</li>
                                 <li>Email</li>
-                                <li>Doğum Tarihi</li>
+                                <li>Gol</li>
                                 <li>Takım</li>
                             </ul>
                             <ul>
@@ -62,7 +62,7 @@
                                     @Html.DisplayFor(modelItem => Model.User.Email)
                                 </li>
                                 <li>
-                                    @(Model.User.Player.BirthDate.Value.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture))
+                                    @Html.DisplayFor(modelItem => Model.TotalGoalCount)
                                 </li>
                                 <li>
                                     @(Model.User.Player.TeamPlayers.FirstOrDefault() != null ? Model.User.Player.TeamPlayers.First().Team.Name : "Yok")

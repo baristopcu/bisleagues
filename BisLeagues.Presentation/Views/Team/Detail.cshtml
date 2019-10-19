@@ -49,7 +49,7 @@
                                     <li>Kuruluş Tarihi</li>
                                     <li>Şehir</li>
                                     <li>İlçe</li>
-                                    <li>Sosyal Medya</li>
+                                    <li>Toplam Gol</li>
                                 </ul>
                                 <ul>
                                     <li>
@@ -61,14 +61,8 @@
                                     <li>
                                         @Html.DisplayFor(modelItem => Model.Team.County.Name)
                                     </li>
-
                                     <li>
-                                        <ul class="social-icons">
-                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                            <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                        </ul>
+                                        @Html.DisplayFor(modelItem => Model.TotalGoalCount)
                                     </li>
                                 </ul>
                             </div>

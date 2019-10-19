@@ -22,6 +22,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
         public DateTime MatchDate { get; set; }
         public TimeSpan MatchHour { get; set; }
 
+        public int PlayerOfTheMatchId { get; set; }
+
 
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }

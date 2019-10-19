@@ -95,6 +95,7 @@ namespace BisLeagues.Core.Data
             {
                 entity.ToTable("Result");
                 entity.HasOne(p => p.Match);
+                entity.HasOne(p => p.PlayerOfTheMatch);
                 entity.HasMany(p => p.Scores);
 
             });

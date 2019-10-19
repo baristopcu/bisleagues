@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Core.Utility;
 using BisLeagues.Core.Enums;
+using BisLeagues.Core.Interfaces;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -24,13 +25,17 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IPlayerRepository _playerRepository;
         private readonly IUserRepository _userRepository;
         private readonly ITransferRequestRepository _transferRequestRepository;
+        private readonly ISeasonRepository _seasonRepository;
+        private readonly IGoalKingService _goalKingService;
 
-        public ProfileController(IUserManager userManager, IPlayerRepository playerRepository, IUserRepository userRepository, ITransferRequestRepository transferRequestRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public ProfileController(IUserManager userManager, IPlayerRepository playerRepository, IUserRepository userRepository, ITransferRequestRepository transferRequestRepository, ISeasonRepository seasonRepository, IGoalKingService goalKingService,ISettingRepository settingRepository) : base(settingRepository)
         {
             _userManager = userManager;
             _playerRepository = playerRepository;
             _userRepository = userRepository;
             _transferRequestRepository = transferRequestRepository;
+            _seasonRepository = seasonRepository;
+            _goalKingService = goalKingService;
         }
 
         public IActionResult Detail(int id = 0)
@@ -62,10 +67,12 @@ namespace BisLeagues.Presentation.Controllers
                 incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Player == user.Player).ToList();
                 outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Player == user.Player).ToList();
             }
-
+            var activeSeasonId = _seasonRepository.GetActiveSeasonId();
+            var totalGoalCount = _goalKingService.GetPlayersGoalsByPlayerIdAndSeasonId(user.Player.Id, activeSeasonId);
             var model = new UserDetailViewModel()
             {
                 User = user,
+                TotalGoalCount = totalGoalCount,
                 IncomingTransferRequests = incomingTransferRequests,
                 OutgoingTransferRequests = outgoingTransferRequests,
             };

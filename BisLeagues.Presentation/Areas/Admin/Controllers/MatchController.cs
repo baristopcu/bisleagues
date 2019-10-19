@@ -169,11 +169,13 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                 int awayScore = model.AwayScorersIds != null ? model.AwayScorersIds.Count : 0;
 
                                 var result = _resultRepository.Find(x => x.MatchId == matchId).FirstOrDefault();
+
                                 if (result == null)
                                 {
                                     result = new Result()
                                     {
                                         MatchId = matchId,
+                                        PlayerOfTheMatchId = model.PlayerOfTheMatchId != default ? model.PlayerOfTheMatchId : 1,
                                         HomeScore = homeScore,
                                         AwayScore = awayScore,
                                     };
@@ -181,6 +183,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                 }
                                 else
                                 {
+                                    result.PlayerOfTheMatchId = model.PlayerOfTheMatchId != default ? model.PlayerOfTheMatchId : 1;
                                     result.HomeScore = homeScore;
                                     result.AwayScore = awayScore;
                                     _resultRepository.Update(result);

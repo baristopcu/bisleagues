@@ -345,6 +345,9 @@
     <Content Update="Views\Authentication\Login.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\GoalKing\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Match\PastMatches.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -372,6 +375,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\galleries\" />
     <Folder Include="wwwroot\news_pictures\" />
     <Folder Include="wwwroot\video_pictures\" />
   </ItemGroup>

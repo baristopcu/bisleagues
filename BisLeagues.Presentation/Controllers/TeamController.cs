@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Core.Utility;
 using BisLeagues.Core.Enums;
+using BisLeagues.Core.Interfaces;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -26,8 +27,10 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ITeamRepository _teamRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly ITransferRequestRepository _transferRequestRepository;
+        private readonly ISeasonRepository _seasonRepository;
+        private readonly IGoalKingService _goalKingService;
 
-        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, IGoalKingService goalKingService, ISeasonRepository seasonRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _cityRepository = cityRepository;
             _photoRepository = photoRepository;
@@ -35,6 +38,8 @@ namespace BisLeagues.Presentation.Controllers
             _teamRepository = teamRepository;
             _playerRepository = playerRepository;
             _transferRequestRepository = transferRequestRepository;
+            _seasonRepository = seasonRepository;
+            _goalKingService = goalKingService;
         }
 
         public IActionResult Application()
@@ -174,10 +179,12 @@ namespace BisLeagues.Presentation.Controllers
                 incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Team == team).ToList();
                 outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Team == team).ToList();
             }
-
+            var activeSeasonId = _seasonRepository.GetActiveSeasonId();
+            var totalGoalCount = _goalKingService.GetTeamGoalsByTeamIdAndSeasonId(team.Id, activeSeasonId);
             var model = new TeamDetailViewModel()
             {
                 Team = team,
+                TotalGoalCount = totalGoalCount,
                 IncomingTransferRequests = incomingTransferRequests,
                 OutgoingTransferRequests = outgoingTransferRequests,
             };
