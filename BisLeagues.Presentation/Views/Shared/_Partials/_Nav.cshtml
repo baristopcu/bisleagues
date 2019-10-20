@@ -19,7 +19,6 @@
             <!-- Search Bar -->
             <!-- Nav List -->
             <ul class="nav-list pull-right">
-                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
                 @if (UserManager.GetCurrentUser(this.Context)?.Player?.TeamPlayers?.Count > 0)
                 {
                     <li>
@@ -48,6 +47,10 @@
                 </li>
                 <li>
                     <a href="@Url.Action("Index", "GoalKing")">Gol Krallığı</a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "Exchange")">Borsa</a>
                 </li>
             </ul>
             <!-- Nav List -->

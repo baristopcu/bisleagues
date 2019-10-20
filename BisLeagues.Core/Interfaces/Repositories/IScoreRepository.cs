@@ -9,6 +9,6 @@ namespace BisLeagues.Core.Interfaces.Repositories
 {
     public interface IScoreRepository : IRepository<Score>
     {
-        IEnumerable<Score> ListAll();
+        IEnumerable<Score> GetAllScoresBySeasonId(int seasonId);
     }
 }

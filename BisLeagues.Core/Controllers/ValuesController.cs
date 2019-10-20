@@ -22,7 +22,7 @@ namespace BisLeagues.Core.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return Ok(_playerRepository.ListAll());
+            return Ok();
         }
 
         // GET api/values/5

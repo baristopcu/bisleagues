@@ -110,11 +110,14 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                 var season = _seasonRepository.GetActiveSeason();
                 var teams = _teamRepository.GetAll().Where(x => x.IsActive == true);
                 var match = _matchRepository.Get(id);
+                var playerList = match.Home.TeamPlayers.Select(x => x.Player).ToList();
+                playerList.AddRange(match.Away.TeamPlayers.Select(x => x.Player).ToList());
                 EditMatchViewModel model = new EditMatchViewModel()
                 {
                     Season = season,
                     Teams = teams,
-                    Match = match
+                    Match = match,
+                    PlayerList = playerList
                 };
                 return View(model);
             }
@@ -188,7 +191,6 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                     result.AwayScore = awayScore;
                                     _resultRepository.Update(result);
                                 }
-
 
                                 if (result.Id != default)
                                 {

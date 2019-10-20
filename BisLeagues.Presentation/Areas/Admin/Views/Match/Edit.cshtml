@@ -67,10 +67,7 @@
                                     <div class="form-group">
                                         <select class="form-control" name="playerOfTheMatchId" id="playerOfTheMatchId" data-style="btn btn-link">
                                             <option value="0" disabled selected>Maçın Adamı</option>
-                                            @{ var playerList = Model.Match.Home.TeamPlayers.Select(x => x.Player).ToList();
-                                                playerList.AddRange(Model.Match.Away.TeamPlayers.Select(x => x.Player).ToList());}
-
-                                            @foreach (var player in playerList)
+                                            @foreach (var player in Model.PlayerList)
                                             {
                                                 <option value="@player.Id" @(Model.Match.Result?.PlayerOfTheMatchId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
                                             }

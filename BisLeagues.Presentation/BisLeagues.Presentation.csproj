@@ -345,6 +345,9 @@
     <Content Update="Views\Authentication\Login.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Exchange\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\GoalKing\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

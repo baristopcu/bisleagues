@@ -1,7 +1,7 @@
 ﻿@model BisLeagues.Presentation.Models.ViewModels.PastMatchesViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Geçmiş Maçlar";
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 
     string homeTag = "";
@@ -28,10 +28,10 @@
     <!-- Page Heading & Breadcrumbs  -->
     <div class="page-heading-breadcrumbs hidden-xs">
         <div class="container">
-            <h2>Match Detail</h2>
+            <h2>Geçmiş Maçlar</h2>
             <ul class="breadcrumbs">
-                <li><a href="#">Home</a></li>
-                <li>Match Detail</li>
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                <li>Geçmiş Maçlar</li>
             </ul>
         </div>
     </div>
@@ -81,7 +81,7 @@
                                 <a href="@Url.Action("Detail", "Team", new { item.Match.Away.Id })"><span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = item.Match.Away.Logo.Path, width = 105, height = 105 })" alt="@item.Match.Away.Name"></span></a>
                                 <div class="detail">
                                     <a href="@Url.Action("Detail", "News", new { item.Id })"><i>Maçın Haberine Git</i></a>
-                                    <strong>@item.Match.Home.Name<i class="red-color"> | @Model.LastMatchsResult.HomeScore - @Model.LastMatchsResult.AwayScore | </i> @item.Match.Away.Name</strong>
+                                    <strong>@item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name</strong>
                                     <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
                                 </div>
                             </li>

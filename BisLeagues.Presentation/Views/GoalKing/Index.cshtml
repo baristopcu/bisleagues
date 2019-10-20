@@ -75,8 +75,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Oyuncu</th>
-                                        <th>Takımı</th>
-                                        <th>Gol Sayısı</th>
+                                        <th>T</th>
+                                        <th>Gol</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +91,12 @@
                                                     @row.Player.User.FirstName @row.Player.User.LastName
                                                 </a>
                                             </td>
-                                            <td>@row.Player.TeamPlayers.FirstOrDefault().Team.Name</td>
+                                            <td>
+
+                                                <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
+                                                    @row.Player.TeamPlayers.FirstOrDefault().Team.Name
+                                                </a>
+                                            </td>
                                             <td>@row.Goals</td>
                                         </tr>
                                         order++;

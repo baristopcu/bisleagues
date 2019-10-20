@@ -12,37 +12,31 @@ namespace BisLeagues.Core.Services
 {
     public class GoalKingService : GoalKingRowForPlayers, IGoalKingService
     {
-        private readonly IMatchRepository _matchRepository;
-        private readonly ISeasonRepository _seasonRepository;
-        private readonly IResultRepository _resultRepository;
         private readonly IScoreRepository _scoreRepository;
 
-        public GoalKingService(IMatchRepository matchRepository, ISeasonRepository seasonRepository, IResultRepository resultRepository, IScoreRepository scoreRepository)
+        public GoalKingService(IScoreRepository scoreRepository)
         {
-            _seasonRepository = seasonRepository;
-            _matchRepository = matchRepository;
-            _resultRepository = resultRepository;
             _scoreRepository = scoreRepository;
         }
 
 
         public List<GoalKingRowForPlayers> GetGoalKingsBySeasonId(int seasonId)
         {
-            var scores = _scoreRepository.GetAll().Where(x => x.Result.Match.SeasonId == seasonId); // TODO: Move this condition to a method.
+            var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
             IEnumerable<GoalKingRowForPlayers> goalKingRows = scores.GroupBy(x => x.Player).Select(g => new GoalKingRowForPlayers { Player = g.Key, Goals = g.Sum(x=>x.Goals) }).OrderByDescending(x=>x.Goals);
             return goalKingRows.ToList();
         }
 
         public int GetPlayersGoalsByPlayerIdAndSeasonId(int playerId, int seasonId)
         {
-            var scores = _scoreRepository.GetAll().Where(x => x.Result.Match.SeasonId == seasonId); // TODO: Move this condition to a method.
+            var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
             int goals = scores.Where(x => x.PlayerId == playerId).GroupBy(x => x.Player).Select(g => g.Sum(x => x.Goals)).FirstOrDefault();
             return goals;
         }
 
         public int GetTeamGoalsByTeamIdAndSeasonId(int teamId, int seasonId)
         {
-            var scores = _scoreRepository.GetAll().Where(x => x.Result.Match.SeasonId == seasonId); // TODO: Move this condition to a method.
+            var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
             int goals = scores.Where(x=>x.ScoredTeamId == teamId).GroupBy(x => x.ScoredTeam).Select(g=> g.Sum(x => x.Goals)).FirstOrDefault();
             return goals;
         }

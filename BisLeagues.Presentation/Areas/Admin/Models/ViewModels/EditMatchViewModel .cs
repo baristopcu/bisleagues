@@ -11,5 +11,6 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
         public Season Season;
         public IEnumerable<Team> Teams;
         public Match Match;
+        public List<Player> PlayerList;
     }
 }

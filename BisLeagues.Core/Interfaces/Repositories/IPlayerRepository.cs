@@ -9,6 +9,5 @@ namespace BisLeagues.Core.Interfaces.Repositories
 {
     public interface IPlayerRepository : IRepository<Player>
     {
-        IEnumerable<Player> ListAll();
     }
 }

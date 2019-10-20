@@ -104,18 +104,23 @@
 
         </li>
         <li>
+            <a href="@Url.Action("Index", "PointTable")">Puan Durumu</a>
+        </li>
+        <li>
+            <a href="@Url.Action("Index", "GoalKing")">Gol Krallığı</a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("Index", "Exchange")">Borsa</a>
+        </li>
+        <li>
             <a href="@Url.Action("UpComingMatches", "Match")">Maçlar</a>
             <ul>
                 <li><a href="@Url.Action("UpComingMatches", "Match")">Gelecek Maçlar</a></li>
                 <li><a href="@Url.Action("PastMatches", "Match")">Geçmiş Maçlar</a></li>
             </ul>
         </li>
-        <li>
-            <a href="@Url.Action("Index", "PointTable")">Puan Durumu</a>
-        </li>
-        <li>
-            <a href="@Url.Action("Index", "GoalKing")">Gol Krallığı</a>
-        </li>
+
 
         @if (!User.Identity.IsAuthenticated)
         {

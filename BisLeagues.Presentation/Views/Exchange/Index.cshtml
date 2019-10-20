@@ -1,7 +1,7 @@
-﻿@model BisLeagues.Presentation.Models.ViewModels.PointTableViewModel
+﻿@model BisLeagues.Presentation.Models.ViewModels.ExchangeTableViewModel
 
 @{
-    ViewData["Title"] = "Puan Durumu";
+    ViewData["Title"] = "Borsa Durumu";
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 
     string homeTag = "";
@@ -27,10 +27,10 @@
     <!-- Page Heading & Breadcrumbs  -->
     <div class="page-heading-breadcrumbs hidden-xs">
         <div class="container">
-            <h2>Puan Durumu</h2>
+            <h2>Borsa Durumu</h2>
             <ul class="breadcrumbs">
                 <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
-                <li>Puan Durumu</li>
+                <li>Borsa Durumu</li>
             </ul>
         </div>
     </div>
@@ -67,34 +67,36 @@
 
                 <!-- Piont Table -->
                 <div class="macth-fixture">
-                    <h5>Puan Durumu</h5>
+                    <h5>Borsa Durumu</h5>
                     <div class="last-matches styel-3">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Takım</th>
-                                        <th>P</th>
-                                        <th>W</th>
-                                        <th>L</th>
+                                        <th>Oyuncu</th>
+                                        <th>T</th>
+                                        <th>Değeri</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{int order = 1; }
-                                    @foreach (var row in Model.PointTableRows)
+                                    @foreach (var row in Model.ExchangeTableRows)
                                     {
 
                                         <tr>
                                             <td>@order</td>
                                             <td>
-                                                <a href="@Url.Action("Detail", "Team", new { row.Team.Id })">
-                                                    @row.Team.Name
+                                                <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
+                                                    @row.Player.User.FirstName @row.Player.User.LastName
                                                 </a>
                                             </td>
-                                            <td>@row.MatchCount</td>
-                                            <td>@row.Average</td>
-                                            <td>@row.Point</td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
+                                                    @row.Player.TeamPlayers.FirstOrDefault().Team.Name
+                                                </a>
+                                            </td>
+                                            <td>@row.Value $</td>
                                         </tr>
                                         order++;
                                     }

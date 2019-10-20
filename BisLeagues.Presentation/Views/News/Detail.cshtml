@@ -1,7 +1,7 @@
 ﻿@model BisLeagues.Presentation.Models.ViewModels.NewViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Model.New.Caption;
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 
     string homeTag = "";
@@ -28,10 +28,10 @@
     <!-- Page Heading & Breadcrumbs  -->
     <div class="page-heading-breadcrumbs hidden-xs">
         <div class="container">
-            <h2>Match Detail</h2>
+            <h2>Maç Detay</h2>
             <ul class="breadcrumbs">
-                <li><a href="#">Home</a></li>
-                <li>Match Detail</li>
+                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                <li>Maç Detay</li>
             </ul>
         </div>
     </div>
@@ -61,7 +61,6 @@
         </div>
     </div>
     <!-- Page Heading banner -->
-
 }
 
 <!-- Match Detail -->
@@ -76,6 +75,45 @@
                 <div class="match-detail-deep theme-padding-bottom">
                     <h2>@Model.New.Caption</h2>
                     <p>@Model.New.ShortDescription</p>
+                    <h4>@Model.Result.HomeScore - @Model.Result.AwayScore</h4>
+                    @if (Model.New.Match != null && Model.Result.Scores != null && Model.Result.Scores.Count() > 1)
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <h5 style="color:red;">@Model.New.Match.Home.Name</h5>
+                                    <ul>
+                                        @foreach (var scorer in Model.Result.Scores.Where(x => x.ScoredTeamId == Model.New.Match.HomeId))
+                                        {
+                                            <li>@scorer.Player.User.FirstName @scorer.Player.User.LastName - @scorer.Goals Gol</li>
+                                        }
+                                    </ul>
+                                    <br />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <h5 style="color:red;">@Model.New.Match.Away.Name</h5>
+                                    <ul>
+                                        @foreach (var scorer in Model.Result.Scores.Where(x => x.ScoredTeamId == Model.New.Match.AwayId))
+                                        {
+                                            <li>@scorer.Player.User.FirstName @scorer.Player.User.LastName - @scorer.Goals Gol</li>
+                                        }
+                                    </ul>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    }
+                    @if (Model.Result.PlayerOfTheMatch != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5><span style="color:red;">Maçın Adamı :</span> @Model.Result.PlayerOfTheMatch.User.FirstName @Model.Result.PlayerOfTheMatch.User.LastName / @Model.Result.PlayerOfTheMatch.TeamPlayers.FirstOrDefault()?.Team.Name</h5>
+                            </div>
+                        </div>
+                        <br /><br />
+                    }
                     @{
                         if (Model.New.VideoCoverPhoto != null && !string.IsNullOrWhiteSpace(Model.New.VideoUrl))
                         { <div class="video video-post">
@@ -93,7 +131,6 @@
             </div>
             <!-- Match Detail Content -->
             <!-- Men of the match -->
-
             <!-- Men of the match -->
 
         </div>
