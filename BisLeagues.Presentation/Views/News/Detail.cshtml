@@ -136,26 +136,30 @@
                         <div class="col-sm-12 p-0">
                             <h2>Maçın Galerisi</h2>
                         </div>
-                        <!-- Gallery Heading -->
-                        @foreach (var galleryPhoto in Model.New.Gallery.GalleryPhotos)
+                        @if (Model.New.Gallery != null)
                         {
-                            <!-- gallery Figure -->
-                            <div class="col-sm-3 col-xs-6 r-full-width p-0">
-                                <figure class="gallery-figure">
-                                    <img src="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 292, height = 221 })" alt="">
-                                    <figcaption class="overlay">
-                                        <div class="position-center-center">
-                                            <ul class="btn-list">
-                                                <li><a class="fa fa-link" href="#"></a></li>
-                                                <li><a href="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 1903, height = 1903 })" data-rel="prettyPhoto[gallery]" rel="prettyPhoto[gallery]"><i class="fa fa-search"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- gallery Figure -->
-                        }
 
+                            <!-- Gallery Heading -->
+                            @foreach (var galleryPhoto in Model.New.Gallery?.GalleryPhotos)
+                            {
+                                <!-- gallery Figure -->
+                                <div class="col-sm-3 col-xs-6 r-full-width p-0">
+                                    <figure class="gallery-figure">
+                                        <img src="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 292, height = 221 })" alt="">
+                                        <figcaption class="overlay">
+                                            <div class="position-center-center">
+                                                <ul class="btn-list">
+                                                    <li><a class="fa fa-link" href="#"></a></li>
+                                                    <li><a href="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 1903, height = 1903 })" data-rel="prettyPhoto[gallery]" rel="prettyPhoto[gallery]"><i class="fa fa-search"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                <!-- gallery Figure -->
+                            }
+
+                        }
                     </div>
                 </div>
                 <!-- Detail -->
