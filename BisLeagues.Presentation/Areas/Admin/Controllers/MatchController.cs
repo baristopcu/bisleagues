@@ -1,4 +1,5 @@
-﻿using BisLeagues.Core.Interfaces.Repositories;
+﻿using BisLeagues.Core.Interfaces;
+using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Core.Models;
 using BisLeagues.Presentation.Areas.Admin.BaseControllers;
 using BisLeagues.Presentation.Areas.Admin.Models.ViewModels;
@@ -21,7 +22,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         private readonly IResultRepository _resultRepository;
         private readonly IScoreRepository _scoreRepository;
         private readonly INewRepository _newRepository;
-        public MatchController(ISeasonRepository seasonRepository, ITeamRepository teamRepository, IMatchRepository matchRepository, IResultRepository resultRepository, IScoreRepository scoreRepository, INewRepository newRepository, ISettingRepository settingRepository) : base(settingRepository)
+        private readonly IPhotoService _photoService;
+        public MatchController(ISeasonRepository seasonRepository, ITeamRepository teamRepository, IMatchRepository matchRepository, IResultRepository resultRepository, IScoreRepository scoreRepository, INewRepository newRepository, IPhotoService photoService, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _teamRepository = teamRepository;
@@ -29,6 +31,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
             _resultRepository = resultRepository;
             _scoreRepository = scoreRepository;
             _newRepository = newRepository;
+            _photoService = photoService;
         }
         public IActionResult List(FilterMatchGetModel filterModel)
         {
@@ -168,8 +171,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                             }
                             else
                             {
-                                int homeScore = model.HomeScorersIds != null ? model.HomeScorersIds.Count : 0;
-                                int awayScore = model.AwayScorersIds != null ? model.AwayScorersIds.Count : 0;
+                                int homeScore = model.HomeScorersIds != null ? model.HomeScorersIds.Where(x => x.Id != default).Count() : 0;
+                                int awayScore = model.AwayScorersIds != null ? model.AwayScorersIds.Where(x => x.Id != default).Count() : 0;
 
                                 var result = _resultRepository.Find(x => x.MatchId == matchId).FirstOrDefault();
 
@@ -201,30 +204,37 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                     {
                                         foreach (int playerId in model.HomeScorersIds.Select(x => x.Id).Distinct())
                                         {
-                                            var score = new Score()
+                                            if (playerId != default)
                                             {
-                                                ResultId = result.Id,
-                                                PlayerId = playerId,
-                                                ScoredTeamId = match.HomeId,
-                                                Goals = model.HomeScorersIds.Where(x => x.Id == playerId).Count(),
-                                                Assists = 0
-                                            };
-                                            scoreList.Add(score);
+                                                var score = new Score()
+                                                {
+                                                    ResultId = result.Id,
+                                                    PlayerId = playerId,
+                                                    ScoredTeamId = match.HomeId,
+                                                    Goals = model.HomeScorersIds.Where(x => x.Id == playerId).Count(),
+                                                    Assists = 0
+                                                };
+                                                scoreList.Add(score);
+                                            }
                                         }
                                     }
                                     if (model.AwayScorersIds != null && model.AwayScorersIds.Count > 0)
                                     {
                                         foreach (int playerId in model.AwayScorersIds.Select(x => x.Id).Distinct())
                                         {
-                                            var score = new Score()
+
+                                            if (playerId != default)
                                             {
-                                                ResultId = result.Id,
-                                                PlayerId = playerId,
-                                                ScoredTeamId = match.AwayId,
-                                                Goals = model.AwayScorersIds.Where(x => x.Id == playerId).Count(),
-                                                Assists = 0
-                                            };
-                                            scoreList.Add(score);
+                                                var score = new Score()
+                                                {
+                                                    ResultId = result.Id,
+                                                    PlayerId = playerId,
+                                                    ScoredTeamId = match.AwayId,
+                                                    Goals = model.AwayScorersIds.Where(x => x.Id == playerId).Count(),
+                                                    Assists = 0
+                                                };
+                                                scoreList.Add(score);
+                                            }
                                         }
                                     }
                                     _scoreRepository.AddRange(scoreList);
@@ -244,70 +254,89 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                     bool newsPictureDefined = (newsPicture != null && newsPicture.Length > 0);
                                     if (videoPictureDefined || newsPictureDefined)
                                     {
-                                        string extensionForVideoPicture = videoPictureDefined ? Path.GetExtension(videoPicture.FileName) : null;
-                                        string extensionForNewsPicture = newsPictureDefined ? Path.GetExtension(newsPicture.FileName) : null;
-                                        if ((extensionForVideoPicture.Equals(".jpg") || extensionForVideoPicture.Equals(".jpeg") || extensionForVideoPicture.Equals(".png")) &&
-                                            (extensionForNewsPicture.Equals(".jpg") || extensionForNewsPicture.Equals(".jpeg") || extensionForNewsPicture.Equals(".png")))
+                                        if (videoPictureDefined)
                                         {
-                                            int limit = 2 * 1024 * 1024; //2MB
-                                            if (videoPictureDefined)
+                                            if (newsForMatch.Id != default && newsForMatch.VideoCoverPhotoId != default)
                                             {
-                                                if (videoPicture.Length < limit)
-                                                {
-                                                    var fileName = Guid.NewGuid() + Path.GetExtension(videoPicture.FileName);
-                                                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\video_pictures", fileName);
-                                                    using (var fileSteam = new FileStream(filePath, FileMode.Create))
-                                                    {
-                                                        await videoPicture.CopyToAsync(fileSteam);
-                                                    }
-                                                    newsForMatch.VideoCoverPhoto = new Photo()
-                                                    {
-                                                        Name = fileName,
-                                                        Path = "video_pictures/" + fileName,
-                                                        DisplayOrder = 1,
-                                                        CreatedOnUtc = DateTime.UtcNow
-                                                    };
-
-                                                }
-                                                else
-                                                {
-                                                    Message = "Logo 2MB fazla olamaz dostum.";
-                                                    return RedirectToAction();
-                                                }
+                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\video_pictures", newsForMatch.VideoCoverPhoto.Name);
+                                                System.IO.File.Delete(oldPhoto);
                                             }
-                                            if (newsPictureDefined)
-                                            {
-                                                if (newsPicture.Length < limit)
-                                                {
-                                                    var fileName = Guid.NewGuid() + Path.GetExtension(newsPicture.FileName);
-                                                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\news_pictures", fileName);
-                                                    using (var fileSteam = new FileStream(filePath, FileMode.Create))
-                                                    {
-                                                        await newsPicture.CopyToAsync(fileSteam);
-                                                    }
-                                                    newsForMatch.CoverPhoto = new Photo()
-                                                    {
-                                                        Name = fileName,
-                                                        Path = "news_pictures/" + fileName,
-                                                        DisplayOrder = 1,
-                                                        CreatedOnUtc = DateTime.UtcNow
-                                                    };
+                                            string videoPictureFileName = await _photoService.PlacePhoto(videoPicture, "video_pictures");
 
-                                                }
-                                                else
+                                            if (videoPictureFileName == "0" || videoPictureFileName == "1" || videoPictureFileName == "2")
+                                            {
+                                                MessageCode = 0;
+                                                switch (videoPictureFileName)
                                                 {
-                                                    Message = "Logo 2MB fazla olamaz dostum.";
-                                                    return RedirectToAction();
+                                                    case "0":
+                                                        Message = "Bu çok büyük be, 2MB fazla fotoğraf yüklemeyelim. ";
+                                                        break;
+
+                                                    case "1":
+                                                        Message = "Sadece fotoğraf kabul ediyoruz dostum. O kadar !";
+                                                        break;
+
+                                                    case "2":
+                                                        Message = "Fotoğraf boştu ? Ama doluydu da, teknik bir hata var";
+                                                        break;
                                                 }
+                                                return RedirectToAction("Edit", "Match", new { match.Id });
+                                            }
+                                            else
+                                            {
+
+                                                newsForMatch.VideoCoverPhoto = new Photo()
+                                                {
+                                                    Name = videoPictureFileName,
+                                                    Path = "video_pictures/" + videoPictureFileName,
+                                                    DisplayOrder = 1,
+                                                    CreatedOnUtc = DateTime.UtcNow
+                                                };
+                                            }
+                                        }
+
+                                        if (newsPictureDefined)
+                                        {
+                                            if (newsForMatch.Id != default && newsForMatch.CoverPhotoId != default)
+                                            {
+                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\news_pictures", newsForMatch.CoverPhoto.Name);
+                                                System.IO.File.Delete(oldPhoto);
+                                            }
+                                            string newsPictureFileName = await _photoService.PlacePhoto(newsPicture, "news_pictures");
+                                            if (newsPictureFileName == "0" || newsPictureFileName == "1" || newsPictureFileName == "2")
+                                            {
+                                                MessageCode = 0;
+                                                switch (newsPictureFileName)
+                                                {
+                                                    case "0":
+                                                        Message = "Bu çok büyük be, 2MB fazla fotoğraf yüklemeyelim. ";
+                                                        break;
+
+                                                    case "1":
+                                                        Message = "Sadece fotoğraf kabul ediyoruz dostum. O kadar !";
+                                                        break;
+
+                                                    case "2":
+                                                        Message = "Fotoğraf boştu ? Ama doluydu da, teknik bir hata var";
+                                                        break;
+                                                }
+                                                return RedirectToAction("Edit", "Match", new { match.Id });
+                                            }
+                                            else
+                                            {
+                                                newsForMatch.CoverPhoto = new Photo()
+                                                {
+                                                    Name = newsPictureFileName,
+                                                    Path = "news_pictures/" + newsPictureFileName,
+                                                    DisplayOrder = 1,
+                                                    CreatedOnUtc = DateTime.UtcNow
+                                                };
                                             }
 
                                         }
-                                        else
-                                        {
-                                            Message = "Sadece \".jpg, .jpeg, .png\" uzantılı fotoğrafları yükleyebilirsin.";
-                                            return RedirectToAction();
-                                        }
+
                                     }
+
 
                                     if (model.Content != null && model.Caption != null)
                                     {
@@ -318,15 +347,79 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                         newsForMatch.MatchId = matchId;
                                         newsForMatch.SeasonId = match.SeasonId;
                                         newsForMatch.CreatedOnUtc = DateTime.UtcNow;
-                                        if (newsForMatch.Id == default)
+
+                                        var formGalleryFiles = Request.Form.Files.Where(x => x.Name.Contains("GalleryPhotos")).ToList();
+                                        if (formGalleryFiles != null && formGalleryFiles.Count() > 0)
                                         {
-                                            _newRepository.Add(newsForMatch);
+
+                                            var gallery = newsForMatch.Gallery;
+                                            if (gallery == null)
+                                            {
+                                                gallery = new Gallery()
+                                                {
+                                                    Name = "Galeri"
+                                                };
+                                                newsForMatch.Gallery = gallery;
+                                            }
+                                            else
+                                            {
+                                                DirectoryInfo info = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\galleries", gallery.Id.ToString()));
+                                                if (info.Exists)
+                                                {
+                                                    info.Delete(true);
+                                                }
+                                            }
+
+                                            newsForMatch.Gallery.GalleryPhotos.Clear();
+                                            if (newsForMatch.Id == default)
+                                            {
+                                                _newRepository.Add(newsForMatch);
+
+                                            }
+                                            else
+                                            {
+                                                _newRepository.Update(newsForMatch);
+                                            }
+
+                                            foreach (var photo in formGalleryFiles)
+                                            {
+                                                string photoName = await _photoService.PlacePhoto(photo, "gallery", gallery.Id);
+                                                if (photoName != "0" && photoName != "1" && photoName != "2")
+                                                {
+
+                                                    gallery.GalleryPhotos.Add(new GalleryPhotos()
+                                                    {
+                                                        Gallery = gallery,
+                                                        Photo = new Photo()
+                                                        {
+                                                            Name = photoName,
+                                                            Path = "galleries/" + gallery.Id + "/" + photoName,
+                                                            DisplayOrder = 1,
+                                                            CreatedOnUtc = DateTime.UtcNow
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    MessageCode = 1;
+                                                    Message = "Galeride bazı fotoğraflar büyüktü. Ben de kaydetmedim. Sınır 2MB.";
+                                                }
+
+                                            }
 
                                         }
-                                        else
-                                        {
-                                            _newRepository.Update(newsForMatch);
-                                        }
+
+
+                                    }
+
+                                    if (newsForMatch.Id == default)
+                                    {
+                                        _newRepository.Add(newsForMatch);
+
+                                    }
+                                    else
+                                    {
+                                        _newRepository.Update(newsForMatch);
                                     }
 
                                     scope.Complete();

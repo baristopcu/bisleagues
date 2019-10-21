@@ -32,9 +32,9 @@
                                         <select class="form-control" name="homeId" id="homeId" data-style="btn btn-link">
                                             <option value="0" disabled selected>Ev sahibi takımı seçiniz.</option>
                                             @foreach (var team in Model.Teams)
-{
+                                            {
                                                 <option value="@team.Id" @(Model.Match.HomeId == team.Id ? "selected" : "")>@team.Name</option>
-}
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -43,9 +43,9 @@
                                         <select class="form-control" name="awayId" id="awayId" data-style="btn btn-link">
                                             <option value="0" disabled selected>Deplasman takımı seçiniz.</option>
                                             @foreach (var team in Model.Teams)
-{
+                                            {
                                                 <option value="@team.Id" @(Model.Match.AwayId == team.Id ? "selected" : "")>@team.Name</option>
-}
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                             <div class="row">
                                 <div class="col-md-1">
                                     <div class="form-group">
-                                        <input type="date" name="matchDate" id="matchDate" class="form-control" value="31.12.2019" />
+                                        <input type="date" name="matchDate" id="matchDate" class="form-control" value="" />
                                     </div>
                                 </div>
                                 <div class="col-md-1">
@@ -93,20 +93,23 @@
                                     <div class="form-group bmd-form-group">
                                         <div class="home-scorers">
                                             <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddHomeScorer">Yeni Golcü Ekle</a><br />
-                                            <input type="hidden" id="totalHomeScorers" value="@Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId).Count()" />
+                                            <input type="hidden" id="totalHomeScorers" value="@Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId).Sum(x => x.Goals)" />
                                             @{ int counter = 0; }
                                             @if (Model.Match.Result?.Scores != null)
                                             {
                                                 @foreach (var score in Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId))
                                                 {
-                                                    <select class="form-control homeScorersIds_@counter" name="homeScorersIds[@counter].Id" id="homeScorersIds[@counter].Id" data-style="btn btn-link">
-                                                        <option value="0" disabled selected>Gol Atan Oyuncu</option>
-                                                        @foreach (var player in Model.Match.Home.TeamPlayers.Select(x => x.Player))
-                                                        {
-                                                            <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
-                                                        }
-                                                    </select>
-                                                    counter++;
+                                                    @for (int i = 0; i < score.Goals; i++)
+                                                    {
+                                                        <select class="form-control homeScorersIds_@counter" name="homeScorersIds[@counter].Id" id="homeScorersIds[@counter].Id" data-style="btn btn-link">
+                                                            <option value="0" disabled selected>Gol Atan Oyuncu</option>
+                                                            @foreach (var player in Model.Match.Home.TeamPlayers.Select(x => x.Player))
+                                                            {
+                                                                <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                                            }
+                                                        </select>
+                                                        counter++;
+                                                    }
                                                 }
                                             }
                                         </div>
@@ -116,20 +119,23 @@
                                     <div class="form-group bmd-form-group">
                                         <div class="away-scorers">
                                             <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddAwayScorer">Yeni Golcü Ekle</a><br />
-                                            <input type="hidden" id="totalAwayScorers" value="@Model.Match.Result?.Scores.Where(x=>x.ScoredTeamId == Model.Match.AwayId).Count()" />
+                                            <input type="hidden" id="totalAwayScorers" value="@Model.Match.Result?.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId).Sum(x => x.Goals)" />
                                             @{ counter = 0; }
                                             @if (Model.Match.Result?.Scores != null)
                                             {
                                                 @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId))
                                                 {
-                                                    <select class="form-control awayScorersIds_@counter" name="awayScorersIds[@counter].Id" id="awayScorersIds[@counter].Id" data-style="btn btn-link">
-                                                        <option value="0" disabled selected>Gol Atan Oyuncu</option>
-                                                        @foreach (var player in Model.Match.Away.TeamPlayers.Select(x => x.Player))
-                                                        {
-                                                            <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
-                                                        }
-                                                    </select>
-                                                    counter++;
+                                                    @for (int i = 0; i < score.Goals; i++)
+                                                    {
+                                                        <select class="form-control awayScorersIds_@counter" name="awayScorersIds[@counter].Id" id="awayScorersIds[@counter].Id" data-style="btn btn-link">
+                                                            <option value="0" disabled selected>Gol Atan Oyuncu</option>
+                                                            @foreach (var player in Model.Match.Away.TeamPlayers.Select(x => x.Player))
+                                                            {
+                                                                <option value="@player.Id" @(score.PlayerId == player.Id ? "selected" : "")>@player.User.FirstName @player.User.LastName</option>
+                                                            }
+                                                        </select>
+                                                        counter++;
+                                                    }
                                                 }
                                             }
 
@@ -149,7 +155,7 @@
                                             </span>
                                             <input type="text" class="form-control" readonly>
                                         </div>
-                                        <img id="img-upload-video" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.VideoCoverPhoto.Path, width = 300, height = 300})" />
+                                        <img id="img-upload-video" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.VideoCoverPhoto.Path, width = 300, height = 300 })" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -157,12 +163,12 @@
                                         <div class="input-group">
                                             <span class="input-group-btn">
                                                 <span class="btn btn-default btn-file-news">
-                                                    Haber Fotoğraf <input type="file" id="newsPicture" name="newsPicture" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.CoverPhoto.Path, width = 300, height = 300})">
+                                                    Haber Fotoğraf <input type="file" id="newsPicture" name="newsPicture">
                                                 </span>
                                             </span>
                                             <input type="text" class="form-control" readonly>
                                         </div>
-                                        <img id="img-upload-news" style="max-width:100%;max-height:100%;" />
+                                        <img id="img-upload-news" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.CoverPhoto.Path, width = 300, height = 300 })" />
                                     </div>
                                 </div>
                             </div>
@@ -197,6 +203,36 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <a class="btn btn-success" style="color:white; margin-left: 15px;" id="addGalleryPhoto">Galeri Fotoğrafı Ekle</a> - @(Model.Match.New?.Gallery?.GalleryPhotos.Count() == null ? 0 : Model.Match.New?.Gallery?.GalleryPhotos.Count()) Fotoğraf Kayıtlı<br />
+                                    <input type="hidden" id="totalGalleryPhoto" value="@(Model.Match.New?.Gallery?.GalleryPhotos.Count() == null ? 0 : Model.Match.New?.Gallery?.GalleryPhotos.Count())" />
+                                    <div id="galleries">
+                                        @if (Model.Match.New != null && Model.Match.New.Gallery != null && Model.Match.New.Gallery.GalleryPhotos.Count() > 0)
+                                        {
+                                            int photoCounter = 0;
+                                            @foreach (var galleryPhoto in Model.Match.New?.Gallery?.GalleryPhotos)
+                                            {
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btnGalleryPhotos_@photoCounter">
+                                                                Fotoğraf <input type="file" name="GalleryPhotos[@photoCounter]" id="GalleryPhotos[@photoCounter]" class="galleryPhotos_@photoCounter">
+                                                            </span>
+                                                        </span>
+                                                        <input type="text" class="form-control" readonly>
+                                                    </div>
+                                                    <img class="imgGalleryPhotos_@photoCounter" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 300, height = 300 })" />
+                                                </div>
+                                                photoCounter++;
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary pull-right">Gönder Gitsin</button>
                             <div class="clearfix"></div>
                         </form>
@@ -206,72 +242,79 @@
         </div>
     </div>
 </div>
+<div class="galleryScripts">
+
+</div>
 @section Scripts {
     <script>
-        $(document).on('change', '.btn-file-video :file', function () {
-            var input = $(this),
-                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+
+        function onChange(input0) {
+            var input = input0;
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
             input.trigger('fileselect', [label]);
+        }
+
+        function onFileSelect(input0) {
+            var input = input0.parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+        }
+        function readURL(input, target0) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    target0.attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).on('change', '.btn-file-video :file', function () {
+            onChange($('.btn-file-video :file'));
         });
         $(document).on('change', '.btn-file-news :file', function () {
-            var input = $(this),
-                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-            input.trigger('fileselect', [label]);
+            onChange($('.btn-file-news :file'));
         });
 
         $('.btn-file-video :file').on('fileselect', function (event, label) {
-
-            var input = $(this).parents('.input-group').find(':text'),
-                log = label;
-
-            if (input.length) {
-                input.val(log);
-            } else {
-                if (log) alert(log);
-            }
-
+            onFileSelect($('.btn-file-video :file'));
         });
         $('.btn-file-news :file').on('fileselect', function (event, label) {
-
-            var input = $(this).parents('.input-group').find(':text'),
-                log = label;
-
-            if (input.length) {
-                input.val(log);
-            } else {
-                if (log) alert(log);
-            }
-
+            onFileSelect($('.btn-file-news :file'));
         });
-        function readURLVideo(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#img-upload-video').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        function readURLNews(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#img-upload-news').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
         $("#videoPicture").change(function () {
-            readURLVideo(this);
+            readURL(this, $('#img-upload-video'));
         });
         $("#newsPicture").change(function () {
-            readURLNews(this);
+            readURL(this, $('#img-upload-news'));
         });
+
+        @if(Model.Match.New != null && Model.Match.New.Gallery != null && Model.Match.New.Gallery.GalleryPhotos.Count() > 0) {
+
+        int scriptPhotoCounter = 0;
+        @foreach (var item in Model.Match.New.Gallery.GalleryPhotos)
+        {
+            <text>
+                $(document).on("change", ".btnGalleryPhotos_@scriptPhotoCounter :file", function () {
+                    onChange($(".btnGalleryPhotos_@scriptPhotoCounter :file"));
+                });
+                $(".btnGalleryPhotos_@scriptPhotoCounter :file").on("fileselect", function (event, label) {
+                    onFileSelect($(".btnGalleryPhotos_@scriptPhotoCounter :file"));
+                });
+                $(".btnGalleryPhotos_@scriptPhotoCounter :file").on("fileselect", function (event, label) {
+                    readURL(this, $(".imgGalleryPhotos_@scriptPhotoCounter"));
+                });
+            </text>
+            scriptPhotoCounter++;
+         }
+        }
 
 
     </script>
@@ -303,10 +346,24 @@
             });
 
 
+            $("#addGalleryPhoto").click(function () {
+                tc = parseInt($("#totalGalleryPhoto").val());
+                $("div#galleries").append('<div class="form-group"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btnGalleryPhotos_' + tc + '">Fotoğraf <input type="file" name="galleryPhotos[' + tc + ']" id="galleryPhotos[' + tc + ']" class="galleryPhotos_' + tc + '"></span></span><input type="text" class="form-control" readonly></div><img class="imgGalleryPhotos_' + tc + '" style="max-width:100%;max-height:100%;"/></div>');
+                var script = document.createElement("script");
+                script.innerHTML = '$(document).on("change", ".btnGalleryPhotos_' + tc + ' :file", function () { onChange($(".btnGalleryPhotos_' + tc + ' :file")); });';
+                script.innerHTML += '$(".btnGalleryPhotos_' + tc + ' :file").on("fileselect", function (event, label) {onFileSelect($(".btnGalleryPhotos_' + tc + ' :file"));});';
+                script.innerHTML += '$(".btnGalleryPhotos_' + tc + ' :file").on("fileselect", function (event, label) {readURL(this, $(".imgGalleryPhotos_' + tc + '"));});';
+                $("div.galleryScripts").append(script);
+                tc = tc + 1;
+                $("#totalGalleryPhoto").val(tc);
+            });
+
+
         });
     </script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
     <script>
+
         ClassicEditor
             .create(document.querySelector('#content'), {
                 removePlugins: ['ImageUpload'],

@@ -8,6 +8,11 @@ namespace BisLeagues.Core.Models
     public partial class Gallery
     {
         private ICollection<GalleryPhotos> _galleryPhotos;
+        public Gallery()
+        {
+
+        }
+
         private Gallery(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;

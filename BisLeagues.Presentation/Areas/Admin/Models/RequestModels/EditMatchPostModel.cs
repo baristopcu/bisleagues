@@ -39,10 +39,12 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
         public string Caption { get; set; }
         public string ShortDescription { get; set; }
         public string Content { get; set; }
+
     }
 
     public class PlayerId  
     {
         public int Id { get; set; }
     }
+
 }

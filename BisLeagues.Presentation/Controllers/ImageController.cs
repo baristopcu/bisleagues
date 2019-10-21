@@ -46,7 +46,10 @@ namespace BisLeagues.Presentation.Controllers
                     using (var inputStream = fileInfo.CreateReadStream())
                     using (Image<Rgba32> image = Image.Load(inputStream))
                     {
-                        image.Mutate(ctx => ctx.Resize(width, height));
+                        if (width != 1903 && height != 1903)
+                        {
+                            image.Mutate(ctx => ctx.Resize(width, height));
+                        }
                         image.SaveAsJpeg(outputStream);
                     }
                     data = outputStream.ToArray();

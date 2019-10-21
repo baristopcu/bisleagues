@@ -75,7 +75,9 @@
                 <div class="match-detail-deep theme-padding-bottom">
                     <h2>@Model.New.Caption</h2>
                     <p>@Model.New.ShortDescription</p>
-                    <h4>@Model.Result.HomeScore - @Model.Result.AwayScore</h4>
+                    <div class="hidden-md hidden-lg">
+                        <h4>@Model.Result.HomeScore - @Model.Result.AwayScore</h4>
+                    </div><br />
                     @if (Model.New.Match != null && Model.Result.Scores != null && Model.Result.Scores.Count() > 1)
                     {
                         <br />
@@ -114,18 +116,47 @@
                         </div>
                         <br /><br />
                     }
-                    @{
-                        if (Model.New.VideoCoverPhoto != null && !string.IsNullOrWhiteSpace(Model.New.VideoUrl))
-                        { <div class="video video-post">
+                    @if (Model.New.VideoCoverPhoto != null && !string.IsNullOrWhiteSpace(Model.New.VideoUrl))
+                    {
+                        <div class="col-md-5">
+
+                            <div class="video video-post">
                                 <img src="@Url.Action("Resize", "Image", new { url = Model.New.VideoCoverPhoto.Path, width = 1200, height = 500 })" alt="">
                                 <span class="play-lable fa fa-video-camera"></span>
                                 <a class="position-center-center play-icon" href="@Model.New.VideoUrl" data-rel="prettyPhoto[video]"><i class="fa fa-video-camera"></i></a>
                             </div>
-                        }
+                        </div>
                     }
                     <article>
                         @Html.Raw(Model.New.Content)
                     </article>
+                    <div class="row m-0">
+
+                        <!-- Gallery Heading -->
+                        <div class="col-sm-12 p-0">
+                            <h2>Maçın Galerisi</h2>
+                        </div>
+                        <!-- Gallery Heading -->
+                        @foreach (var galleryPhoto in Model.New.Gallery.GalleryPhotos)
+                        {
+                            <!-- gallery Figure -->
+                            <div class="col-sm-3 col-xs-6 r-full-width p-0">
+                                <figure class="gallery-figure">
+                                    <img src="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 292, height = 221 })" alt="">
+                                    <figcaption class="overlay">
+                                        <div class="position-center-center">
+                                            <ul class="btn-list">
+                                                <li><a class="fa fa-link" href="#"></a></li>
+                                                <li><a href="@Url.Action("Resize", "Image", new { url = galleryPhoto.Photo.Path, width = 1903, height = 1903 })" data-rel="prettyPhoto[gallery]" rel="prettyPhoto[gallery]"><i class="fa fa-search"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <!-- gallery Figure -->
+                        }
+
+                    </div>
                 </div>
                 <!-- Detail -->
             </div>

@@ -64,6 +64,7 @@ namespace BisLeagues.Presentation
             services.AddScoped<IExchangeService, ExchangeService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<INewRepository, NewRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
