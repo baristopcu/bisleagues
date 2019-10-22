@@ -86,7 +86,9 @@
 <nav id="menu" class="responive-nav">
     <a class="r-nav-logo" href="home-1.html"><img src="~/Assets/images/logo-1.png" alt=""></a>
     <ul class="respoinve-nav-list">
+
         <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+
         @if (UserManager.GetCurrentUser(this.Context)?.Player?.TeamPlayers?.Count > 0)
         {
             <li>
@@ -138,13 +140,21 @@
                 <a href="@Url.Action("SignOut", "Authentication")">Çıkış Yap</a>
             </li>
         }
+
+
+        <li>
+            <form method="get" id="searchMobile" action="@Url.Action("Find", "Search")">
+                <input type="text" class="form-control" name="query" id="query" placeholder="Arama" style="margin-top: 10px; color:white;" />
+                <input type="submit" value="Bul ne olur" class="btn btn-success form-control" style="margin: 10px 0 10px 0;" />
+            </form>
+        </li>
     </ul>
 </nav>
 <!-- Slide Menu -->
 <!-- Java Script -->
 <script src="~/Assets/js/vendor/jquery.js"></script>
 <script src="~/Assets/js/vendor/bootstrap.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+@*<script src="http://maps.google.com/maps/api/js?sensor=false"></script>*@
 <script src="~/Assets/js/gmap3.min.js"></script>
 <script src="~/Assets/js/bigslide.js"></script>
 <script src="~/Assets/js/slick.js"></script>
@@ -161,3 +171,8 @@
 <script src="~/Assets/js/prettyPhoto.js"></script>
 <script src="~/Assets/js/wow-min.js"></script>
 <script src="~/Assets/js/main.js"></script>
+<script>
+    $("i.fa-search").on("click", function () {
+        $("#search").submit();
+    });
+</script>

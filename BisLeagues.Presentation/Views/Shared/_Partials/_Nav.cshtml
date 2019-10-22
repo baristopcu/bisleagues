@@ -12,8 +12,10 @@
             <!-- Search Bar -->
             <div class="search-bar-holder pull-right">
                 <div class="search-bar">
-                    <input type="text" class="form-control" placeholder="takım, oyuncu falan ara..">
-                    <i class="fa fa-search"></i>
+                    <form method="get" id="search" action="@Url.Action("Find", "Search")">
+                        <input type="text" class="form-control" name="query" id="query" placeholder="takım, oyuncu falan ara..">
+                        <i class="fa fa-search"></i>
+                    </form>
                 </div>
             </div>
             <!-- Search Bar -->

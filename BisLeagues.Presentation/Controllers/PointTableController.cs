@@ -34,7 +34,6 @@ namespace BisLeagues.Presentation.Controllers
 
             int activeSeasonId = _seasonRepository.GetActiveSeasonId();
             List<PointTableRow> pointTableRows = _pointTableService.GetPointTableBySeasonId(activeSeasonId);
-            pointTableRows = pointTableRows.GetRange(0, 6);
 
             var model = new PointTableViewModel() {
                 LastMatchsResult = lastMatchsResult,

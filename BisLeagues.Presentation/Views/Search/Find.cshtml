@@ -1,0 +1,144 @@
+﻿@model BisLeagues.Presentation.Models.ViewModels.SearchViewModel
+
+@{
+    ViewData["Title"] = "Arama Sonuçları";
+    Layout = "~/Views/Shared/_Layout_Heading.cshtml";
+}
+
+<!-- Page Heading banner -->
+<div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))"></div>
+<!-- Page Heading banner -->
+<!-- Team Width Sidebar -->
+<div class="team-grid theme-padding white-bg">
+    <div class="container">
+        @if (Model.Teams.Count > 0 || Model.Players.Count > 0)
+        {
+
+            @if (Model.Teams.Count > 0)
+            {
+                <h2>Bu Takımları Buldum</h2>
+                <div class="row">
+                    @foreach (var item in Model.Teams)
+                    {
+                        <!-- Team Column -->
+                        <div class="col-lg-3 col-sm-4 col-xs-6 r-full-width">
+                            <div class="team-column">
+                                <img src="@Url.Action("Resize", "Image", new { url = item.Logo.Path, width = 269, height = 416 })" alt="@item.Name">
+                                <div class="team-detail">
+                                    <h5>
+                                        <a href="@Url.Action("Detail", "Team", new { item.Id })">
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </a>
+                                    </h5>
+                                    <span class="desination">@item.City.Name</span>
+                                    <div class="detail-inner">
+                                        <ul>
+                                            <li>Kuruluş Tarihi</li>
+                                            <li>Şehir</li>
+                                            <li>İlçe</li>
+                                            <li>Sosyal Medya</li>
+                                            <li>Sosyal Medya</li>
+
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                @Html.DisplayFor(modelItem => item.CreatedOnUtc)
+                                            </li>
+                                            <li>
+                                                @Html.DisplayFor(modelItem => item.City.Name)
+                                            </li>
+                                            <li>
+                                                @Html.DisplayFor(modelItem => item.County.Name)
+                                            </li>
+                                            <li>Sosyal Medya</li>
+
+                                            <li>
+                                                <ul class="social-icons">
+                                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                                    <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Team Column -->
+                    }
+                </div>
+            }
+            @if (Model.Players.Count > 0)
+            {
+
+                <h2>Bu Oyuncuları Buldum</h2>
+                <div class="row">
+                    @foreach (var item in Model.Players)
+                    {
+                        <!-- Team Column -->
+                        <div class="col-lg-3 col-sm-4 col-xs-6 r-full-width">
+                            <div class="team-column">
+                                <img src="@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 269, height = 416 })" alt="@item.User.FirstName">
+                                <div class="team-detail">
+                                    <h5>
+                                        <a href="@Url.Action("Detail", "Profile", new { item.User.Id })">
+                                            @Html.DisplayFor(modelItem => item.User.FirstName) @Html.DisplayFor(modelItem => item.User.LastName)
+                                        </a>
+                                    </h5>
+                                    <span class="desination"></span>
+                                    <div class="detail-inner">
+                                        <ul>
+                                            <li>Ad</li>
+                                            <li>Soyad</li>
+                                            <li>Email</li>
+                                            <li>Takım</li>
+                                        </ul>
+
+                                        <ul>
+                                            <li>
+                                                @Html.DisplayFor(modelItem => item.User.FirstName)
+                                            </li>
+                                            <li>
+                                                @Html.DisplayFor(modelItem => item.User.LastName)
+                                            </li>
+                                            <li>
+                                                @Html.DisplayFor(modelItem => item.User.Email)
+                                            </li>
+                                            <li>
+                                                @(item.User.Player.TeamPlayers.FirstOrDefault() != null ? item.User.Player.TeamPlayers.First().Team.Name : "Yok")
+                                            </li>
+
+                                            <li>
+                                                <ul class="social-icons">
+                                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                                    <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Team Column -->
+                    }
+                </div>
+            }
+        }
+        else
+        {
+
+            <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2" style="">
+                <h2 style="color:red;">Bulamadım.</h2>
+                <p> Ama ne olur bana bir şans daha ver.</p>
+                <form method="get" id="searchMobile" action="@Url.Action("Find", "Search")">
+                    <input type="text" class="form-control" name="query" id="query" placeholder="Arama" style="margin-top: 10px; color:white;" />
+                    <input type="submit" value="Bul çabuk !" class="btn btn-success form-control" style="margin: 10px 0 10px 0;" />
+                </form>
+            </div>
+        }
+    </div>
+</div>
+<!-- Team Width Sidebar -->
