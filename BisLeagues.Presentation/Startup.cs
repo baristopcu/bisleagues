@@ -100,7 +100,7 @@ namespace BisLeagues.Presentation
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443))
+                app.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443));
 
             }
             AppHttpContext.Services = app.ApplicationServices;
