@@ -348,7 +348,7 @@
 
             $("#addGalleryPhoto").click(function () {
                 tc = parseInt($("#totalGalleryPhoto").val());
-                $("div#galleries").append('<div class="form-group"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btnGalleryPhotos_' + tc + '">Fotoğraf <input type="file" name="galleryPhotos[' + tc + ']" id="galleryPhotos[' + tc + ']" class="galleryPhotos_' + tc + '"></span></span><input type="text" class="form-control" readonly></div><img class="imgGalleryPhotos_' + tc + '" style="max-width:100%;max-height:100%;"/></div>');
+                $("div#galleries").append('<div class="form-group"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btnGalleryPhotos_' + tc + '">Fotoğraf <input type="file" name="GalleryPhotos[' + tc + ']" id="GalleryPhotos[' + tc + ']" class="galleryPhotos_' + tc + '"></span></span><input type="text" class="form-control" readonly></div><img class="imgGalleryPhotos_' + tc + '" style="max-width:100%;max-height:100%;"/></div>');
                 var script = document.createElement("script");
                 script.innerHTML = '$(document).on("change", ".btnGalleryPhotos_' + tc + ' :file", function () { onChange($(".btnGalleryPhotos_' + tc + ' :file")); });';
                 script.innerHTML += '$(".btnGalleryPhotos_' + tc + ' :file").on("fileselect", function (event, label) {onFileSelect($(".btnGalleryPhotos_' + tc + ' :file"));});';
