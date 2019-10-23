@@ -64,10 +64,10 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                         <!-- Match Fixture -->
-                        @await Component.InvokeAsync("Fixture", new { numberOfItems = 10 })
+                       @await Component.InvokeAsync("Fixture", new { numberOfItems = 1 })
                         <!-- Match Fixture -->
                         <!-- Upcoming Fixture -->
-                        <div class="col-sm-8 col-xs-7 r-full-width">
+                        <div class="col-sm-8 col-xs-7 r-full-width hidden-sm hidden-xs">
                             <h3><span><i class="red-color">GELECEK </i>MAÇLAR</span><a class="view-all pull-right" href="@Url.Action("UpComingMatches","Match")">Tümünü Gör<i class="fa fa-angle-double-right"></i></a></h3>
                             <div class="upcoming-fixture">
                                 <div class="table-responsive">
@@ -145,7 +145,7 @@
                         <!-- Point Table -->
                         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                             <div style="margin-top:24px;">
-                                @await Component.InvokeAsync("PointTable", new { numberOfItems = 6 })
+                                @await Component.InvokeAsync("PointTable", new { numberOfItems = 1 })
                             </div>
                         </div>
                         <!-- Point Table -->
