@@ -78,7 +78,7 @@
                     <div class="hidden-md hidden-lg">
                         <h4>@Model.Result.HomeScore - @Model.Result.AwayScore</h4>
                     </div><br />
-                    @if (Model.New.Match != null && Model.Result.Scores != null && Model.Result.Scores.Count() > 1)
+                    @if (Model.New.Match != null && Model.Result.Scores != null && Model.Result.Scores.Count() > 0)
                     {
                         <br />
                         <div class="row">
@@ -88,7 +88,7 @@
                                     <ul>
                                         @foreach (var scorer in Model.Result.Scores.Where(x => x.ScoredTeamId == Model.New.Match.HomeId))
                                         {
-                                            <li><a style="color:black;" href="@Url.Action("Detail", "Profile", new { scorer.Player.User.Id })">@scorer.Player.User.FirstName @scorer.Player.User.LastName</a> - @scorer.Goals Gol</li>
+                                            <li><a style="color:black;" href="@Url.Action("Detail", "Profile", new { scorer.Player.User.Id })">@scorer.Player.User.FirstName @scorer.Player.User.LastName - @scorer.Goals Gol</a></li>
                                         }
                                     </ul>
                                     <br />
@@ -98,7 +98,7 @@
                                     <ul>
                                         @foreach (var scorer in Model.Result.Scores.Where(x => x.ScoredTeamId == Model.New.Match.AwayId))
                                         {
-                                            <li><a style="color:black;" href="@Url.Action("Detail", "Profile", new { scorer.Player.User.Id })">@scorer.Player.User.FirstName @scorer.Player.User.LastName</a> - @scorer.Goals Gol</li>
+                                            <li><a style="color:black;" href="@Url.Action("Detail", "Profile", new { scorer.Player.User.Id })">@scorer.Player.User.FirstName @scorer.Player.User.LastName - @scorer.Goals Gol</a></li>
                                         }
                                     </ul>
                                     <br />

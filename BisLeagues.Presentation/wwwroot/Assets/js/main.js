@@ -389,17 +389,17 @@ jQuery(document).ready(function($) {
     wow.init();
     // ---------- Wow Animation ---------- //
 
-    // ------- Event Google Map ------- // 
-    jQuery("#custom-map").gmap3({
-      map:{
-        options:{
-          center:[46.578498,2.457275],
-          zoom: 5,
-          scrollwheel: false
-        }
-      }
-    });
-    // ------- Event Google Map ------- //
+    //// ------- Event Google Map ------- // 
+    //jQuery("#custom-map").gmap3({
+    //  map:{
+    //    options:{
+    //      center:[46.578498,2.457275],
+    //      zoom: 5,
+    //      scrollwheel: false
+    //    }
+    //  }
+    //});
+    //// ------- Event Google Map ------- //
 
     // ------- Auto height function ------- //
     var setElementHeight = function () {
