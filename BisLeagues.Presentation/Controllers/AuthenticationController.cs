@@ -90,13 +90,34 @@ namespace BisLeagues.Presentation.Controllers
             //TODO's:
             /*
              * Null checks
-             * Username unique
-             * Email unique
+             * Username unique - Done
+             * Email unique - Done
              * Password at least 8 character
              * Role null check
              * Error handling (try catch)
              * 
              */
+            var dbUser = _userRepository.Find(x => x.Email == requestModel.Email);
+            if (dbUser != null)
+            {
+                MessageCode = 0;
+                Message = "Bu emailden bende zaten var dostum. Başka bir şey dene.";
+                return RedirectToAction("SignUp", "Authentication");
+            }
+            dbUser = _userRepository.Find(x => x.Username == requestModel.Username);
+            if (dbUser != null)
+            {
+                MessageCode = 0;
+                Message = "Bu kullanıcı adından bende zaten var dostum. Başka bir isim seç.";
+                return RedirectToAction("SignUp", "Authentication");
+            }
+            if (requestModel.Password.Length < 8)
+            {
+                MessageCode = 0;
+                Message = "Bu şifre çok kolay oldu. 8 karakterden fazla olsun !";
+                return RedirectToAction("SignUp", "Authentication");
+            }
+
             string hashedPassword = _passwordService.CreateHash(requestModel.Password);
             User user = new User()
             {

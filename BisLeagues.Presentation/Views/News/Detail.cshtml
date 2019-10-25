@@ -88,7 +88,7 @@
                                     <ul>
                                         @foreach (var scorer in Model.Result.Scores.Where(x => x.ScoredTeamId == Model.New.Match.HomeId))
                                         {
-                                            <li>@scorer.Player.User.FirstName @scorer.Player.User.LastName - @scorer.Goals Gol</li>
+                                            <li><a style="color:black;" href="@Url.Action("Detail", "Profile", new { scorer.Player.User.Id })">@scorer.Player.User.FirstName @scorer.Player.User.LastName</a> - @scorer.Goals Gol</li>
                                         }
                                     </ul>
                                     <br />
@@ -98,7 +98,7 @@
                                     <ul>
                                         @foreach (var scorer in Model.Result.Scores.Where(x => x.ScoredTeamId == Model.New.Match.AwayId))
                                         {
-                                            <li>@scorer.Player.User.FirstName @scorer.Player.User.LastName - @scorer.Goals Gol</li>
+                                            <li><a style="color:black;" href="@Url.Action("Detail", "Profile", new { scorer.Player.User.Id })">@scorer.Player.User.FirstName @scorer.Player.User.LastName</a> - @scorer.Goals Gol</li>
                                         }
                                     </ul>
                                     <br />
