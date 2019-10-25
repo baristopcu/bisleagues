@@ -95,7 +95,7 @@
                 {
 
                     {
-                        <a href="@Url.Action("CreateRequest", "Transfer", new { teamId = UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam })" class="btn btn-success tab-button">Transfer İsteği Oluştur</a>
+                        <a href="@Url.Action("CreateRequest", "Transfer", new { teamId = UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam })" class="btn btn-success tab-button">Transfer Et</a>
                     }
                 }
 
