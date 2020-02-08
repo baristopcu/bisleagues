@@ -24,22 +24,22 @@ namespace BisLeagues.Core.Services.Repositories
             return matches;
         }
 
-        public Match GetUpcomingMatch()
+        public Match GetUpcomingMatchBySeasonId(int seasonId)
         {
             DateTime fromTime = DateTime.UtcNow;
-            Match match =  _dbContext.Matches.Where(x=>x.MatchDate > fromTime).OrderBy(m => m.MatchDate).FirstOrDefault();
+            Match match =  _dbContext.Matches.Where(x=> x.SeasonId==seasonId && x.MatchDate > fromTime).OrderBy(m => m.MatchDate).FirstOrDefault();
             return match;
         }
 
-        public IEnumerable<Match> GetUpcomingMatches()
+        public IEnumerable<Match> GetUpcomingMatchesBySeasonId(int seasonId)
         {
-            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate);
+            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate);
             return matches;
         }
 
-        public IEnumerable<Match> GetUpcomingMatchesByLimit(int limit)
+        public IEnumerable<Match> GetUpcomingMatchesBySeasonIdAndLimit(int seasonId, int limit)
         {
-            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate).Take(limit);
+            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate).Take(limit);
             return matches;
         }
     }

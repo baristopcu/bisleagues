@@ -41,7 +41,10 @@
                     <div class="large-post theme-padding-bottom">
                         <!-- Post Img -->
                         <div class="large-post-img">
-                            <img src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 871, height = 490 })" alt="">
+                            @if (item.CoverPhoto != null)
+                            {
+                                <img src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 871, height = 490 })" alt="">
+                            }
                             @*<span class="blog-title-batch">Major League Socer</span>*@
                         </div>
                         <!-- Post Img -->
@@ -54,16 +57,16 @@
                                     <span> @TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOnUtc, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</span>
                                 </div>
                                 @*<div class="share-option pull-right">
-                                    <span id="share-btn1"><i class="fa fa-share-alt"></i>Share</span>
-                                    <div id="show-social-icon1" class="on-hover-share">
-                                        <ul class="social-icons">
-                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                            <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>*@
+                                        <span id="share-btn1"><i class="fa fa-share-alt"></i>Share</span>
+                                        <div id="show-social-icon1" class="on-hover-share">
+                                            <ul class="social-icons">
+                                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                                <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>*@
                             </div>
                             <h2><a href="@Url.Action("Detail", "News", new { item.Id })">@item.Caption</a></h2>
                             <p>@item.ShortDescription</p>

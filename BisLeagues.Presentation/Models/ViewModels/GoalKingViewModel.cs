@@ -9,6 +9,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
 {
     public class GoalKingViewModel
     {
+        public bool NoMatchFound;
         public Result LastMatchsResult;
         public List<GoalKingRowForPlayers> GoalKingRows;
     }

@@ -16,10 +16,10 @@ namespace BisLeagues.Core.Services.Repositories
             _dbContext = dbContext;
         }
 
-        public Result GetLastMatchsResult()
+        public Result GetLastMatchsResultBySeasonId(int seasonId)
         {
             DateTime fromTime = DateTime.UtcNow;
-            Result result = _dbContext.Results.Where(x => x.Match.MatchDate < fromTime && x.Match.IsPlayed == true).OrderByDescending(m => m.Match.MatchDate).FirstOrDefault();
+            Result result = _dbContext.Results.Where(x => x.Match.SeasonId == seasonId && x.Match.MatchDate < fromTime && x.Match.IsPlayed == true).OrderByDescending(m => m.Match.MatchDate).FirstOrDefault();
             return result;
         }
 

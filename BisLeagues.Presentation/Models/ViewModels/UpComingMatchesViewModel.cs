@@ -8,6 +8,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
 {
     public class UpComingMatchesViewModel
     {
+        public bool NoMatchFound;
         public IList<Match> Matches;
         public Match UpComingMatch;
         public TimeSpan UpComingMatchCounter;

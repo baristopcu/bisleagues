@@ -32,12 +32,17 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult UpComingMatches()
         {
-            List<Match> matches = _matchRepository.GetUpcomingMatches().ToList();
-            Match upcomingMatch = _matchRepository.GetUpcomingMatch();
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            List<Match> matches = _matchRepository.GetUpcomingMatchesBySeasonId(selectedSeasonId).ToList();
+            Match upcomingMatch = _matchRepository.GetUpcomingMatchBySeasonId(selectedSeasonId);
             TimeSpan matchCounter = new TimeSpan();
-            matchCounter = (upcomingMatch.MatchDate - DateTime.Now);
+            if (upcomingMatch != null)
+            {
+                matchCounter = (upcomingMatch.MatchDate - DateTime.Now);
+            }
             UpComingMatchesViewModel model = new UpComingMatchesViewModel()
             {
+                NoMatchFound = true,
                 Matches = matches,
                 UpComingMatch = upcomingMatch,
                 UpComingMatchCounter = matchCounter
@@ -48,10 +53,12 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult PastMatches()
         {
-            List<New> newsOfPastMatches = _newRepository.GetNewsOfPastMatches().ToList();
-            Result lastMatchsResult = _resultRepository.GetLastMatchsResult();
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            List<New> newsOfPastMatches = _newRepository.GetNewsOfPastMatchesBySeasonId(selectedSeasonId).ToList();
+            Result lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(selectedSeasonId);
             PastMatchesViewModel model = new PastMatchesViewModel()
             {
+                NoMatchFound = lastMatchsResult == null,
                 NewsOfPastMatches = newsOfPastMatches,
                 LastMatchsResult = lastMatchsResult
             };

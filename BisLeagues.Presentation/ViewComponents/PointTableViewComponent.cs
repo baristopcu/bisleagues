@@ -22,7 +22,7 @@ namespace BisLeagues.Presentation.ViewComponents
         {
             int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
             List<PointTableRow> pointTableRows =  _pointTableService.GetPointTableBySeasonId(activeSeasonId);
-            pointTableRows = pointTableRows.GetRange(0, numberOfItems);
+            pointTableRows = pointTableRows.Count > numberOfItems ? pointTableRows.GetRange(0, numberOfItems) : pointTableRows.GetRange(0, pointTableRows.Count);
             return View(pointTableRows);
         }
     }

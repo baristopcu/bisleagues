@@ -23,20 +23,20 @@ namespace BisLeagues.Core.Services.Repositories
             return _dbContext.News.Where(x => x.MatchId == matchId).SingleOrDefault();
         }
 
-        public IEnumerable<New> GetTopNewsByLimit(int limit)
+        public IEnumerable<New> GetTopNewsBySeasonIdAndLimit(int seasonId, int limit)
         {
-            return _dbContext.News.OrderByDescending(x => x.Id).Take(limit);
+            return _dbContext.News.Where(x=>x.SeasonId==seasonId).OrderByDescending(x => x.Id).Take(limit);
         }
 
-        public IEnumerable<New> GetNewsOfPastMatches()
+        public IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId)
         {
-            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId && x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
             return newsOfMatches;
         }
 
-        public IEnumerable<New> GetNewsOfPastMatchesByLimit(int limit)
+        public IEnumerable<New> GetNewsOfPastMatchesBySeasonIdAndLimit(int seasonId, int limit)
         {
-            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate).Take(limit);
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId && x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate).Take(limit);
             return newsOfMatches;
         }
 

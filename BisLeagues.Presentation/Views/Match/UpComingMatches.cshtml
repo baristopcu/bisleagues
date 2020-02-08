@@ -4,96 +4,105 @@
     ViewData["Title"] = "Gelecek Maçlar";
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 }
-@section Heading{
+@if (Model.NoMatchFound != true)
+{
+    @section Heading{
 
-    <!-- Page Heading & Breadcrumbs  -->
-    <div class="page-heading-breadcrumbs hidden-xs">
-        <div class="container">
-            <h2>Gelecek Maçlar</h2>
-            <ul class="breadcrumbs">
-                <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
-                <li>Gelecek Maçlar</li>
-            </ul>
+        <!-- Page Heading & Breadcrumbs  -->
+        <div class="page-heading-breadcrumbs hidden-xs">
+            <div class="container">
+                <h2>Gelecek Maçlar</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                    <li>Gelecek Maçlar</li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!-- Page Heading & Breadcrumbs  -->
-    <!-- Page Heading banner -->
-    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
-        <div class="container">
-            <div class="pager-heading match-detail white-heading">
-                <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name"></span>
-                <div class="match-vs-heading position-center-center">
-                    <div class="left-tiem-acounter">
-                        <ul id="countdown-3" class="countdown">
-                            <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün</li>
-                            <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat</li>
-                            <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika</li>
-                        </ul>
+        <!-- Page Heading & Breadcrumbs  -->
+        <!-- Page Heading banner -->
+        <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+            <div class="container">
+                <div class="pager-heading match-detail white-heading">
+                    <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name"></span>
+                    <div class="match-vs-heading position-center-center">
+                        <div class="left-tiem-acounter">
+                            <ul id="countdown-3" class="countdown">
+                                <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün</li>
+                                <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat</li>
+                                <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika</li>
+                            </ul>
+                        </div>
+                        <span class="result-vs">vs</span>
+                        <div class="location-marker">
+                            <ul>
+                                <li></li>
+                                <li><i class="fa fa-clock-o"></i> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</li>
+                            </ul>
+                        </div>
                     </div>
-                    <span class="result-vs">vs</span>
-                    <div class="location-marker">
-                        <ul>
-                            <li></li>
-                            <li><i class="fa fa-clock-o"></i> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</li>
-                        </ul>
+                    <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Page Heading banner -->
+        <br />
+
+    }
+    <!-- Match -->
+    <div class="theme-padding white-bg">
+        <div class="container">
+            <div class="row">
+                <!-- match Contenet -->
+                <div class="matches-shedule-holder">
+                    <div class="col-lg-12 col-sm-12">
+
+                        <!-- Matches Dates Shedule -->
+                        <div class="matches-dates-shedule">
+                            <ul>
+                                @foreach (var match in Model.Matches)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Detail", "Team", new { match.Home.Id })"><span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span></a>
+                                        <a href="@Url.Action("Detail", "Team", new { match.Away.Id })"><span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span></a>
+                                        <div class="detail">
+                                            <a href="#"><i></i></a>
+                                            <strong>@match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name</strong>
+                                            <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <!-- Matches Dates Shedule -->
+                        <!-- Pagination -->
+                        <div class="pagination-holder">
+                            <ul class="pagination">
+                                <li><a href="#"><i class="fa fa-angle-double-left"></i>Previous</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">7</a></li>
+                                <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
+                                <li><a href="#">28</a></li>
+                                <li><a href="#">Next<i class="fa fa-angle-double-right"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- Pagination -->
+
                     </div>
                 </div>
-                <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name"></span>
+                <!-- match Contenet -->
+
             </div>
         </div>
     </div>
-    <!-- Page Heading banner -->
-<br />
-
+    <!-- Match -->
 }
-<!-- Match -->
-<div class="theme-padding white-bg">
-    <div class="container">
-        <div class="row">
-            <!-- match Contenet -->
-            <div class="matches-shedule-holder">
-                <div class="col-lg-12 col-sm-12">
-
-                    <!-- Matches Dates Shedule -->
-                    <div class="matches-dates-shedule">
-                        <ul>
-                            @foreach (var match in Model.Matches)
-                            {
-                            <li>
-                                <a href="@Url.Action("Detail", "Team", new { match.Home.Id })"><span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span></a>
-                                <a href="@Url.Action("Detail", "Team", new { match.Away.Id })"><span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span></a>
-                                <div class="detail">
-                                    <a href="#"><i></i></a>
-                                    <strong>@match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name</strong>
-                                    <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
-                                </div>
-                            </li>
-                            }
-                        </ul>
-                    </div>
-                    <!-- Matches Dates Shedule -->
-                    <!-- Pagination -->
-                    <div class="pagination-holder">
-                        <ul class="pagination">
-                            <li><a href="#"><i class="fa fa-angle-double-left"></i>Previous</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
-                            <li><a href="#">28</a></li>
-                            <li><a href="#">Next<i class="fa fa-angle-double-right"></i></a></li>
-                        </ul>
-                    </div>
-                    <!-- Pagination -->
-
-                </div>
-            </div>
-            <!-- match Contenet -->
-
-        </div>
-    </div>
+else
+	{
+<div style="margin:auto;width: 50%;margin-top:100px; margin-bottom:100px;">
+    <h1>Ufukta hiç maç yok !</h1>
 </div>
-<!-- Match -->
+	}

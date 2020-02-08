@@ -8,6 +8,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
 {
     public class PastMatchesViewModel
     {
+        public bool NoMatchFound;
         public IList<New> NewsOfPastMatches;
         public Result LastMatchsResult;
     }

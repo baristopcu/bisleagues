@@ -10,9 +10,9 @@ namespace BisLeagues.Core.Interfaces.Repositories
     public interface INewRepository : IRepository<New>
     {
         New GetNewByMatchId(int matchId);
-        IEnumerable<New> GetTopNewsByLimit(int limit);
-        IEnumerable<New> GetNewsOfPastMatches();
-        IEnumerable<New> GetNewsOfPastMatchesByLimit(int limit);
+        IEnumerable<New> GetTopNewsBySeasonIdAndLimit(int seasonId, int limit);
+        IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId);
+        IEnumerable<New> GetNewsOfPastMatchesBySeasonIdAndLimit(int seasonId, int limit);
         IEnumerable<New> GetGeneralNews();
     }
 }

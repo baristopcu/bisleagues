@@ -64,7 +64,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                         <!-- Match Fixture -->
-                       @await Component.InvokeAsync("Fixture", new { numberOfItems = 5 })
+                        @await Component.InvokeAsync("Fixture", new { numberOfItems = 5 })
                         <!-- Match Fixture -->
                         <!-- Upcoming Fixture -->
                         <div class="col-sm-8 col-xs-7 r-full-width hidden-sm hidden-xs">
@@ -110,20 +110,20 @@
                                         <ul id="latest-news-slider" class="latest-news-slider">
                                             @foreach (var newItem in Model.TopNews)
                                             {
-                                            <li>
-                                                @if (newItem.CoverPhoto != null)
-                                                {
-                                                    <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto.Path, width = 615, height = 346 })" alt="@newItem.Caption">
+                                                <li>
+                                                    @if (newItem.CoverPhoto != null)
+                                                    {
+                                                        <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto.Path, width = 615, height = 346 })" alt="@newItem.Caption">
 
-                                                }
-                                                else
-                                                {
-                                                    <img src="#" alt="@newItem.Caption">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="#" alt="@newItem.Caption">
 
-                                                }
+                                                    }
 
-                                                <p>@newItem.ShortDescription<a href="@Url.Action("Detail","News", new { id = newItem.Id })">DEVAMINI OKU</a></p>
-                                            </li>
+                                                    <p>@newItem.ShortDescription<a href="@Url.Action("Detail","News", new { id = newItem.Id })">DEVAMINI OKU</a></p>
+                                                </li>
                                             }
                                         </ul>
                                     </div>
@@ -293,55 +293,59 @@
             <!-- Main Heading -->
             <!-- Team Row -->
             <div id="team-slider" class="team-slider">
-                @foreach (var team in Model.TopTeams)
+                @if (Model.TopTeams != null)
                 {
-                    <!-- Team Column -->
-                    <div class="item">
-                        <div class="team-column">
-                            <img src="@Url.Action("Resize", "Image", new { url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
-                            <div class="team-detail">
-                                <h5>
-                                    <a href="@Url.Action("Detail", "Team", new { team.Id })">
-                                        @team.Name
-                                    </a>
-                                </h5>
-                                <span class="desination">@team.County.Name</span>
-                                <div class="detail-inner">
-                                    <ul>
-                                        <li>Kuruluş Tarihi</li>
-                                        <li>Şehir</li>
-                                        <li>İlçe</li>
-                                        <li>Sosyal Medya</li>
-                                        <li>Sosyal Medya</li>
+                    @foreach (var team in Model.TopTeams)
+                    {
+                        <!-- Team Column -->
+                        <div class="item">
+                            <div class="team-column">
+                                <img src="@Url.Action("Resize", "Image", new { url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
+                                <div class="team-detail">
+                                    <h5>
+                                        <a href="@Url.Action("Detail", "Team", new { team.Id })">
+                                            @team.Name
+                                        </a>
+                                    </h5>
+                                    <span class="desination">@team.County.Name</span>
+                                    <div class="detail-inner">
+                                        <ul>
+                                            <li>Kuruluş Tarihi</li>
+                                            <li>Şehir</li>
+                                            <li>İlçe</li>
+                                            <li>Sosyal Medya</li>
+                                            <li>Sosyal Medya</li>
 
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            @team.CreatedOnUtc.Value.ToShortDateString()
-                                        </li>
-                                        <li>
-                                            @team.City.Name
-                                        </li>
-                                        <li>
-                                            @team.County.Name
-                                        </li>
-                                        <li>Sosyal Medya</li>
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                @team.CreatedOnUtc.Value.ToShortDateString()
+                                            </li>
+                                            <li>
+                                                @team.City.Name
+                                            </li>
+                                            <li>
+                                                @team.County.Name
+                                            </li>
+                                            <li>Sosyal Medya</li>
 
-                                        <li>
-                                            <ul class="social-icons">
-                                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                                <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                            <li>
+                                                <ul class="social-icons">
+                                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                                    <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Team Column -->
+                        <!-- Team Column -->
+                    }
                 }
+
             </div>
             <!-- Team Row -->
 

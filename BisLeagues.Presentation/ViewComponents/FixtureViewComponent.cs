@@ -19,7 +19,8 @@ namespace BisLeagues.Presentation.ViewComponents
 
         public IViewComponentResult Invoke(int numberOfItems)
         {
-            var matches = _matchRepository.GetUpcomingMatchesByLimit(numberOfItems);
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            var matches = _matchRepository.GetUpcomingMatchesBySeasonIdAndLimit(selectedSeasonId,numberOfItems);
             var upComingMatchesPartOne = matches.Take(numberOfItems/2);
             var upComingMatchesPartTwo = matches.OrderByDescending(x=>x.Id).Take(numberOfItems/2);
             FixtureViewModel model = new FixtureViewModel() {

@@ -9,6 +9,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
 {
     public class PointTableViewModel
     {
+        public bool NoMatchFound;
         public Result LastMatchsResult;
         public List<PointTableRow> PointTableRows;
     }

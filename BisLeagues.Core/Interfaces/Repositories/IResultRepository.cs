@@ -9,7 +9,7 @@ namespace BisLeagues.Core.Interfaces.Repositories
 {
     public interface IResultRepository : IRepository<Result>
     {
-        Result GetLastMatchsResult();
+        Result GetLastMatchsResultBySeasonId(int seasonId);
         IEnumerable<Result> GetResultsOfMatches(IEnumerable<Match> matches);
     }
 }

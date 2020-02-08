@@ -33,13 +33,14 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index()
         {
-            List<Match> upComingMatches = _matchRepository.GetUpcomingMatchesByLimit(5).ToList();
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            List<Match> upComingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndLimit(selectedSeasonId, 5).ToList();
             var upComingMatch = upComingMatches.FirstOrDefault();
             upComingMatches.Remove(upComingMatch);
             TimeSpan matchCounter = upComingMatch != null ? (upComingMatch.MatchDate - DateTime.UtcNow) : new TimeSpan();
-            List<New> topFiveNews = _newRepository.GetTopNewsByLimit(5).ToList();
-            int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
-            List<Team> topTeams = _pointTableService.GetPointTableBySeasonId(activeSeasonId).GetRange(0, 5).Select(x=>x.Team).ToList();
+            List<New> topFiveNews = _newRepository.GetTopNewsBySeasonIdAndLimit(selectedSeasonId, 5).ToList();
+            int activeSeasonId = selectedSeasonId;
+            List<Team> topTeams = _pointTableService.GetPointTableBySeasonId(activeSeasonId).Count > 5 ? _pointTableService.GetPointTableBySeasonId(activeSeasonId).GetRange(0, 5).Select(x=>x.Team).ToList(): null;
             HomeViewModel model = new HomeViewModel()
             {
                 UpComingMatches = upComingMatches,

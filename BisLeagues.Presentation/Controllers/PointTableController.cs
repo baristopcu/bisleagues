@@ -29,13 +29,13 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index()
         {
-
-            var lastMatchsResult = _resultRepository.GetLastMatchsResult();
-
-            int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(selectedSeasonId);
+            int activeSeasonId = selectedSeasonId;
             List<PointTableRow> pointTableRows = _pointTableService.GetPointTableBySeasonId(activeSeasonId);
 
             var model = new PointTableViewModel() {
+                NoMatchFound = lastMatchsResult == null,
                 LastMatchsResult = lastMatchsResult,
                 PointTableRows = pointTableRows
             };

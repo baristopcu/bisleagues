@@ -10,8 +10,8 @@ namespace BisLeagues.Core.Interfaces.Repositories
     public interface IMatchRepository : IRepository<Match>
     {
         IEnumerable<Match> GetMatchesBySeasonId(int seasonId);
-        Match GetUpcomingMatch();
-        IEnumerable<Match> GetUpcomingMatches();
-        IEnumerable<Match> GetUpcomingMatchesByLimit(int limit);
+        Match GetUpcomingMatchBySeasonId(int seasonId);
+        IEnumerable<Match> GetUpcomingMatchesBySeasonId(int seasonId);
+        IEnumerable<Match> GetUpcomingMatchesBySeasonIdAndLimit(int seasonId, int limit);
     }
 }
