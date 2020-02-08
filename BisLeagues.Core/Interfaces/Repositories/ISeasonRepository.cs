@@ -10,6 +10,7 @@ namespace BisLeagues.Core.Interfaces.Repositories
     public interface ISeasonRepository : IRepository<Season>
     {
         IEnumerable<Season> ListAll();
+        IEnumerable<Season> GetActiveSeasons();
         Season GetActiveSeason();
         int GetActiveSeasonId();
     }

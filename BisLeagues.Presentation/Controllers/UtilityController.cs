@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Core.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -13,12 +14,13 @@ namespace BisLeagues.Presentation.Controllers
     {
         private readonly ICityRepository _cityRepository;
         private readonly ICountyRepository _countyRepository;
+        private readonly ISeasonRepository _seasonRepository;
 
-        public UtilityController(ICityRepository cityRepository, ICountyRepository countyRepository)
+        public UtilityController(ICityRepository cityRepository, ICountyRepository countyRepository, ISeasonRepository seasonRepository)
         {
             _cityRepository = cityRepository;
             _countyRepository = countyRepository;
-
+            _seasonRepository = seasonRepository;
         }
 
         [HttpPost]
@@ -35,5 +37,37 @@ namespace BisLeagues.Presentation.Controllers
             }
             return Json(new SelectList(slCounties, "Value", "Text"));
         }
+
+
+        [HttpPost]
+        public JsonResult GetSeasons()
+        {
+            string selectedSeasonId = Request.Cookies["SelectedSeasonId"];
+            selectedSeasonId = selectedSeasonId == null ? "1" : selectedSeasonId;
+            List<Season> seasons = new List<Season>();
+            List<SelectListItem> slSeasons = new List<SelectListItem>();
+            seasons = _seasonRepository.GetActiveSeasons().ToList();
+            foreach (var item in seasons)
+            {
+                slSeasons.Add(new SelectListItem { Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower()), Value = item.Id.ToString() });
+            }
+            return Json(new SelectList(slSeasons, "Value", "Text", selectedSeasonId));
+        }
+
+        public JsonResult SetSelectedSeason(string selectedSeasonId)
+        {
+            try
+            {
+                CookieOptions cookie = new CookieOptions();
+                cookie.Expires = DateTime.UtcNow.AddDays(7);
+                Response.Cookies.Append("SelectedSeasonId", selectedSeasonId, cookie);
+                return Json("status: true");
+            }
+            catch (Exception)
+            {
+                return Json("status: false");
+            }
+        }
+
     }
 }

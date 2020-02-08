@@ -35,7 +35,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         }
         public IActionResult List(FilterMatchGetModel filterModel)
         {
-            var seasonId = _seasonRepository.GetActiveSeasonId();
+            int seasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
             var teams = _teamRepository.GetAll().Where(x => x.IsActive = true);
             var matches = _matchRepository.GetMatchesBySeasonId(seasonId);
 
@@ -370,7 +370,10 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                                 }
                                             }
 
-                                            newsForMatch.Gallery.GalleryPhotos.Clear();
+                                            if (newsForMatch.Gallery.GalleryPhotos != null)
+                                            {
+                                                newsForMatch.Gallery.GalleryPhotos.Clear();
+                                            }
                                             if (newsForMatch.Id == default)
                                             {
                                                 _newRepository.Add(newsForMatch);

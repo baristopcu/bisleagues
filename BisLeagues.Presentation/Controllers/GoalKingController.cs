@@ -30,7 +30,7 @@ namespace BisLeagues.Presentation.Controllers
         public IActionResult Index()
         {
             var lastMatchsResult = _resultRepository.GetLastMatchsResult();
-            int activeSeasonId = _seasonRepository.GetActiveSeasonId();
+            int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
             List<GoalKingRowForPlayers> goalKingRows = _goalKingService.GetGoalKingsBySeasonId(activeSeasonId);
 
             var model = new GoalKingViewModel() {

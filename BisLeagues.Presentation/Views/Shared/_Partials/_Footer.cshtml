@@ -176,3 +176,39 @@
         $("#search").submit();
     });
 </script>
+
+<script type="text/javascript">
+    function loadSeasons() {
+        $("#SeasonPick").empty();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSeasons", "Utility")',
+            dataType: 'json',
+            success: function (seasons) {
+                $.each(seasons, function (i, item) {
+                    $("#SeasonPick").append('<option value="' + item.value + '" ' + ((item.selected==true) ? "selected" : "") + '>' +
+                        item.text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve seasons.' + ex.statusCode);
+            }
+        });
+    }
+    window.onload = loadSeasons();
+    $("#SeasonPick").change(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SetSelectedSeason", "Utility")',
+            data: { selectedSeasonId: $("#SeasonPick").val() },
+            dataType: 'json',
+            success: function (response) {
+                window.location.reload(false);
+            },
+            error: function (ex) {
+                alert('Failed to set season.' + ex.statusCode);
+            }
+        });
+        return false;
+    });
+</script>

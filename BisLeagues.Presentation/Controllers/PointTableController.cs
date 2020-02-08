@@ -32,7 +32,7 @@ namespace BisLeagues.Presentation.Controllers
 
             var lastMatchsResult = _resultRepository.GetLastMatchsResult();
 
-            int activeSeasonId = _seasonRepository.GetActiveSeasonId();
+            int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
             List<PointTableRow> pointTableRows = _pointTableService.GetPointTableBySeasonId(activeSeasonId);
 
             var model = new PointTableViewModel() {

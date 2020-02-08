@@ -34,7 +34,8 @@ namespace BisLeagues.Presentation.Controllers
         {
             List<Match> matches = _matchRepository.GetUpcomingMatches().ToList();
             Match upcomingMatch = _matchRepository.GetUpcomingMatch();
-            TimeSpan matchCounter = (upcomingMatch.MatchDate - DateTime.Now);
+            TimeSpan matchCounter = new TimeSpan();
+            matchCounter = (upcomingMatch.MatchDate - DateTime.Now);
             UpComingMatchesViewModel model = new UpComingMatchesViewModel()
             {
                 Matches = matches,

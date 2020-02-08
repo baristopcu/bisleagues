@@ -30,6 +30,12 @@ namespace BisLeagues.Core.Services.Repositories
             return activeSeasonId;
         }
 
+        public IEnumerable<Season> GetActiveSeasons()
+        {
+            var activeSeasons = _dbContext.Seasons.Where(x => x.Active == true);
+            return activeSeasons;
+        }
+
         public IEnumerable<Season> ListAll()
         {
             IEnumerable<Season> seasons =  _dbContext.Seasons;
