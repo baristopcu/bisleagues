@@ -123,11 +123,12 @@ namespace BisLeagues.Presentation.Controllers
             {
                 FirstName = requestModel.FirstName,
                 LastName = requestModel.LastName,
-                Username = requestModel.Username,
+                Username = requestModel.Email,
                 Password = hashedPassword,
                 Email = requestModel.Email,
                 CreatedOnUtc = DateTime.UtcNow,
             };
+            user.Username = user.Email; // be sure, just in case
             _userRepository.Add(user);
             var registeredRole = _userRoleRepository.Find(x => x.RoleName == "Registered").SingleOrDefault();
             user.UsersRoles.Add(new UsersRoles() { UserRole = registeredRole});
