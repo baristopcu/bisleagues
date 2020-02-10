@@ -8,6 +8,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
 {
     public class ListMatchViewModel
     {
+        public IEnumerable<Season> Seasons;
         public IEnumerable<Team> Teams;
         public IEnumerable<Match> Matches;
         public FilterMatchGetModel Filters;

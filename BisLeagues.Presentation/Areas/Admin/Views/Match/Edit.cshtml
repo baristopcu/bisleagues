@@ -21,8 +21,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Sezon Adı</label><br />
-                                        @Model.Season.Name
+                                        <label class="bmd-label-floating">Sezon:</label><br />
+                                        <select class="form-control" name="seasonId" id="seasonId" data-style="btn btn-link" required>
+                                            <option value="0" disabled selected>Season</option>
+                                            @foreach (var season in Model.Seasons)
+                                            {
+                                                <option value="@season.Id" @(season.Id == Model.Match.SeasonId ? "selected" : "")>@season.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +71,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <select class="form-control" name="playerOfTheMatchId" id="playerOfTheMatchId" data-style="btn btn-link">
+                                        <select class="form-control" name="playerOfTheMatchId" id="playerOfTheMatchId" data-style="btn btn-link" required>
                                             <option value="0" disabled selected>Maçın Adamı</option>
                                             @foreach (var player in Model.PlayerList)
                                             {
@@ -93,7 +99,14 @@
                                     <div class="form-group bmd-form-group">
                                         <div class="home-scorers">
                                             <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddHomeScorer">Yeni Golcü Ekle</a><br />
-                                            <input type="hidden" id="totalHomeScorers" value="@Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId).Sum(x => x.Goals)" />
+                                            <input type="hidden" id="totalHomeScorers" value="@{ if (Model.Match.Result != null && Model.Match.Result.Scores != null)
+                                                {
+                                                    @Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.HomeId).Sum(x => x.Goals);
+                                                }
+                                                else
+                                                {
+                                                    <text>0</text>;
+                                                } }" />
                                             @{ int counter = 0; }
                                             @if (Model.Match.Result?.Scores != null)
                                             {
@@ -119,9 +132,16 @@
                                     <div class="form-group bmd-form-group">
                                         <div class="away-scorers">
                                             <a class="btn btn-success" style="color:white; margin-left: 15px;" id="AddAwayScorer">Yeni Golcü Ekle</a><br />
-                                            <input type="hidden" id="totalAwayScorers" value="@Model.Match.Result?.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId).Sum(x => x.Goals)" />
+                                            <input type="hidden" id="totalAwayScorers" value="@{ if (Model.Match.Result != null && Model.Match.Result.Scores != null)
+                                                {
+                                                    @Model.Match.Result?.Scores?.Where(x => x.ScoredTeamId == Model.Match.AwayId).Sum(x => x.Goals);
+                                                }
+                                                else
+                                                {
+                                                    <text>0</text>;
+                                                } }" />
                                             @{ counter = 0; }
-                                            @if (Model.Match.Result?.Scores != null)
+                                            @if (Model.Match.Result != null && Model.Match.Result.Scores != null)
                                             {
                                                 @foreach (var score in Model.Match.Result.Scores.Where(x => x.ScoredTeamId == Model.Match.AwayId))
                                                 {

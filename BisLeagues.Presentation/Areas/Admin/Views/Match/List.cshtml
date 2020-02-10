@@ -34,6 +34,17 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <select class="form-control" name="seasonId" id="seasonId" data-style="btn btn-link">
+                                                <option value="0" disabled selected>Sezon</option>
+                                                @foreach (var season in Model.Seasons)
+                                                {
+                                                    <option value="@season.Id" @(Model.Filters.SeasonId == season.Id ? "selected" : "")>@season.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <select class="form-control" name="teamId" id="teamId" data-style="btn btn-link">
                                                 <option value="0" disabled selected>Takım</option>
                                                 @foreach (var team in Model.Teams)
@@ -43,6 +54,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+
                                     <div class="col-md-6">
                                         <div style="margin-top: 25px;">
                                             <div class="form-check form-check-radio">

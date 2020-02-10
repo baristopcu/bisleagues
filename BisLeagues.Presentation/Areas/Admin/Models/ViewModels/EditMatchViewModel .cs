@@ -8,7 +8,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
 {
     public class EditMatchViewModel
     {
-        public Season Season;
+        public List<Season> Seasons;
         public IEnumerable<Team> Teams;
         public Match Match;
         public List<Player> PlayerList;

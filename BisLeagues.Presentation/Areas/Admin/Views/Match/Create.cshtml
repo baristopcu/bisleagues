@@ -18,8 +18,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Sezon Adı</label><br />
-                                        @Model.Season.Name
+                                        <label class="bmd-label-floating">Sezon:</label><br />
+                                        <select class="form-control" name="seasonId" id="seasonId" data-style="btn btn-link" required>
+                                            <option value="0" disabled selected>Sezon Seçiniz !</option>
+                                            @foreach (var season in Model.Seasons)
+                                            {
+                                                <option value="@season.Id">@season.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>

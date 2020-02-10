@@ -24,6 +24,12 @@ namespace BisLeagues.Core.Services.Repositories
             return matches;
         }
 
+        public IEnumerable<Match> GetMatches()
+        {
+            var matches = _dbContext.Matches;
+            return matches;
+        }
+
         public Match GetUpcomingMatchBySeasonId(int seasonId)
         {
             DateTime fromTime = DateTime.UtcNow;

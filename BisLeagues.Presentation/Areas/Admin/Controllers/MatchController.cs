@@ -35,10 +35,15 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         }
         public IActionResult List(FilterMatchGetModel filterModel)
         {
-            int seasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
             var teams = _teamRepository.GetAll().Where(x => x.IsActive = true);
-            var matches = _matchRepository.GetMatchesBySeasonId(seasonId);
+            var seasons = _seasonRepository.GetActiveSeasons();
+            var matches = _matchRepository.GetMatches();
 
+            if (filterModel.SeasonId != default)
+            {
+                matches = matches.Where(x => x.SeasonId == filterModel.SeasonId);
+
+            }
             if (filterModel.IsPlayed != default)
             {
                 var isPlayed = filterModel.IsPlayed == 1 ? true : false;
@@ -58,6 +63,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
             matches = matches.OrderByDescending(x => x.Id);
             ListMatchViewModel model = new ListMatchViewModel()
             {
+                Seasons = seasons,
                 Teams = teams,
                 Matches = matches,
                 Filters = filterModel
@@ -66,11 +72,11 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
-            var season = _seasonRepository.GetActiveSeason();
+            var seasons = _seasonRepository.GetActiveSeasons();
             var teams = _teamRepository.GetAll().Where(x => x.IsActive == true);
             CreateMatchViewModel model = new CreateMatchViewModel()
             {
-                Season = season,
+                Seasons = seasons,
                 Teams = teams
             };
             return View(model);
@@ -80,7 +86,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var season = _seasonRepository.GetActiveSeason();
+                var season = _seasonRepository.Get(model.SeasonId);
                 var home = _teamRepository.Get(model.HomeId);
                 var away = _teamRepository.Get(model.AwayId);
                 var matchDate = model.MatchDate.AddHours(model.MatchHour.Hours).AddMinutes(model.MatchHour.Minutes).ToUniversalTime();
@@ -110,14 +116,14 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         {
             if (id != default)
             {
-                var season = _seasonRepository.GetActiveSeason();
+                var seasons = _seasonRepository.GetActiveSeasons().ToList();
                 var teams = _teamRepository.GetAll().Where(x => x.IsActive == true);
                 var match = _matchRepository.Get(id);
                 var playerList = match.Home.TeamPlayers.Select(x => x.Player).ToList();
                 playerList.AddRange(match.Away.TeamPlayers.Select(x => x.Player).ToList());
                 EditMatchViewModel model = new EditMatchViewModel()
                 {
-                    Season = season,
+                    Seasons = seasons,
                     Teams = teams,
                     Match = match,
                     PlayerList = playerList
@@ -149,6 +155,11 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                             {
                                 match.MatchDate = model.MatchDate.AddHours(model.MatchHour.Hours).AddMinutes(model.MatchHour.Minutes).ToUniversalTime();
                             }
+                            if (model.SeasonId != match.SeasonId)
+                            {
+                                match.SeasonId = model.SeasonId;
+                                needRefresh = true;
+                            }
                             if (model.HomeId != match.HomeId)
                             {
                                 var newHomeTeam = _teamRepository.Get(model.HomeId);
@@ -166,7 +177,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                 _matchRepository.Update(match);
                                 scope.Complete();
                                 MessageCode = 1;
-                                Message = "Maçın takımları düzenlendi. Takımlar düzenlendiği için, haber ve diğer detaylar kaydedilmedi. Şu an tekrar kaydedebilirsiniz.";
+                                Message = "Maçın takımları veya sezon düzenlendi. Takımlar düzenlendiği için, haber ve diğer detaylar kaydedilmedi. Şu an tekrar kaydedebilirsiniz.";
                                 return RedirectToAction("Edit", "Match", new { match.Id });
                             }
                             else
@@ -363,16 +374,16 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                             }
                                             else
                                             {
-                                                DirectoryInfo info = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\galleries", gallery.Id.ToString()));
-                                                if (info.Exists)
-                                                {
-                                                    info.Delete(true);
-                                                }
+                                                //DirectoryInfo info = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\galleries", gallery.Id.ToString()));
+                                                //if (info.Exists)
+                                                //{
+                                                //    info.Delete(true);
+                                                //}
                                             }
 
                                             if (newsForMatch.Gallery.GalleryPhotos != null)
                                             {
-                                                newsForMatch.Gallery.GalleryPhotos.Clear();
+                                                //newsForMatch.Gallery.GalleryPhotos.Clear();
                                             }
                                             if (newsForMatch.Id == default)
                                             {

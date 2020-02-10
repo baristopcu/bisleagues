@@ -14,6 +14,9 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
         public int MatchId { get; set; }
 
         [Required]
+        public int SeasonId { get; set; }
+
+        [Required]
         public int HomeId { get; set; }
 
         [Required]

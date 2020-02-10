@@ -9,6 +9,10 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
 {
     public class CreateMatchPostModel
     {
+
+        [Required]
+        public int SeasonId { get; set; }
+
         [Required]
         public int HomeId { get; set; }
         [Required]

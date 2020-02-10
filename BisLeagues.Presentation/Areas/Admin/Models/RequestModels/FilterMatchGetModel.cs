@@ -9,6 +9,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
 {
     public class FilterMatchGetModel
     {
+        public int SeasonId { get; set; }
         public DateTime MatchDateFilterStart { get; set; }
         public DateTime MatchDateFilterEnd { get; set; }
 
