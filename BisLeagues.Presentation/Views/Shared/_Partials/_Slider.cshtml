@@ -32,7 +32,7 @@
                             <div class="hidden-md hidden-lg"  style="padding-top: 600px;">
                                 @if (item.CoverPhoto != null)
                                 {
-                                    <img class="animated fadeIn delay-1s" src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 500, height = 500 })" alt="@item.Caption">
+                                    <img class="animated fadeIn delay-1s" src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 400, height = 300 })" alt="@item.Caption">
 
                                 }
                                 else
@@ -64,7 +64,7 @@
                 <ul id="ticker" class="ticker">
                     @foreach (var item in Model.Reverse())
                     {
-                        <li><span>Gündem :</span>@item.Caption</li>
+                        <li><span class="hidden-sm hidden-xs">Gündem :</span>@item.Caption</li>
                     }
                 </ul>
             </div>
