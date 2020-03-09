@@ -67,7 +67,7 @@ namespace BisLeagues.Presentation.Controllers
                 incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Player == user.Player).ToList();
                 outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Player == user.Player).ToList();
             }
-            var activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            var activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             var totalGoalCount = _goalKingService.GetPlayersGoalsByPlayerIdAndSeasonId(user.Player.Id, activeSeasonId);
             var model = new UserDetailViewModel()
             {

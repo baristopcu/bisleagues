@@ -30,6 +30,7 @@ namespace BisLeagues.Core.Data
         public virtual DbSet<New> News { get; set; }
         public virtual DbSet<Gallery> Galleries { get; set; }
         public virtual DbSet<GalleryPhotos> GalleryPhotoMapping { get; set; }
+        public virtual DbSet<Point> Point { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -88,6 +89,13 @@ namespace BisLeagues.Core.Data
             {
                 entity.ToTable("TransferRequest");
 
+            });
+
+            modelBuilder.Entity<Point>(entity =>
+            {
+                entity.ToTable("Point");
+                entity.HasOne(p => p.Season);
+                entity.HasOne(p => p.Result);
             });
 
 

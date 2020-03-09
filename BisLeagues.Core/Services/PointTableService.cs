@@ -15,64 +15,65 @@ namespace BisLeagues.Core.Services
         private readonly IMatchRepository _matchRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly IResultRepository _resultRepository;
+        private readonly IPointRepository _pointRepository;
 
-        public PointTableService(IMatchRepository matchRepository, ISeasonRepository seasonRepository, IResultRepository resultRepository)
+        public PointTableService(IMatchRepository matchRepository, ISeasonRepository seasonRepository, IResultRepository resultRepository, IPointRepository pointRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
             _resultRepository = resultRepository;
+            _pointRepository = pointRepository;
         }
 
         public List<PointTableRow> GetPointTableBySeasonId(int seasonId)
         {
-            List<Match> matchesOfSeason = _matchRepository.GetMatchesBySeasonId(seasonId).ToList();
-            List<Result> resultsOfMatches = _resultRepository.GetResultsOfMatches(matchesOfSeason).ToList();
-            List<Team> homeTeams = matchesOfSeason.Select(x => x.Home).ToList();
-            List<Team> awayTeams = matchesOfSeason.Select(x => x.Away).ToList();
+            List<Point> pointsOfSeason = _pointRepository.Find(x=>x.SeasonId == seasonId).ToList();
+            List<Team> homeTeams = pointsOfSeason.Select(x => x.Result.Match.Home).ToList();
+            List<Team> awayTeams = pointsOfSeason.Select(x => x.Result.Match.Away).ToList();
             List<Team> teamsOfSeason = homeTeams.Union(awayTeams).ToList();
             List<PointTableRow> pointTable = new List<PointTableRow>();
             foreach (var team in teamsOfSeason)
             {
-                int average = 0, matchCount = 0, winCount = 0, loseCount = 0, point = 0;
-                List<Result> homeWins = resultsOfMatches.Where(x => x.Match.Home == team && x.HomeScore > x.AwayScore).ToList();
-                List<Result> awayWins = resultsOfMatches.Where(x => x.Match.Away == team && x.AwayScore > x.HomeScore).ToList();
-                List<Result> draws = resultsOfMatches.Where(x => (x.Match.Away == team || x.Match.Home == team) && x.AwayScore == x.HomeScore).ToList();
-                List<Result> homeLoses = resultsOfMatches.Where(x => x.Match.Home == team && x.HomeScore < x.AwayScore).ToList();
-                List<Result> awayLoses = resultsOfMatches.Where(x => x.Match.Away == team && x.AwayScore < x.HomeScore).ToList();
-                foreach (var result in homeWins)
+                int average = 0, matchCount = 0, winCount = 0, loseCount = 0, totalPoint = 0;
+                List<Point> homeWins = pointsOfSeason.Where(x => x.Result.Match.Home == team && x.HomePoint > x.AwayPoint).ToList();
+                List<Point> awayWins = pointsOfSeason.Where(x => x.Result.Match.Away == team && x.AwayPoint > x.HomePoint).ToList();
+                List<Point> draws = pointsOfSeason.Where(x => (x.Result.Match.Away == team || x.Result.Match.Home == team) && x.AwayPoint == x.HomePoint).ToList();
+                List<Point> homeLoses = pointsOfSeason.Where(x => x.Result.Match.Home == team && x.HomePoint < x.AwayPoint).ToList();
+                List<Point> awayLoses = pointsOfSeason.Where(x => x.Result.Match.Away == team && x.AwayPoint < x.HomePoint).ToList();
+                foreach (var point in homeWins)
                 {
-                    point += 3;
-                    average += result.HomeScore;
-                    average -= result.AwayScore;
+                    totalPoint += point.HomePoint;
+                    average += point.Result.HomeScore;
+                    average -= point.Result.AwayScore;
                     matchCount++;
                 }
-                foreach (var result in awayWins)
+                foreach (var point in awayWins)
                 {
-                    point += 3;
-                    average += result.AwayScore;
-                    average -= result.HomeScore;
+                    totalPoint += point.AwayPoint;
+                    average += point.Result.AwayScore;
+                    average -= point.Result.HomeScore;
                     matchCount++;
                 }
-                foreach (var result in draws)
+                foreach (var point in draws)
                 {
-                    point += 1;
+                    totalPoint += point.HomePoint == point.AwayPoint ? point.HomePoint : 1;
                     matchCount++;
                 }
-                foreach (var result in homeLoses)
+                foreach (var point in homeLoses)
                 {
-                    point -= 3;
-                    average += result.HomeScore;
-                    average -= result.AwayScore;
+                    totalPoint += point.HomePoint; // -'li değer gelecek zaten
+                    average += point.Result.HomeScore;
+                    average -= point.Result.AwayScore;
                     matchCount++;
                 }
-                foreach (var result in awayLoses)
+                foreach (var point in awayLoses)
                 {
-                    point -= 3;
-                    average += result.AwayScore;
-                    average -= result.HomeScore;
+                    totalPoint += point.AwayPoint; // -'li değer gelecek zaten
+                    average += point.Result.AwayScore;
+                    average -= point.Result.HomeScore;
                     matchCount++;
                 }
-                pointTable.Add(new PointTableRow() { Team = team, Average = average, MatchCount = matchCount, WinCount = winCount, LoseCount = loseCount, Point = point });
+                pointTable.Add(new PointTableRow() { Team = team, Average = average, MatchCount = matchCount, WinCount = winCount, LoseCount = loseCount, Point = totalPoint });
             }
             pointTable = pointTable.OrderByDescending(x => x.Point).ThenByDescending(x => x.Average).ThenByDescending(x => x.MatchCount).ThenBy(x => x.Team.Name).ToList();
             return pointTable;

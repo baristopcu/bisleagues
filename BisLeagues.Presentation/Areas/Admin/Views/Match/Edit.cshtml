@@ -69,6 +69,12 @@
                                         <input type="text" name="matchHour" id="matchHour" class="form-control" value="@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("hh:mm")" />
                                     </div>
                                 </div>
+
+                            </div>
+                            <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <br />
+                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <select class="form-control" name="playerOfTheMatchId" id="playerOfTheMatchId" data-style="btn btn-link" required>
@@ -82,6 +88,8 @@
                                 </div>
                             </div>
                             <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <br />
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -94,6 +102,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
@@ -164,9 +173,28 @@
                                 </div>
                             </div>
                             <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <br />
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="bmd-label-floating">Ev Sahibi Takım Puanı (- Değer Girilebilir) </label>
+                                        <input type="number" name="homePoint" id="homePoint" class="form-control" placeholder="" value="@Model.Point?.HomePoint" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Deplasman Takım Puanı (- Değer Girilebilir) </label>
+                                        <input type="number" name="awayPoint" id="awayPoint" class="form-control" placeholder="" value="@Model.Point?.AwayPoint" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" style="">
                                         <div class="input-group">
                                             <span class="input-group-btn">
                                                 <span class="btn btn-default btn-file-video">
@@ -175,7 +203,7 @@
                                             </span>
                                             <input type="text" class="form-control" readonly>
                                         </div>
-                                        <img id="img-upload-video" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.VideoCoverPhoto.Path, width = 300, height = 300 })" />
+                                        <img id="img-upload-video" style="margin: auto; display:block; max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.VideoCoverPhoto.Path, width = 300, height = 300 })" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -188,11 +216,13 @@
                                             </span>
                                             <input type="text" class="form-control" readonly>
                                         </div>
-                                        <img id="img-upload-news" style="max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.CoverPhoto.Path, width = 300, height = 300 })" />
+                                        <img id="img-upload-news" style="margin: auto; display:block; max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.CoverPhoto.Path, width = 300, height = 300 })" />
                                     </div>
                                 </div>
                             </div>
-                            <br /><br />
+                            <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <br />
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -224,6 +254,8 @@
                                 </div>
                             </div>
 
+                            <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
                             <br />
                             <div class="row">
                                 <div class="col-md-12">

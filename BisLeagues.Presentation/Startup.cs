@@ -79,6 +79,7 @@ namespace BisLeagues.Presentation
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<ITransferRequestRepository, TransferRequestRepository>();
+            services.AddScoped<IPointRepository, PointRepository>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>

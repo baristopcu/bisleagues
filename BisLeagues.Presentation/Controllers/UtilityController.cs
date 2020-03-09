@@ -4,19 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Core.Models;
+using BisLeagues.Presentation.BaseControllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BisLeagues.Presentation.Controllers
 {
-    public class UtilityController : Controller
+    public class UtilityController : BaseController<UtilityController>
     {
         private readonly ICityRepository _cityRepository;
         private readonly ICountyRepository _countyRepository;
         private readonly ISeasonRepository _seasonRepository;
 
-        public UtilityController(ICityRepository cityRepository, ICountyRepository countyRepository, ISeasonRepository seasonRepository)
+        public UtilityController(ICityRepository cityRepository, ICountyRepository countyRepository, ISeasonRepository seasonRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _cityRepository = cityRepository;
             _countyRepository = countyRepository;
@@ -43,7 +44,7 @@ namespace BisLeagues.Presentation.Controllers
         public JsonResult GetSeasons()
         {
             string selectedSeasonId = Request.Cookies["SelectedSeasonId"];
-            selectedSeasonId = selectedSeasonId == null ? "1" : selectedSeasonId;
+            selectedSeasonId = selectedSeasonId == null ? "0" : selectedSeasonId;
             List<Season> seasons = new List<Season>();
             List<SelectListItem> slSeasons = new List<SelectListItem>();
             seasons = _seasonRepository.GetActiveSeasons().ToList();
@@ -61,12 +62,21 @@ namespace BisLeagues.Presentation.Controllers
                 CookieOptions cookie = new CookieOptions();
                 cookie.Expires = DateTime.UtcNow.AddDays(7);
                 Response.Cookies.Append("SelectedSeasonId", selectedSeasonId, cookie);
+                MessageCode = 1;
+                Message = "Seçim başarılı..";
                 return Json("status: true");
             }
             catch (Exception)
             {
+                MessageCode = 0;
+                Message = "Lig seçimi başarısız, tekrar dener misin ?";
                 return Json("status: false");
             }
+        }
+
+        public IActionResult SeasonSelector()
+        {
+            return View();
         }
 
     }

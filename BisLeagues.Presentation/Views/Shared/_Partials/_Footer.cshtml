@@ -84,8 +84,16 @@
 <!-- Wrapper -->
 <!-- Slide Menu -->
 <nav id="menu" class="responive-nav">
-    <a class="r-nav-logo" href="home-1.html"><img src="~/Assets/images/logo-1.png" alt=""></a>
+    <a class="r-nav-logo" href="@Url.Action("Index","Home")"><img src="~/Assets/images/logo-1.png" style="display:block;margin:auto;" alt=""></a>
     <ul class="respoinve-nav-list">
+
+        <li>
+            <div class="form-group">
+                <select class="language-dropdown form-control" id="SeasonPickMobile" name="SeasonPickMobile">
+                    <option value="" selected>Sezon</option>
+                </select>
+            </div>
+        </li>
 
         <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
 
@@ -180,13 +188,18 @@
 <script type="text/javascript">
     function loadSeasons() {
         $("#SeasonPick").empty();
+        $("#SeasonPickMobile").empty();
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSeasons", "Utility")',
             dataType: 'json',
             success: function (seasons) {
+                $("#SeasonPick").append('<option value="0" selected>Buradan lig seç ! </option>');
+                $("#SeasonPickMobile").append('<option value="0" selected>Buradan lig seç ! </option>');
                 $.each(seasons, function (i, item) {
                     $("#SeasonPick").append('<option value="' + item.value + '" ' + ((item.selected==true) ? "selected" : "") + '>' +
+                        item.text + '</option>');
+                    $("#SeasonPickMobile").append('<option value="' + item.value + '" ' + ((item.selected==true) ? "selected" : "") + '>' +
                         item.text + '</option>');
                 });
             },
@@ -203,7 +216,22 @@
             data: { selectedSeasonId: $("#SeasonPick").val() },
             dataType: 'json',
             success: function (response) {
-                window.location.reload(true);
+                window.location.replace("@Url.Action("Index", "Home")");
+            },
+            error: function (ex) {
+                alert('Failed to set season.' + ex.statusCode);
+            }
+        });
+        return false;
+    });
+    $("#SeasonPickMobile").change(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SetSelectedSeason", "Utility")',
+            data: { selectedSeasonId: $("#SeasonPickMobile").val() },
+            dataType: 'json',
+            success: function (response) {
+                window.location.replace("@Url.Action("Index", "Home")");
             },
             error: function (ex) {
                 alert('Failed to set season.' + ex.statusCode);

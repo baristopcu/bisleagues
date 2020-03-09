@@ -34,6 +34,8 @@ namespace BisLeagues.Presentation.Controllers
         {
 
             if (width < 0 || height < 0) { return BadRequest(); }
+            if (url == null)
+                url = "Assets/images/no-image.jpg";
             var key = $"/{width}/{height}/{url}";
             var data = await _cache.GetAsync(key);
             if (data == null)

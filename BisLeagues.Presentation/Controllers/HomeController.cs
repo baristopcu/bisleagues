@@ -33,7 +33,7 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             List<Match> upComingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndLimit(selectedSeasonId, 5).ToList();
             var upComingMatch = upComingMatches.FirstOrDefault();
             upComingMatches.Remove(upComingMatch);

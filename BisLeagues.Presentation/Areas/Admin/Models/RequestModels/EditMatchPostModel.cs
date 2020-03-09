@@ -30,6 +30,10 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
 
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
+
+        public int HomePoint { get; set; }
+        public int AwayPoint { get; set; }
+
         public List<PlayerId> HomeScorersIds { get; set; }
         public List<PlayerId> AwayScorersIds { get; set; }
 

@@ -29,7 +29,7 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(selectedSeasonId);
             int activeSeasonId = selectedSeasonId;
             List<GoalKingRowForPlayers> goalKingRows = _goalKingService.GetGoalKingsBySeasonId(activeSeasonId);

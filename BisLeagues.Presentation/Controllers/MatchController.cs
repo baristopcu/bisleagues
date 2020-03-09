@@ -32,7 +32,7 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult UpComingMatches()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             List<Match> matches = _matchRepository.GetUpcomingMatchesBySeasonId(selectedSeasonId).ToList();
             Match upcomingMatch = _matchRepository.GetUpcomingMatchBySeasonId(selectedSeasonId);
             TimeSpan matchCounter = new TimeSpan();
@@ -53,7 +53,7 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult PastMatches()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 1;
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             List<New> newsOfPastMatches = _newRepository.GetNewsOfPastMatchesBySeasonId(selectedSeasonId).ToList();
             Result lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(selectedSeasonId);
             PastMatchesViewModel model = new PastMatchesViewModel()

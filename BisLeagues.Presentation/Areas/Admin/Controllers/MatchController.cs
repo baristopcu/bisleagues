@@ -23,7 +23,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         private readonly IScoreRepository _scoreRepository;
         private readonly INewRepository _newRepository;
         private readonly IPhotoService _photoService;
-        public MatchController(ISeasonRepository seasonRepository, ITeamRepository teamRepository, IMatchRepository matchRepository, IResultRepository resultRepository, IScoreRepository scoreRepository, INewRepository newRepository, IPhotoService photoService, ISettingRepository settingRepository) : base(settingRepository)
+        private readonly IPointRepository _pointRepository;
+        public MatchController(ISeasonRepository seasonRepository, ITeamRepository teamRepository, IMatchRepository matchRepository, IResultRepository resultRepository, IScoreRepository scoreRepository, INewRepository newRepository, IPhotoService photoService, ISettingRepository settingRepository, IPointRepository pointRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _teamRepository = teamRepository;
@@ -32,6 +33,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
             _scoreRepository = scoreRepository;
             _newRepository = newRepository;
             _photoService = photoService;
+            _pointRepository = pointRepository;
         }
         public IActionResult List(FilterMatchGetModel filterModel)
         {
@@ -119,6 +121,14 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                 var seasons = _seasonRepository.GetActiveSeasons().ToList();
                 var teams = _teamRepository.GetAll().Where(x => x.IsActive == true);
                 var match = _matchRepository.Get(id);
+                Point point = null;
+
+                if (match != null && match.Result != null)
+                    point = _pointRepository.Find(x => x.ResultId == match.Result.Id).FirstOrDefault();
+
+                if (point == null)
+                    point = new Point();
+
                 var playerList = match.Home.TeamPlayers.Select(x => x.Player).ToList();
                 playerList.AddRange(match.Away.TeamPlayers.Select(x => x.Player).ToList());
                 EditMatchViewModel model = new EditMatchViewModel()
@@ -126,6 +136,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                     Seasons = seasons,
                     Teams = teams,
                     Match = match,
+                    Point = point,
                     PlayerList = playerList
                 };
                 return View(model);
@@ -249,6 +260,31 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                         }
                                     }
                                     _scoreRepository.AddRange(scoreList);
+
+                                    var point = _pointRepository.Find(x=>x.Result == result).FirstOrDefault();
+                                    if (point == null)
+                                    {
+                                        point = new Point()
+                                        {
+                                            Season = match.Season,
+                                            Result = result,
+                                            HomePoint = model.HomePoint,
+                                            AwayPoint = model.AwayPoint,
+                                            CreatedOnUtc = DateTime.UtcNow
+                                        };
+
+                                        _pointRepository.Add(point);
+                                    }
+                                    else
+                                    {
+                                        point.Season = match.Season;
+                                        point.Result = result;
+                                        point.HomePoint = model.HomePoint;
+                                        point.AwayPoint = model.AwayPoint;
+                                        point.CreatedOnUtc = DateTime.UtcNow;
+                                        _pointRepository.Update(point);
+                                    }
+
 
                                     match.IsPlayed = true;
                                     _matchRepository.Update(match);

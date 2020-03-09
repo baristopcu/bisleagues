@@ -48,7 +48,7 @@ namespace BisLeagues.Presentation.BaseControllers
             var objCompanyAddress = _settingRepository.Find(x => x.Name == "companysettings.companyaddress").FirstOrDefault();
             var objCompanyPhone = _settingRepository.Find(x => x.Name == "companysettings.companyphone").FirstOrDefault();
             var objCompanyEmail = _settingRepository.Find(x => x.Name == "companysettings.companyemail").FirstOrDefault();
-
+            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             if (context.Controller is Controller controller)
             {
 
@@ -57,6 +57,15 @@ namespace BisLeagues.Presentation.BaseControllers
                     controller.ViewBag.CompanyPhone = objCompanyPhone != null ? objCompanyPhone.Value : "";
                     controller.ViewBag.CompanyEmail = objCompanyEmail != null ? objCompanyEmail.Value : "";
             }
+
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            if (selectedSeasonId == 0 && actionName != "SeasonSelector" && controllerName != "Utility")
+            {
+                context.Result = RedirectToAction("SeasonSelector", "Utility");
+                return;
+            }
+
             base.OnActionExecuting(context);
         }
     }
