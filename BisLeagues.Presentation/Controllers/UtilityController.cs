@@ -43,8 +43,6 @@ namespace BisLeagues.Presentation.Controllers
         [HttpPost]
         public JsonResult GetSeasons()
         {
-            string selectedSeasonId = Request.Cookies["SelectedSeasonId"];
-            selectedSeasonId = selectedSeasonId == null ? "0" : selectedSeasonId;
             List<Season> seasons = new List<Season>();
             List<SelectListItem> slSeasons = new List<SelectListItem>();
             seasons = _seasonRepository.GetActiveSeasons().ToList();
@@ -52,7 +50,7 @@ namespace BisLeagues.Presentation.Controllers
             {
                 slSeasons.Add(new SelectListItem { Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower()), Value = item.Id.ToString() });
             }
-            return Json(new SelectList(slSeasons, "Value", "Text", selectedSeasonId));
+            return Json(new SelectList(slSeasons, "Value", "Text", UserPreferredSeasonId));
         }
 
         public JsonResult SetSelectedSeason(string selectedSeasonId)

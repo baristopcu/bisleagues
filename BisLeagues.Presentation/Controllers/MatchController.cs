@@ -32,9 +32,8 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult UpComingMatches()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
-            List<Match> matches = _matchRepository.GetUpcomingMatchesBySeasonId(selectedSeasonId).ToList();
-            Match upcomingMatch = _matchRepository.GetUpcomingMatchBySeasonId(selectedSeasonId);
+            List<Match> matches = _matchRepository.GetUpcomingMatchesBySeasonId(UserPreferredSeasonId).ToList();
+            Match upcomingMatch = _matchRepository.GetUpcomingMatchBySeasonId(UserPreferredSeasonId);
             TimeSpan matchCounter = new TimeSpan();
             if (upcomingMatch != null)
             {
@@ -53,9 +52,8 @@ namespace BisLeagues.Presentation.Controllers
         // GET: Matches
         public IActionResult PastMatches()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
-            List<New> newsOfPastMatches = _newRepository.GetNewsOfPastMatchesBySeasonId(selectedSeasonId).ToList();
-            Result lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(selectedSeasonId);
+            List<New> newsOfPastMatches = _newRepository.GetNewsOfPastMatchesBySeasonId(UserPreferredSeasonId).ToList();
+            Result lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(UserPreferredSeasonId);
             PastMatchesViewModel model = new PastMatchesViewModel()
             {
                 NoMatchFound = lastMatchsResult == null,

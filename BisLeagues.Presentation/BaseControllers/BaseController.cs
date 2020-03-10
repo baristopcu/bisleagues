@@ -42,13 +42,15 @@ namespace BisLeagues.Presentation.BaseControllers
             set { TempData["Message"] = value; }
         }
 
+        public int UserPreferredSeasonId;
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var objCompanyName = _settingRepository.Find(x => x.Name == "companysettings.companyname").FirstOrDefault();
             var objCompanyAddress = _settingRepository.Find(x => x.Name == "companysettings.companyaddress").FirstOrDefault();
             var objCompanyPhone = _settingRepository.Find(x => x.Name == "companysettings.companyphone").FirstOrDefault();
             var objCompanyEmail = _settingRepository.Find(x => x.Name == "companysettings.companyemail").FirstOrDefault();
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
+            UserPreferredSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
             if (context.Controller is Controller controller)
             {
 
@@ -60,7 +62,7 @@ namespace BisLeagues.Presentation.BaseControllers
 
             string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
             string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-            if (selectedSeasonId == 0 && actionName != "SeasonSelector" && controllerName != "Utility")
+            if (UserPreferredSeasonId == 0 && actionName != "SeasonSelector" && controllerName != "Utility")
             {
                 context.Result = RedirectToAction("SeasonSelector", "Utility");
                 return;

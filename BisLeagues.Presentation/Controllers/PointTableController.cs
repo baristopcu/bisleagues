@@ -29,10 +29,8 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index()
         {
-            int selectedSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
-            var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(selectedSeasonId);
-            int activeSeasonId = selectedSeasonId;
-            List<PointTableRow> pointTableRows = _pointTableService.GetPointTableBySeasonId(activeSeasonId);
+            var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(UserPreferredSeasonId);
+            List<PointTableRow> pointTableRows = _pointTableService.GetPointTableBySeasonId(UserPreferredSeasonId);
 
             var model = new PointTableViewModel() {
                 NoMatchFound = lastMatchsResult == null,
