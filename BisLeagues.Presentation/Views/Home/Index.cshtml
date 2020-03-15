@@ -66,9 +66,7 @@
                     <div class="row" style="margin-top: 20px;">
                         <!-- Point Table -->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-
-                            @await Component.InvokeAsync("PointTable", new { numberOfItems = 1 })
-
+                                @await Component.InvokeAsync("PointTable", new { numberOfItems = 10 })
                         </div>
                         <!-- Point Table -->
                         <!-- Goal King-->
@@ -123,8 +121,8 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Oyuncu</th>
-                                                    <th>Takımı</th>
-                                                    <th>Değeri</th>
+                                                    <th>Takım</th>
+                                                    <th>DGR</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -170,22 +168,25 @@
 
                             <!-- Slider -->
                             <div class="col-sm-9">
-                                <ul id="latest-news-slider" class="latest-news-slider">
+                                <ul id="latest-news-slider" class="latest-news-slider" style="max-height: 615px; min-height: 346px;">
                                     @foreach (var newItem in Model.TopNews)
                                     {
                                         <li>
-                                            @if (newItem.CoverPhoto != null)
-                                            {
-                                                <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto.Path, width = 615, height = 346 })" alt="@newItem.Caption">
+                                            <a href="@Url.Action("Detail","News", new { id = newItem.Id })">
+                                                @if (newItem.CoverPhoto != null)
+                                                {
+                                                    <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto.Path, width = 615, height = 346 })" alt="@newItem.Caption">
 
-                                            }
-                                            else
-                                            {
-                                                <img src="#" alt="@newItem.Caption">
+                                                }
+                                                else
+                                                {
+                                                    <img src="#" alt="@newItem.Caption">
 
-                                            }
+                                                }
 
-                                            <p>@newItem.ShortDescription<a href="@Url.Action("Detail","News", new { id = newItem.Id })">DEVAMINI OKU</a></p>
+
+                                                <p style="color:black;">@newItem.ShortDescription <span style="color:red;">Devamını Oku</span></p>
+                                            </a>
                                         </li>
                                     }
                                 </ul>
@@ -197,8 +198,10 @@
                                     @foreach (var newItem in Model.TopNews)
                                     {
                                         <li>
-                                            <p>@newItem.Caption</p>
-                                            <span>@newItem.CreatedOnUtc.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                                            <a href="@Url.Action("Detail","News", new { id = newItem.Id })">
+                                                <p>@newItem.Caption</p>
+                                                <span>@newItem.CreatedOnUtc.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                                            </a>
                                         </li>
                                     }
                                 </ul>

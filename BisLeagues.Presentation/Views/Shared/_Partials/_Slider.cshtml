@@ -11,7 +11,7 @@
                 <!-- Item -->
                 <div class="item @{if (first) { first = false; @Html.Raw("active"); }}">
                     <img class="fullscreen" src="@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 1725, height = 1159 })"  alt="">
-                    <div class="position-center-x full-width" style="margin-top:125px;">
+                    <div class="position-center-x full-width desktop-margin-slider">
                         <div class="container">
                             <div class="banner-layer pull-right">
                                 @if (item.CoverPhoto != null)
