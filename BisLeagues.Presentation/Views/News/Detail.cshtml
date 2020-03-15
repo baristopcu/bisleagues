@@ -75,9 +75,19 @@
                 <div class="match-detail-deep theme-padding-bottom">
                     <h2>@Model.New.Caption</h2>
                     <p>@Model.New.ShortDescription</p>
+
                     <div class="hidden-md hidden-lg">
                         <h4>@Model.Result.HomeScore - @Model.Result.AwayScore</h4>
                     </div><br />
+                    @if (Model.New.CoverPhoto != null)
+                    {
+                        <div class="col-md-12">
+
+                            <div class="video video-post">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.VideoCoverPhoto.Path, width = 1200, height = 500 })" alt="">
+                            </div>
+                        </div>
+                    }
                     @if (Model.New.Match != null && Model.Result.Scores != null && Model.Result.Scores.Count() > 0)
                     {
                         <br />

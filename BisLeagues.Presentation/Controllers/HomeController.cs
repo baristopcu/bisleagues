@@ -10,6 +10,7 @@ using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.Interfaces;
+using BisLeagues.Core.ServiceModels;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -20,15 +21,18 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IMatchRepository _matchRepository;
         private readonly INewRepository _newRepository;
         private readonly IPointTableService _pointTableService;
+        private readonly IGoalKingService _goalKingService;
+        private readonly IExchangeService _exchangeService;
 
-        public HomeController(IPlayerRepository playerRepository, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository, IPointTableService pointTableService, ISettingRepository settingRepository) : base(settingRepository)
+        public HomeController(IPlayerRepository playerRepository, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository, IPointTableService pointTableService, IGoalKingService goalKingService, IExchangeService exchangeService, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
             _playerRepository = playerRepository;
             _newRepository = newRepository;
             _pointTableService = pointTableService;
-
+            _goalKingService = goalKingService;
+            _exchangeService = exchangeService;
         }
 
         public IActionResult Index()
@@ -37,10 +41,21 @@ namespace BisLeagues.Presentation.Controllers
             var upComingMatch = upComingMatches.FirstOrDefault();
             upComingMatches.Remove(upComingMatch);
             TimeSpan matchCounter = upComingMatch != null ? (upComingMatch.MatchDate - DateTime.UtcNow) : new TimeSpan();
+            List<GoalKingRowForPlayers> goalKingPlayersRows = _goalKingService.GetGoalKingsBySeasonId(UserPreferredSeasonId);
+            List<ExchangeRow> exchangeTableRows = _exchangeService.GetTopPlayersInExchange(UserPreferredSeasonId);
             List<New> topFiveNews = _newRepository.GetTopNewsBySeasonIdAndLimit(UserPreferredSeasonId, 5).ToList();
             List<Team> topTeams = _pointTableService.GetPointTableBySeasonId(UserPreferredSeasonId).Count > 5 ? _pointTableService.GetPointTableBySeasonId(UserPreferredSeasonId).GetRange(0, 5).Select(x=>x.Team).ToList(): null;
+
+            if (goalKingPlayersRows.Count > 10)
+                goalKingPlayersRows = goalKingPlayersRows.Take(10).ToList();
+
+            if (exchangeTableRows.Count > 10)
+                exchangeTableRows = exchangeTableRows.Take(10).ToList();
+
             HomeViewModel model = new HomeViewModel()
             {
+                ExchangeTopPlayers = exchangeTableRows,
+                GoalKingPlayers = goalKingPlayersRows,
                 UpComingMatches = upComingMatches,
                 UpComingMatch = upComingMatch,
                 UpComingMatchCounter = matchCounter,
