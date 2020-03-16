@@ -26,7 +26,7 @@ namespace BisLeagues.Core.Utility
         public User Validate(string username, string password)
         {
 
-            var user = _userRepository.SingleOrDefault(x => x.Username == username);
+            var user = _userRepository.SingleOrDefault(x => x.Email == username);
             if (user != null)
             {
                 bool validation = _passwordService.VerifyPassword(password, user.Password);

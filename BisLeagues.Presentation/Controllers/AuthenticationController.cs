@@ -97,14 +97,15 @@ namespace BisLeagues.Presentation.Controllers
              * Error handling (try catch)
              * 
              */
-            var dbUser = _userRepository.Find(x => x.Email == requestModel.Email);
+            requestModel.Username = requestModel.Email;
+           var dbUser = _userRepository.Find(x => x.Email == requestModel.Email).FirstOrDefault();
             if (dbUser != null)
             {
                 MessageCode = 0;
                 Message = "Bu emailden bende zaten var dostum. Başka bir şey dene.";
                 return RedirectToAction("SignUp", "Authentication");
             }
-            dbUser = _userRepository.Find(x => x.Username == requestModel.Username);
+            dbUser = _userRepository.Find(x => x.Username == requestModel.Username).FirstOrDefault();
             if (dbUser != null)
             {
                 MessageCode = 0;

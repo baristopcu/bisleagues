@@ -32,7 +32,7 @@
             <div class="row">
 
                 <!-- Blog Content -->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 r-full-width">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 r-full-width">
                     @foreach (var item in Model)
                     {
 
@@ -41,38 +41,21 @@
                             <div class="large-post-img">
                                 @if (item.CoverPhoto != null)
                                 {
-                                    <img src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 871, height = 490 })" alt="">
+                                    <img src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 871, height = 390 })" alt="">
                                 }
                                 @*<span class="blog-title-batch">Major League Socer</span>*@
                             </div>
                             <!-- Post Img -->
                             <!-- Detail -->
                             <div class="large-post-detail">
-                                <div class="author-header">
-                                    <div class="aurhor-img-name pull-left">
-                                        @*<img src="images/aurthor-img.jpg" alt="">*@
-                                        <strong>by <i class="red-color">BisLeague</i></strong>
-                                        <span> @TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOnUtc, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</span>
-                                    </div>
-                                    @*<div class="share-option pull-right">
-                                            <span id="share-btn1"><i class="fa fa-share-alt"></i>Share</span>
-                                            <div id="show-social-icon1" class="on-hover-share">
-                                                <ul class="social-icons">
-                                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                                    <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>*@
-                                </div>
                                 <h2><a href="@Url.Action("Detail", "News", new { item.Id })">@item.Caption</a></h2>
                                 <p>@item.ShortDescription</p>
                                 <a class="btn gary-btn" href="@Url.Action("Detail", "News", new { item.Id })"><i>+</i>Haberi Oku</a>
                             </div>
                             <!-- Detail -->
-
                         </div>
+                        <hr />
+                        <br />
                     }
                 </div>
             </div>

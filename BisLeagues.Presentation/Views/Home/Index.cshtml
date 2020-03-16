@@ -66,7 +66,7 @@
                     <div class="row" style="margin-top: 20px;">
                         <!-- Point Table -->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                @await Component.InvokeAsync("PointTable", new { numberOfItems = 10 })
+                            @await Component.InvokeAsync("PointTable", new { numberOfItems = 10 })
                         </div>
                         <!-- Point Table -->
                         <!-- Goal King-->
@@ -79,8 +79,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Oyuncu</th>
-                                            <th>Takım</th>
+                                            <th>AD</th>
+                                            <th>TKM</th>
                                             <th>Gol</th>
                                         </tr>
                                     </thead>
@@ -120,8 +120,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Oyuncu</th>
-                                                    <th>Takım</th>
+                                                    <th>AD</th>
+                                                    <th>TKM</th>
                                                     <th>DGR</th>
                                                 </tr>
                                             </thead>
@@ -198,10 +198,8 @@
                                     @foreach (var newItem in Model.TopNews)
                                     {
                                         <li>
-                                            <a href="@Url.Action("Detail","News", new { id = newItem.Id })">
-                                                <p>@newItem.Caption</p>
-                                                <span>@newItem.CreatedOnUtc.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
-                                            </a>
+                                            <p>@newItem.Caption</p>
+                                            <span>@newItem.CreatedOnUtc.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
                                         </li>
                                     }
                                 </ul>

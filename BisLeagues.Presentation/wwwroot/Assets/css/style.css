@@ -63,7 +63,7 @@ p a{ color: #363636;}
 p a:hover{ text-decoration:underline; outline: none;}
 p{ letter-spacing: normal; margin-bottom: 20px; line-height: 23px; font-size: 14px; color: #363636;}
 
-a{ color: #161515; text-decoration: none; outline: none; display: block;}
+a{ color: #ddd; text-decoration: none; outline: none; display: block;}
 a:hover, a:focus, a:active { outline: none; text-decoration: none;}
 
 .row.no-gutters{ margin-right: 0; margin-left: 0;}
@@ -322,7 +322,7 @@ text-transform: uppercase;}
 
 /* Responsive Menu */
 .responive-nav{ background: #202020; padding: 40px 20px; overflow: auto;}
-.respoinve-nav-list li a{ padding: 15px; background: #131313; border-bottom: 1px solid rgba(255,255,255,0.1);}
+.respoinve-nav-list li a{ padding: 15px; background: #131313; border-bottom: 1px solid rgba(255,255,255,0.1); color:#ccc;}
 .respoinve-nav-list li a:hover{ color: #fff;}
 .respoinve-nav-list > li:last-child > a{ border-bottom: 0;}
 .respoinve-nav-list li ul{ margin: 0 0 0 30px;}
@@ -844,7 +844,7 @@ box-shadow: inset 0px 0px 7px -3px rgba(0,0,0,0.20);}
 .blog-title-batch{ position: absolute; top: 20px; left: 20px; padding: 10px; background: #000; color: #fff; 
 text-transform: uppercase; font-weight: bold; font-size: 12px;}
 
-.large-post-detail{ margin: -78px 0 0 30px; background: #fff; position: relative; padding: 30px 0 0 30px;}
+.large-post-detail{ margin: 0px 0 0 30px; background: #fff; position: relative; padding: 30px 0 0 30px;}
 .author-header{ margin: 0 0 25px; border-bottom: 1px solid #f3f3f3; padding: 0 0 25px;}
 .author-header h2{ font-size: 34px; line-height: 43px; text-transform: capitalize;}
 .author-header article{ overflow: hidden; width: 100%; }
