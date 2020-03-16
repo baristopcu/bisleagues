@@ -574,7 +574,7 @@ z-index: 1; color: #f2f2f2;}
 border-radius: 100%; font-family: fontawesome; text-align: center; line-height: 20px; color: #999; margin: -20px 0 0 10px; cursor: pointer;}
 
 /* Last Matches */
-.bg-fixed{ background: url(images/pattern-bg.jpg);}
+.bg-fixed{ background: url(../images/pattern-bg.jpg);}
 .last-matches{ border-bottom: 1px solid; margin: 0 0 30px;}
 .last-matches .matches-detail p{ text-align: center; color: #fff;}
 .last-matches.styel-1{ margin: 0;}
