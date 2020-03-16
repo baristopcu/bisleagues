@@ -74,38 +74,36 @@
                 <div class="macth-fixture">
                     <h5>Puan Durumu</h5>
                     <div class="last-matches styel-3">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Takım</th>
-                                        <th>M.S.</th>
-                                        <th>Av.</th>
-                                        <th>P.</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{int order = 1; }
-                                    @foreach (var row in Model.PointTableRows)
-                                    {
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Takım</th>
+                                    <th>M.S.</th>
+                                    <th>Av.</th>
+                                    <th>P.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int order = 1; }
+                                @foreach (var row in Model.PointTableRows)
+                                {
 
-                                        <tr>
-                                            <td>@order</td>
-                                            <td>
-                                                <a href="@Url.Action("Detail", "Team", new { row.Team.Id })">
-                                                    @row.Team.Name
-                                                </a>
-                                            </td>
-                                            <td>@row.MatchCount</td>
-                                            <td>@row.Average</td>
-                                            <td>@row.Point</td>
-                                        </tr>
-                                        order++;
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                    <tr>
+                                        <td>@order</td>
+                                        <td>
+                                            <a href="@Url.Action("Detail", "Team", new { row.Team.Id })">
+                                                @row.Team.Name
+                                            </a>
+                                        </td>
+                                        <td>@row.MatchCount</td>
+                                        <td>@row.Average</td>
+                                        <td>@row.Point</td>
+                                    </tr>
+                                    order++;
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- Piont Table -->

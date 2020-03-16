@@ -72,41 +72,39 @@
                 <div class="macth-fixture">
                     <h5>Gol Krallığı</h5>
                     <div class="last-matches styel-3">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Oyuncu</th>
+                                    <th>T</th>
+                                    <th>Gol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int order = 1; }
+                                @foreach (var row in Model.GoalKingRows)
+                                {
+
                                     <tr>
-                                        <th>#</th>
-                                        <th>Oyuncu</th>
-                                        <th>T</th>
-                                        <th>Gol</th>
+                                        <td>@order</td>
+                                        <td>
+                                            <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
+                                                @row.Player.User.FirstName @row.Player.User.LastName
+                                            </a>
+                                        </td>
+                                        <td>
+
+                                            <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
+                                                @row.Player.TeamPlayers.FirstOrDefault().Team.Name
+                                            </a>
+                                        </td>
+                                        <td>@row.Goals</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @{int order = 1; }
-                                    @foreach (var row in Model.GoalKingRows)
-                                    {
-
-                                        <tr>
-                                            <td>@order</td>
-                                            <td>
-                                                <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
-                                                    @row.Player.User.FirstName @row.Player.User.LastName
-                                                </a>
-                                            </td>
-                                            <td>
-
-                                                <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
-                                                    @row.Player.TeamPlayers.FirstOrDefault().Team.Name
-                                                </a>
-                                            </td>
-                                            <td>@row.Goals</td>
-                                        </tr>
-                                        order++;
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                    order++;
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- Piont Table -->
