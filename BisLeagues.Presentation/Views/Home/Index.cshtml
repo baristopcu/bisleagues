@@ -112,44 +112,40 @@
                         <!-- Goal King-->
                         <!-- Exchange-->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="macth-fixture styel-1">
-                                <h3><span>BORSA DURUMU</span></h3>
-                                <div class="last-matches styel-3">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>AD</th>
-                                                    <th>TKM</th>
-                                                    <th>DGR</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{int orderForExchange = 1; }
-                                                @foreach (var row in Model.ExchangeTopPlayers)
-                                                {
+                            <h3><span>BORSA DURUMU</span></h3>
+                            <div class="last-matches styel-3">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>AD</th>
+                                            <th>TKM</th>
+                                            <th>DGR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int orderForExchange = 1; }
+                                        @foreach (var row in Model.ExchangeTopPlayers)
+                                        {
 
-                                                    <tr>
-                                                        <td>@orderForExchange</td>
-                                                        <td>
-                                                            <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
-                                                                @row.Player.User.FirstName
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
-                                                                @row.Player.TeamPlayers.FirstOrDefault().Team.Name
-                                                            </a>
-                                                        </td>
-                                                        <td>@row.Value $</td>
-                                                    </tr>
-                                                    orderForExchange++;
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                            <tr>
+                                                <td>@orderForExchange</td>
+                                                <td>
+                                                    <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
+                                                        @row.Player.User.FirstName
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
+                                                        @row.Player.TeamPlayers.FirstOrDefault().Team.Name
+                                                    </a>
+                                                </td>
+                                                <td>@row.Value $</td>
+                                            </tr>
+                                            orderForExchange++;
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <!-- Exchange-->
