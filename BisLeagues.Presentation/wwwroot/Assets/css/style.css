@@ -63,7 +63,7 @@ p a{ color: #363636;}
 p a:hover{ text-decoration:underline; outline: none;}
 p{ letter-spacing: normal; margin-bottom: 20px; line-height: 23px; font-size: 14px; color: #363636;}
 
-a{ color: #ddd; text-decoration: none; outline: none; display: block;}
+a{ color: #161515; text-decoration: none; outline: none; display: block;}
 a:hover, a:focus, a:active { outline: none; text-decoration: none;}
 
 .row.no-gutters{ margin-right: 0; margin-left: 0;}
@@ -1575,6 +1575,7 @@ border-radius: 100%; color: #19160e;}
 .copy-rights.style-2 .back-to-top i{ color: #ffcb0b;}
 
 .ck-editor__editable { min-height: 300px; }
+.menu-link { color: #fff; }
 
 @media screen and (min-width: 1366px) {
     .desktop-margin-slider {
