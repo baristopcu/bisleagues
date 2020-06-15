@@ -1,0 +1,167 @@
+﻿@model BisLeagues.Presentation.Areas.Admin.Models.ViewModels.CreateNewViewModel
+@{
+    ViewData["Title"] = "Yeni Haber Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Maç Oluştur</h4>
+                        <p class="card-category">Maç bilgilerini giriniz.</p>
+                    </div>
+                    <div class="card-body">
+                        <form action="@Url.Action("Create", "News")" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Sezon:</label><br />
+                                        <select class="form-control" name="seasonId" id="seasonId" data-style="btn btn-link" required>
+                                            <option value="0" disabled selected>Sezon Seçiniz !</option>
+                                            @foreach (var season in Model.Seasons)
+                                            {
+                                                <option value="@season.Id">@season.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" style="">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file-video">
+                                                    Video Fotoğraf <input type="file" id="videoPicture" name="videoPicture">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        <img id="img-upload-video" style="margin: auto; display:block; max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.New?.VideoCoverPhoto?.Path, width = 300, height = 300 })" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file-news">
+                                                    Haber Fotoğraf <input type="file" id="newsPicture" name="newsPicture">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        <img id="img-upload-news" style="margin: auto; display:block; max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.New?.CoverPhoto?.Path, width = 300, height = 300 })" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Youtube Video URL</label>
+                                        <input type="text" name="videoUrl" id="videoUrl" class="form-control" placeholder="" value="@Model.New?.VideoUrl" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Haber Başlığı</label>
+                                        <input type="text" name="caption" id="caption" class="form-control" placeholder="" value="@Model.New?.Caption" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Haber Kısa Açıklama</label>
+                                        <input type="text" name="shortDescription" id="shortDescription" class="form-control" placeholder="" value="@Model.New?.ShortDescription" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating"> Haber içeriği</label>
+                                        <textarea class="form-control" name="content" id="content" rows="15">@Model.New?.Caption</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right">Haber Oluştur</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+        function onChange(input0) {
+            var input = input0;
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        }
+
+        function onFileSelect(input0) {
+            var input = input0.parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+        }
+        function readURL(input, target0) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    target0.attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).on('change', '.btn-file-video :file', function () {
+            onChange($('.btn-file-video :file'));
+        });
+        $(document).on('change', '.btn-file-news :file', function () {
+            onChange($('.btn-file-news :file'));
+        });
+
+        $('.btn-file-video :file').on('fileselect', function (event, label) {
+            onFileSelect($('.btn-file-video :file'));
+        });
+        $('.btn-file-news :file').on('fileselect', function (event, label) {
+            onFileSelect($('.btn-file-news :file'));
+        });
+        $("#videoPicture").change(function () {
+            readURL(this, $('#img-upload-video'));
+        });
+        $("#newsPicture").change(function () {
+            readURL(this, $('#img-upload-news'));
+        });
+
+
+    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+    <script>
+
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                removePlugins: ['ImageUpload'],
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

@@ -37,14 +37,14 @@ namespace BisLeagues.Core.Services
                         switch (type)
                         {
                             case "team_logo":
-                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\team_logos", fileName); break;
+                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot//team_logos", fileName); break;
                             case "video_pictures":
-                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\video_pictures", fileName); break;
+                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot//video_pictures", fileName); break;
                             case "news_pictures":
-                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\news_pictures", fileName); break;
+                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot//news_pictures", fileName); break;
                             case "gallery":
-                                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\galleries\\" + galleryId + "\\"));
-                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\galleries\\"+ galleryId + "\\", fileName); break;
+                                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot//galleries//" + galleryId + "//"));
+                                folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot//galleries//"+ galleryId + "//", fileName); break;
                         }
 
                         using (var fileSteam = new FileStream(folderPath, FileMode.Create))

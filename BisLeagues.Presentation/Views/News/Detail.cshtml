@@ -75,18 +75,21 @@
                 <div class="match-detail-deep theme-padding-bottom">
                     <h2>@Model.New.Caption</h2>
                     <p>@Model.New.ShortDescription</p>
-
+                    @if(Model.Result != null)
+                    {
                     <div class="hidden-md hidden-lg">
                         <h4>@Model.Result.HomeScore - @Model.Result.AwayScore</h4>
-                    </div><br />
+                    </div>
+                    }
+                    <br />
                     @if (Model.New.CoverPhoto != null)
                     {
-                        @*<div class="col-md-12">
+                        <div class="col-md-12">
 
                             <div class="video video-post center">
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.VideoCoverPhoto.Path, width = 600, height = 350 })" alt="">
+                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.CoverPhoto.Path, width = 600, height = 350 })" alt="">
                             </div>
-                        </div>*@
+                        </div>
                     }
                     @if (Model.New.Match != null && Model.Result.Scores != null && Model.Result.Scores.Count() > 0)
                     {
@@ -117,7 +120,7 @@
                         </div>
                         <br />
                     }
-                    @if (Model.Result.PlayerOfTheMatch != null)
+                    @if (Model.Result != null && Model.Result.PlayerOfTheMatch != null)
                     {
                         <div class="row">
                             <div class="col-md-12">
@@ -142,12 +145,12 @@
                     </article>
                     <div class="row m-0">
 
-                        <!-- Gallery Heading -->
-                        <div class="col-sm-12 p-0">
-                            <h2>Maçın Galerisi</h2>
-                        </div>
                         @if (Model.New.Gallery != null)
                         {
+                            <!-- Gallery Heading -->
+                            <div class="col-sm-12 p-0">
+                                <h2>Maçın Galerisi</h2>
+                            </div>
 
                             <!-- Gallery Heading -->
                             @foreach (var galleryPhoto in Model.New.Gallery?.GalleryPhotos)
