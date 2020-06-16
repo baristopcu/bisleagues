@@ -486,9 +486,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                             return RedirectToAction("List", "Match");
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-
                         MessageCode = 0;
                         Message = "Bir şeylerde sıçtık, yaptığın her şey boşa gitti :(";
                         scope.Dispose();

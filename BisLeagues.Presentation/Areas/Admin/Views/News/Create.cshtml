@@ -18,8 +18,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Sezon:</label><br />
-                                        <select class="form-control" name="seasonId" id="seasonId" data-style="btn btn-link" required>
-                                            <option value="0" disabled selected>Sezon Seçiniz !</option>
+                                        <select class="form-control" name="seasonId" id="seasonId" data-style="btn btn-link">
+                                            <option value="0" selectedot>Sezondan bağımsız haber</option>
                                             @foreach (var season in Model.Seasons)
                                             {
                                                 <option value="@season.Id">@season.Name</option>

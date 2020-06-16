@@ -1,0 +1,66 @@
+﻿@model BisLeagues.Presentation.Areas.Admin.Models.ViewModels.ListTeamViewModel
+@{
+    ViewData["Title"] = "Onay Bekleyen Takımları Listele";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">Onay Bekleyen Takımlar</h4>
+                        <p class="card-category"> Onay bekleyen takımlar aşağıdadır.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Takım Adı
+                                </th>
+                                <th>
+                                    Oluşturan
+                                </th>
+                                <th>
+                                    Tarih
+                                </th>
+                                <th>
+                                    Yönet
+                                </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Teams)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Id
+                                            </td>
+                                            <td>
+                                                @item.Name
+                                            </td>
+                                            <td>
+                                                @item.CaptainPlayer.User.FirstName @item.CaptainPlayer.User.LastName
+                                            </td>
+                                            <td class="text-primary">
+                                                @TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOnUtc.Value, TimeZoneInfo.Local).ToString("dd.MM.yyyy")
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Confirm","Team", new { teamId = item.Id })" class="btn btn-info" style="color: white;">Onayla</a>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

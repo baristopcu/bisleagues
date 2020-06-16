@@ -18,14 +18,9 @@ namespace BisLeagues.Core.Services.Repositories
             
         }
 
-        public IEnumerable<Team> GetPointTableForSeason(Season season)
+        public IEnumerable<Team> GetTeamsWaitingConfirm()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Team> ListAll()
-        {
-            IEnumerable<Team> teams = _dbContext.Teams;
+            IEnumerable<Team> teams = _dbContext.Teams.Where(x=>x.IsActive == false);
             return teams;
         }
     }

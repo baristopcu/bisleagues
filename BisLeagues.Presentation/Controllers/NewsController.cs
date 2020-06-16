@@ -42,7 +42,7 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index()
         {
-            var news = _newRepository.Find(x=>x.SeasonId == UserPreferredSeasonId).OrderByDescending(x=>x.CreatedOnUtc);
+            var news = _newRepository.Find(x=>x.SeasonId == UserPreferredSeasonId || x.SeasonId == null).OrderByDescending(x=>x.CreatedOnUtc);
            
             return View(news);
         }

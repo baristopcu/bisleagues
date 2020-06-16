@@ -9,8 +9,7 @@ namespace BisLeagues.Core.Interfaces.Repositories
 {
     public interface ITeamRepository : IRepository<Team>
     {
-        IEnumerable<Team> ListAll();
-        IEnumerable<Team> GetPointTableForSeason(Season season);
+        IEnumerable<Team> GetTeamsWaitingConfirm();
 
     }
 }
