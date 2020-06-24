@@ -3,16 +3,14 @@
 
 .vs
 .vscode
+.DS_Store
 wwwroot/news_pictures/
-Bisleagus.Presentation/wwwroot/team_logos/
-Bisleagus.Presentation/wwwroot/video_pictures/
-Bisleagus.Presentation/wwwroot/galleries/
-Bisleagus.Core/appsettings.json
-Bisleagus.Core/appsettings.Development.json
-Bisleagus.Core/Properties/
-Bisleagus.Presentation/appsettings.json
-Bisleagus.Presentation/appsettings.Development.json
-Bisleagus.Presentation/Properties
+wwwroot/team_logos/
+wwwroot/video_pictures/
+wwwroot/galleries/
+appsettings.json
+appsettings.Development.json
+Properties/
 
 
 # User-specific files
