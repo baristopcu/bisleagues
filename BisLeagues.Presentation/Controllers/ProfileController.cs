@@ -28,7 +28,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGoalKingService _goalKingService;
 
-        public ProfileController(IUserManager userManager, IPlayerRepository playerRepository, IUserRepository userRepository, ITransferRequestRepository transferRequestRepository, ISeasonRepository seasonRepository, IGoalKingService goalKingService,ISettingRepository settingRepository) : base(settingRepository)
+        public ProfileController(IUserManager userManager, IPlayerRepository playerRepository, IUserRepository userRepository, ITransferRequestRepository transferRequestRepository, ISeasonRepository seasonRepository, IGoalKingService goalKingService, ISettingRepository settingRepository) : base(settingRepository)
         {
             _userManager = userManager;
             _playerRepository = playerRepository;
@@ -76,6 +76,73 @@ namespace BisLeagues.Presentation.Controllers
                 OutgoingTransferRequests = outgoingTransferRequests,
             };
             return View(model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditProfileRequestModel model)
+        {
+            try
+            {
+                var user = _userManager.GetCurrentUser(this.HttpContext);
+
+                if (user != null)
+                {
+                    var image = model.ProfilePicture;
+                    if (image != null && image.Length > 0)
+                    {
+                        string extension = Path.GetExtension(image.FileName);
+                        if (extension.Equals(".jpg") || extension.Equals(".jpeg") || extension.Equals(".png"))
+                        {
+                            int limit = 2 * 1024 * 1024; //2MB
+                            if (image.Length < limit)
+                            {
+                                var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/user_pictures", fileName);
+                                using (var fileSteam = new FileStream(filePath, FileMode.Create))
+                                {
+                                    await image.CopyToAsync(fileSteam);
+                                }
+                                user.ProfilePicture = new Photo()
+                                {
+                                    Name = fileName,
+                                    Path = "user_pictures/" + fileName,
+                                    DisplayOrder = 1,
+                                    CreatedOnUtc = DateTime.UtcNow
+                                };
+                            }
+                            else
+                            {
+                                Message = "Logo 2MB fazla olamaz dostum.";
+                                return RedirectToAction();
+                            }
+                        }
+                        else
+                        {
+                            Message = "Sadece \".jpg, .jpeg, .png\" uzantılı fotoğrafları yükleyebilirsin.";
+                            return RedirectToAction();
+                        }
+                    }
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    _userRepository.Update(user);
+                    MessageCode = 1;
+                    Message = "Her şeyi hallettik, yeni profilin hayırlı olsun.";
+                    return RedirectToAction("Detail", "Profile");
+                }
+                else
+                {
+                    MessageCode = 0;
+                    Message = "Sen aslında yoksun, bir giriş yapsan mı acaba ?";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageCode = 0;
+                Message = "Bir şeyler fena ters gitti ama ne gitti inan bende bilmiyorum :(";
+                return RedirectToAction("Detail", "Profile");
+            }
 
         }
     }

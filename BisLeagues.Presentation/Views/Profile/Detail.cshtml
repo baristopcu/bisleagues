@@ -6,6 +6,39 @@
     ViewData["Title"] = Model.User.FirstName + " " + Model.User.LastName;
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 }
+
+@section Head {
+    <style>
+
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+            background-color: black;
+        }
+
+            .btn-file input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                background: white;
+                cursor: inherit;
+                display: block;
+            }
+
+        #img-upload {
+            width: 100%;
+            max-height: 300px;
+        }
+    </style>
+}
+
 @section Heading{
 
 
@@ -39,7 +72,7 @@
             <!-- Team without Hover -->
             <div class="col-lg-3 col-md-3 col-sm-5">
                 <div class="team-column without-hover">
-                    <img src="@Url.Action("Resize", "Image", new { url = "Assets/images/slider_layer.jpg", width = 269, height = 269 })" alt="">
+                    <img src="@Url.Action("Resize", "Image", new { url = Model.User.ProfilePicture.Path, width = 269, height = 269 })" alt="">
                     <div class="team-detail" style="position:initial !important;">
                         <h5>@Model.User.FirstName @Model.User.LastName</h5>
                         <span class="desination"></span>
@@ -242,13 +275,30 @@
                         {
                             <!-- Palyer Career -->
                             <div class="palyer-career theme-padding-bottom about-aurthor">
-                                @*<form action="@Url.Action("EditDescription", "Team")" method="post">
-                                        <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                                        <textarea name="description" style="height: 500px; width: 100%">
-                                        @Model.Team.Description
-                                     </textarea><br />
-                                        <input type="submit" class="btn btn-success form-control" />
-                                    </form>*@
+                                <form action="@Url.Action("EditProfile", "Profile")" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="userId" value="@Model.User.Id" />
+                                    <div class="form-group">
+                                        <label>İsim : </label>
+                                        <input type="text" name="firstName" class="form-control" value="@Model.User.FirstName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Soyisim : </label>
+                                        <input type="text" name="lastName" class="form-control" value="@Model.User.LastName" />
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 250px;">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-success btn-file">
+                                                    Profil Fotoğrafı : <input type="file" id="imgInp" name="profilePicture">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        <br />
+                                        <img id="img-upload" style="max-width:300px; max-height: 200px;" />
+                                    </div>
+                                    <input type="submit" class="btn btn-success form-control" />
+                                </form>
                             </div>
                             <!-- Palyer Career -->
                         }
@@ -266,3 +316,39 @@
     </div>
 </div>
 <!-- Team Detail -->
+
+@section Scripts {
+    <script>$(document).on('change', '.btn-file :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+
+        $('.btn-file :file').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-upload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });</script>
+}

@@ -10,6 +10,7 @@ namespace BisLeagues.Core.Models
     {
         private ICollection<UsersRoles> _usersRoles;
         private Player _player;
+        private Photo _profilePicture;
 
         public User()
         {
@@ -31,6 +32,7 @@ namespace BisLeagues.Core.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public DateTime CreatedOnUtc { get; set; }
+        public int ProfilePictureId { get; set; }
 
 
         public Player Player
@@ -43,6 +45,11 @@ namespace BisLeagues.Core.Models
         {
             get => LazyLoader.Load(this, ref _usersRoles);
             set => _usersRoles = value;
+        }
+        public Photo ProfilePicture
+        {
+            get => LazyLoader.Load(this, ref _profilePicture);
+            set => _profilePicture = value;
         }
     }
 }
