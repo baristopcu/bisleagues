@@ -165,6 +165,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                             if (model.MatchDate != default && model.MatchHour != default)
                             {
                                 match.MatchDate = model.MatchDate.AddHours(model.MatchHour.Hours).AddMinutes(model.MatchHour.Minutes).ToUniversalTime();
+                                needRefresh = true;
                             }
                             if (model.SeasonId != match.SeasonId)
                             {
@@ -305,7 +306,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                         {
                                             if (newsForMatch.Id != default && newsForMatch.VideoCoverPhotoId != default)
                                             {
-                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\video_pictures", newsForMatch.VideoCoverPhoto.Name);
+                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/video_pictures", newsForMatch.VideoCoverPhoto.Name);
                                                 System.IO.File.Delete(oldPhoto);
                                             }
                                             string videoPictureFileName = await _photoService.PlacePhoto(videoPicture, "video_pictures");
@@ -346,7 +347,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                         {
                                             if (newsForMatch.Id != default && newsForMatch.CoverPhotoId != default)
                                             {
-                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\news_pictures", newsForMatch.CoverPhoto.Name);
+                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/news_pictures", newsForMatch.CoverPhoto.Name);
                                                 System.IO.File.Delete(oldPhoto);
                                             }
                                             string newsPictureFileName = await _photoService.PlacePhoto(newsPicture, "news_pictures");

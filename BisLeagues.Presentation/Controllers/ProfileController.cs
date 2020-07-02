@@ -137,7 +137,7 @@ namespace BisLeagues.Presentation.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageCode = 0;
                 Message = "Bir şeyler fena ters gitti ama ne gitti inan bende bilmiyorum :(";

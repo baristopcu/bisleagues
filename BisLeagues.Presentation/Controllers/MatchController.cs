@@ -41,7 +41,7 @@ namespace BisLeagues.Presentation.Controllers
             }
             UpComingMatchesViewModel model = new UpComingMatchesViewModel()
             {
-                NoMatchFound = true,
+                NoMatchFound = matches.Count() == 0,
                 Matches = matches,
                 UpComingMatch = upcomingMatch,
                 UpComingMatchCounter = matchCounter
@@ -56,7 +56,7 @@ namespace BisLeagues.Presentation.Controllers
             Result lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(UserPreferredSeasonId);
             PastMatchesViewModel model = new PastMatchesViewModel()
             {
-                NoMatchFound = lastMatchsResult == null,
+                NoMatchFound = newsOfPastMatches.Count() == 0,
                 NewsOfPastMatches = newsOfPastMatches,
                 LastMatchsResult = lastMatchsResult
             };

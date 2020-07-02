@@ -122,6 +122,7 @@ namespace BisLeagues.Presentation.Controllers
             string hashedPassword = _passwordService.CreateHash(requestModel.Password);
             User user = new User()
             {
+                ProfilePictureId = 3067, //TODO: Take that from settings.
                 FirstName = requestModel.FirstName,
                 LastName = requestModel.LastName,
                 Username = requestModel.Email,

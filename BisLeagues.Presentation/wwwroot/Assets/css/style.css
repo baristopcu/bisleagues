@@ -825,7 +825,10 @@ color: #2e2e2e; font-size: 14px;}
 /****** Blog ***********************************************************
 *********************************************************** Blog ******/
 /* Inner Banner */
-.inner-banner{ text-align: center;}
+.inner-banner{ text-align: center; min-height: 300px;}
+@media only screen and (max-device-width : 640px) {
+.inner-banner{ text-align: center; min-height: 50px;}
+}
 .pager-heading{ display: inline-block;}
 .pager-heading h2{ margin: 0 0 10px; font-size: 36px; font-weight: bold;}
 .pager-heading p:last-child{ margin: 0;}
