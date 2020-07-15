@@ -14,7 +14,6 @@ namespace BisLeagues.Core.Services
 {
     public class PhotoService : IPhotoService
     {
-        private readonly IScoreRepository _scoreRepository;
 
         public PhotoService()
         {
@@ -26,7 +25,7 @@ namespace BisLeagues.Core.Services
 
             if (photoDefined)
             {
-                string extension = Path.GetExtension(photo.FileName);
+                string extension = Path.GetExtension(photo.FileName).ToLower();
                 if (extension.Equals(".jpg") || extension.Equals(".jpeg") || extension.Equals(".png"))
                 {
                     int limit = 2 * 1024 * 1024; //2MB

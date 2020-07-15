@@ -194,19 +194,6 @@
                             <br />
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group" style="">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn-file-video">
-                                                    Video Fotoğraf <input type="file" id="videoPicture" name="videoPicture">
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                        <img id="img-upload-video" style="margin: auto; display:block; max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.VideoCoverPhoto.Path, width = 300, height = 300 })" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-btn">
@@ -218,6 +205,8 @@
                                         </div>
                                         <img id="img-upload-news" style="margin: auto; display:block; max-width:100%;max-height:100%;" src="@Url.Action("Resize", "Image", new { url = Model.Match.New?.CoverPhoto.Path, width = 300, height = 300 })" />
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                 </div>
                             </div>
                             <br />

@@ -148,6 +148,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
 
         }
 
+        
         [HttpPost]
         public async Task<IActionResult> Edit(EditMatchPostModel model)
         {
@@ -302,45 +303,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                                     bool newsPictureDefined = (newsPicture != null && newsPicture.Length > 0);
                                     if (videoPictureDefined || newsPictureDefined)
                                     {
-                                        if (videoPictureDefined)
+                                        if (videoPictureDefined) //Deprecated
                                         {
-                                            if (newsForMatch.Id != default && newsForMatch.VideoCoverPhotoId != default)
-                                            {
-                                                var oldPhoto = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/video_pictures", newsForMatch.VideoCoverPhoto.Name);
-                                                System.IO.File.Delete(oldPhoto);
-                                            }
-                                            string videoPictureFileName = await _photoService.PlacePhoto(videoPicture, "video_pictures");
-
-                                            if (videoPictureFileName == "0" || videoPictureFileName == "1" || videoPictureFileName == "2")
-                                            {
-                                                MessageCode = 0;
-                                                switch (videoPictureFileName)
-                                                {
-                                                    case "0":
-                                                        Message = "Bu çok büyük be, 2MB fazla fotoğraf yüklemeyelim. ";
-                                                        break;
-
-                                                    case "1":
-                                                        Message = "Sadece fotoğraf kabul ediyoruz dostum. O kadar !";
-                                                        break;
-
-                                                    case "2":
-                                                        Message = "Fotoğraf boştu ? Ama doluydu da, teknik bir hata var";
-                                                        break;
-                                                }
-                                                return RedirectToAction("Edit", "Match", new { match.Id });
-                                            }
-                                            else
-                                            {
-
-                                                newsForMatch.VideoCoverPhoto = new Photo()
-                                                {
-                                                    Name = videoPictureFileName,
-                                                    Path = "video_pictures/" + videoPictureFileName,
-                                                    DisplayOrder = 1,
-                                                    CreatedOnUtc = DateTime.UtcNow
-                                                };
-                                            }
                                         }
 
                                         if (newsPictureDefined)

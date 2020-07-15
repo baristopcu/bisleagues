@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
 {
-    public class CreateNewPostModel
+    public class EditNewPostModel
     {
+
+        public int NewId  { get; set; }
 
         [Required]
         public int SeasonId { get; set; }

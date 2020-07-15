@@ -129,15 +129,10 @@
                         </div>
                         <br /><br />
                     }
-                    @if (Model.New.VideoCoverPhoto != null && !string.IsNullOrWhiteSpace(Model.New.VideoUrl))
+                    @if (!string.IsNullOrWhiteSpace(Model.New.VideoUrl))
                     {
                         <div class="col-md-12">
-
-                            <div class="video video-post">
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.VideoCoverPhoto.Path, width = 600, height = 350 })" alt="">
-                                <span class="play-lable fa fa-video-camera"></span>
-                                <a class="position-center-center play-icon" href="@Model.New.VideoUrl" data-rel="prettyPhoto[video]"><i class="fa fa-video-camera"></i></a>
-                            </div>
+                                @Html.Raw(Model.New.VideoUrl)
                         </div>
                     }
                     <article>

@@ -97,7 +97,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="@Url.Action("Detail", "Team", new { row.Player.TeamPlayers.FirstOrDefault().TeamId })">
+                                                    <a href="@Url.Action("Detail", "Team", new { row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
                                                         @row.Player.TeamPlayers.FirstOrDefault().Team.Name
                                                     </a>
                                                 </td>
