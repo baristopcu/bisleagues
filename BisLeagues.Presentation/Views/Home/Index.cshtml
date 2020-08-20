@@ -67,7 +67,7 @@
                         <!-- Point Table -->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             @await Component.InvokeAsync("PointTable", new { numberOfItems = 10 })
-                        </div>
+                        </div> 
                         <!-- Point Table -->
                         <!-- Goal King-->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -92,7 +92,7 @@
                                             <tr>
                                                 <td>@order</td>
                                                 <td>
-                                                    <a href="@Url.Action("Detail", "Profile", new { row.Player.Id })">
+                                                    <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
                                                         @row.Player.User.FirstName
                                                     </a>
                                                 </td>

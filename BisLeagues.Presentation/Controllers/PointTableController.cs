@@ -18,19 +18,19 @@ namespace BisLeagues.Presentation.Controllers
     public class PointTableController : BaseController<PointTableController>
     {
         private readonly ISeasonRepository _seasonRepository;
-        private readonly IPointTableService _pointTableService;
+        private readonly IPointTableRowRepository _pointTableRowRepository;
         private readonly IResultRepository _resultRepository;
-        public PointTableController(ISeasonRepository seasonRepository, IPointTableService pointTableService, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public PointTableController(ISeasonRepository seasonRepository, IPointTableRowRepository pointTableRowRepository, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
-            _pointTableService = pointTableService;
+            _pointTableRowRepository = pointTableRowRepository;
             _resultRepository = resultRepository;
         }
 
         public IActionResult Index()
         {
             var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(UserPreferredSeasonId);
-            List<PointTableRow> pointTableRows = _pointTableService.GetPointTableBySeasonId(UserPreferredSeasonId);
+            var pointTableRows = _pointTableRowRepository.GetPointTableRowsBySeasonId(UserPreferredSeasonId).ToList();
 
             var model = new PointTableViewModel() {
                 NoMatchFound = lastMatchsResult == null,

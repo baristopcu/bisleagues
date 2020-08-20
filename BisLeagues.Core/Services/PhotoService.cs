@@ -28,7 +28,7 @@ namespace BisLeagues.Core.Services
                 string extension = Path.GetExtension(photo.FileName).ToLower();
                 if (extension.Equals(".jpg") || extension.Equals(".jpeg") || extension.Equals(".png"))
                 {
-                    int limit = 2 * 1024 * 1024; //2MB
+                    int limit = 3 * 1024 * 1024; //2MB
                     if (photo.Length < limit)
                     {
                         var fileName = Guid.NewGuid() + Path.GetExtension(photo.FileName);

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using BisLeagues.Core.ServiceModels;
+using System.Threading.Tasks;
+using BisLeagues.Core.Models;
 
 namespace BisLeagues.Core.Interfaces
 {
     public interface IPointTableService
     {
-        List<PointTableRow> GetPointTableBySeasonId(int seasonId);
+        Task<bool> CreatePointTablesForActiveSeasons();
     }
 }

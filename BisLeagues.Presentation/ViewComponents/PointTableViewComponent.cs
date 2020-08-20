@@ -1,27 +1,26 @@
-﻿using BisLeagues.Core.Interfaces;
-using BisLeagues.Core.Interfaces.Repositories;
-using BisLeagues.Core.ServiceModels;
-using BisLeagues.Presentation.Models.ViewModels;
+﻿using BisLeagues.Core.Interfaces.Repositories;
+using BisLeagues.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BisLeagues.Presentation.ViewComponents
 {
     public class PointTableViewComponent : ViewComponent
     {
         private readonly ISeasonRepository _seasonRepository;
-        private readonly IPointTableService _pointTableService;
+        private readonly IPointTableRowRepository _pointTableRowRepository;
 
-        public PointTableViewComponent(ISeasonRepository seasonRepository, IPointTableService pointTableService)
+        public PointTableViewComponent(ISeasonRepository seasonRepository, IPointTableRowRepository pointTableRowRepository)
         {
             _seasonRepository = seasonRepository;
-            _pointTableService = pointTableService;
+            _pointTableRowRepository = pointTableRowRepository;
         }
 
         public IViewComponentResult Invoke(int numberOfItems)
         {
             int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
-            List<PointTableRow> pointTableRows =  _pointTableService.GetPointTableBySeasonId(activeSeasonId);
+            List<PointTableRow> pointTableRows =  _pointTableRowRepository.GetPointTableRowsBySeasonId(activeSeasonId).ToList();
             pointTableRows = pointTableRows.Count > numberOfItems ? pointTableRows.GetRange(0, numberOfItems) : pointTableRows.GetRange(0, pointTableRows.Count);
             return View(pointTableRows);
         }

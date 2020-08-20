@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BisLeagues.Core.ServiceModels;
 
 namespace BisLeagues.Core.Interfaces
 {
     public interface IGoalKingService
     {
-        List<GoalKingRowForPlayers> GetGoalKingsBySeasonId(int seasonId);
+        Task<bool> CreateGoalKingTablesForActiveSeasons();
+        //List<GoalKingRowForPlayers> GetGoalKingsBySeasonId(int seasonId);
 
         int GetPlayersGoalsByPlayerIdAndSeasonId(int playerId, int seasonId);
 

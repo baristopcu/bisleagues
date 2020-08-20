@@ -10,7 +10,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
     public class HomeViewModel
     {
         public List<ExchangeRow> ExchangeTopPlayers { get; set; }
-        public List<GoalKingRowForPlayers> GoalKingPlayers { get; set; }
+        public List<GoalKingRow> GoalKingPlayers { get; set; }
         public List<Match> UpComingMatches { get; set; }
         public Match UpComingMatch { get; set; }
         public TimeSpan UpComingMatchCounter { get; set; }

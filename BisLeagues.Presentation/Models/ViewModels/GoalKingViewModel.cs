@@ -11,6 +11,6 @@ namespace BisLeagues.Presentation.Models.ViewModels
     {
         public bool NoMatchFound;
         public Result LastMatchsResult;
-        public List<GoalKingRowForPlayers> GoalKingRows;
+        public List<GoalKingRow> GoalKingRows;
     }
 }

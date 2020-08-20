@@ -18,19 +18,19 @@ namespace BisLeagues.Presentation.Controllers
     public class GoalKingController : BaseController<GoalKingController>
     {
         private readonly ISeasonRepository _seasonRepository;
-        private readonly IGoalKingService _goalKingService;
+        private readonly IGoalKingRowRepository _goalKingRowRepository;
         private readonly IResultRepository _resultRepository;
-        public GoalKingController(ISeasonRepository seasonRepository, IGoalKingService goalKingService, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public GoalKingController(ISeasonRepository seasonRepository, IGoalKingRowRepository goalKingRowRepository, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _seasonRepository = seasonRepository;
-            _goalKingService = goalKingService;
+            _goalKingRowRepository = goalKingRowRepository;
             _resultRepository = resultRepository;
         }
 
         public IActionResult Index()
         {
             var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(UserPreferredSeasonId);
-            List<GoalKingRowForPlayers> goalKingRows = _goalKingService.GetGoalKingsBySeasonId(UserPreferredSeasonId);
+            List<GoalKingRow> goalKingRows = _goalKingRowRepository.GetGoalKingTableRowsBySeasonId(UserPreferredSeasonId).ToList();
 
             var model = new GoalKingViewModel() {
                 NoMatchFound = lastMatchsResult == null,

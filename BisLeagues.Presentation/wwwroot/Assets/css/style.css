@@ -1406,7 +1406,7 @@ left: 0; width: 100%; visibility: hidden; opacity: 0;}
 .carousel-inner {max-height: 800px;}
 .carousel-inner > .item > a > img, .carousel-inner > .item > img{ width: 100%;}
 .header.style-2 .logo{ position: absolute; left: -4px; top: -10px;}
-.banner-layer{ margin: 0 0 0 -100px; width: 40%;}
+.banner-layer{ margin: 0 0 0 -315px; width: 40%;}
 .banner-layer img{ position: absolute; top: 10px;}
 
 .add-banners-slider .item img{ width: 100%;} 

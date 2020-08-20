@@ -13,18 +13,37 @@ namespace BisLeagues.Core.Services
     public class GoalKingService : GoalKingRowForPlayers, IGoalKingService
     {
         private readonly IScoreRepository _scoreRepository;
+        private readonly ISeasonRepository _seasonRepository;
+        private readonly IGoalKingRowRepository _goalKingRowRepository;
 
-        public GoalKingService(IScoreRepository scoreRepository)
+        public GoalKingService(IScoreRepository scoreRepository, ISeasonRepository seasonRepository, IGoalKingRowRepository goalKingRowRepository)
         {
             _scoreRepository = scoreRepository;
+            _seasonRepository = seasonRepository;
+            _goalKingRowRepository = goalKingRowRepository;
         }
 
 
-        public List<GoalKingRowForPlayers> GetGoalKingsBySeasonId(int seasonId)
+        public async Task<bool> CreateGoalKingTablesForActiveSeasons()
         {
-            var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
-            IEnumerable<GoalKingRowForPlayers> goalKingRows = scores.GroupBy(x => x.Player).Select(g => new GoalKingRowForPlayers { Player = g.Key, Goals = g.Sum(x=>x.Goals) }).OrderByDescending(x=>x.Goals);
-            return goalKingRows.ToList();
+            try
+            {
+                var activeSeasons = _seasonRepository.GetActiveSeasons();
+                foreach (var season in activeSeasons)
+                {
+                    int seasonId = season.Id;
+                    var oldGoalKingTable = _goalKingRowRepository.GetGoalKingTableRowsBySeasonId(seasonId);
+                    _goalKingRowRepository.RemoveRange(oldGoalKingTable);
+                    var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
+                    IEnumerable<GoalKingRow> goalKingRows = scores.GroupBy(x => x.Player).Select(g => new GoalKingRow {  SeasonId = seasonId, Player = g.Key, Goals = g.Sum(x => x.Goals) }).OrderByDescending(x => x.Goals);
+                    _goalKingRowRepository.AddRange(goalKingRows);
+                }
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
         }
 
         public int GetPlayersGoalsByPlayerIdAndSeasonId(int playerId, int seasonId)
@@ -37,7 +56,7 @@ namespace BisLeagues.Core.Services
         public int GetTeamGoalsByTeamIdAndSeasonId(int teamId, int seasonId)
         {
             var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
-            int goals = scores.Where(x=>x.ScoredTeamId == teamId).GroupBy(x => x.ScoredTeam).Select(g=> g.Sum(x => x.Goals)).FirstOrDefault();
+            int goals = scores.Where(x => x.ScoredTeamId == teamId).GroupBy(x => x.ScoredTeam).Select(g => g.Sum(x => x.Goals)).FirstOrDefault();
             return goals;
         }
     }

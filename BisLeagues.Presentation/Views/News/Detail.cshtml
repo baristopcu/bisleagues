@@ -87,7 +87,9 @@
                         <div class="col-md-12">
 
                             <div class="video video-post center">
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.CoverPhoto.Path, width = 600, height = 350 })" alt="">
+                                <a href="@Url.Action("Resize", "Image", new { url = Model.New.CoverPhoto.Path, width = 1903, height = 1903 })">
+                                    <img src="@Url.Action("Resize", "Image", new { url = Model.New.CoverPhoto.Path, width = 1100, height = 600 })" alt="">
+                                </a>
                             </div>
                         </div>
                     }

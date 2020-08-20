@@ -31,6 +31,8 @@ namespace BisLeagues.Core.Data
         public virtual DbSet<Gallery> Galleries { get; set; }
         public virtual DbSet<GalleryPhotos> GalleryPhotoMapping { get; set; }
         public virtual DbSet<Point> Point { get; set; }
+        public virtual DbSet<PointTableRow> PointTableRows { get; set; }
+        public virtual DbSet<GoalKingRow> GoalKingRows { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -153,6 +155,14 @@ namespace BisLeagues.Core.Data
 
             modelBuilder.Entity<Photo>()
                 .ToTable("Photo");
+
+            modelBuilder.Entity<PointTableRow>()
+                .ToTable("PointTableRow")
+                .HasOne(p=>p.Season);
+
+            modelBuilder.Entity<GoalKingRow>()
+                .ToTable("GoalKingRow")
+                .HasOne(p=>p.Season);
 
         }
     }

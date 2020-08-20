@@ -2,3 +2,14 @@
     Layout = "_Layout";
     ViewData["Title"] = "Anasayfa";
 }
+<br/>
+<br/>
+<br/>
+<div style="margin-left: 50px;">
+    <form action="@Url.Action("UpdatePointTable", "Home")">
+        <input type="submit" class="btn btn-success" value="Puan Tablolarını Güncelle">
+    </form>
+    <form action="@Url.Action("UpdateGoalKings", "Home")">
+        <input type="submit" class="btn btn-success" value="Gol Krallıklarını Güncelle">
+    </form>
+</div>

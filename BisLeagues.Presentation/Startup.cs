@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace BisLeagues.Presentation
 {
@@ -36,10 +37,14 @@ namespace BisLeagues.Presentation
             services.AddDistributedMemoryCache();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            //services.AddResponseCaching();  
 
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(5);
             });
+
+
+
 
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -55,12 +60,14 @@ namespace BisLeagues.Presentation
             });
             services.AddScoped<ISettingRepository, SettingRepository>();
 
+
+
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IResultRepository, ResultRepository>();
             services.AddScoped<IScoreRepository, ScoreRepository>();
-            services.AddScoped<IPointTableService, PointTableService>();
+            services.AddScoped<IPointTableRowRepository, PointTableRowRepository>();
             services.AddScoped<IGoalKingService, GoalKingService>();
             services.AddScoped<IExchangeService, ExchangeService>();
             services.AddScoped<IUserService, UserService>();
@@ -80,19 +87,23 @@ namespace BisLeagues.Presentation
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<ITransferRequestRepository, TransferRequestRepository>();
             services.AddScoped<IPointRepository, PointRepository>();
+            
+            services.AddScoped<IPointTableService, PointTableService>();
+            services.AddScoped<IGoalKingRowRepository, GoalKingRowRepository>();
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-    {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-    });
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10080);
+                });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             //if (env.IsDevelopment())
             //{
@@ -112,7 +123,16 @@ namespace BisLeagues.Presentation
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
-               
+            //app.Use(async (ctx, next) =>
+            //{
+            //ctx.Request.GetTypedHeaders().CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+            //{
+            //    Public = true,
+            //    MaxAge = TimeSpan.FromHours(1)
+            //};
+            //await next();
+            //     }
+            //);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -123,6 +143,9 @@ namespace BisLeagues.Presentation
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
+            //app.UseResponseCaching();
+
 
 
         }
