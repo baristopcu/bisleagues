@@ -4,7 +4,6 @@ using System.Threading;
 
 namespace BisLeagues.Core.Utility
 {
-
     public static class AppHttpContext
     {
         static IServiceProvider services = null;
@@ -21,6 +20,7 @@ namespace BisLeagues.Core.Utility
                 {
                     throw new Exception("Can't set once a value has already been set.");
                 }
+
                 services = value;
             }
         }
@@ -32,10 +32,10 @@ namespace BisLeagues.Core.Utility
         {
             get
             {
-                IHttpContextAccessor httpContextAccessor = services.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
+                IHttpContextAccessor httpContextAccessor =
+                    services.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
                 return httpContextAccessor?.HttpContext;
             }
         }
-
     }
 }

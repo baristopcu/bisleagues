@@ -41,12 +41,24 @@ namespace BisLeagues.Core.Services.Repositories
         {
             IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate);
             return matches;
+        }        
+        
+        public IEnumerable<Match> GetUpcomingMatchesBySeasonIdAndTeamId(int seasonId, int teamId)
+        {
+            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && (x.HomeId == teamId || x.AwayId == teamId) && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate);
+            return matches;
         }
 
         public IEnumerable<Match> GetUpcomingMatchesBySeasonIdAndLimit(int seasonId, int limit)
         {
             IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate).Take(limit);
             return matches;
+        }
+        
+        public IEnumerable<int> GetPastMatchIdsBySeasonIdAndTeamId(int seasonId, int teamId)
+        {
+            IEnumerable<int> matchIds = _dbContext.Matches.Where(x => x.SeasonId == seasonId &&  (x.HomeId == teamId || x.AwayId == teamId) && x.IsPlayed == true && x.MatchDate < DateTime.UtcNow && x.New != null).OrderByDescending(p => p.MatchDate).Select(x=>x.Id);
+            return matchIds;
         }
     }
 }

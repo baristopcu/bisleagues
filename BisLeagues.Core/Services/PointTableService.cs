@@ -17,14 +17,16 @@ namespace BisLeagues.Core.Services
         private readonly IResultRepository _resultRepository;
         private readonly IPointRepository _pointRepository;
         private readonly IPointTableRowRepository _pointTableRowRepository;
+        private readonly ITeamRepository _teamRepository;
 
-        public PointTableService(IMatchRepository matchRepository, ISeasonRepository seasonRepository, IResultRepository resultRepository, IPointRepository pointRepository, IPointTableRowRepository pointTableRowRepository)
+        public PointTableService(IMatchRepository matchRepository, ISeasonRepository seasonRepository, IResultRepository resultRepository, IPointRepository pointRepository, IPointTableRowRepository pointTableRowRepository, ITeamRepository teamRepository)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
             _resultRepository = resultRepository;
             _pointRepository = pointRepository;
             _pointTableRowRepository = pointTableRowRepository;
+            _teamRepository = teamRepository;
         }
 
         public async Task<bool> CreatePointTablesForActiveSeasons()
@@ -40,23 +42,24 @@ namespace BisLeagues.Core.Services
                     _pointTableRowRepository.RemoveRange(oldPointTable);
 
                     List<Point> pointsOfSeason = _pointRepository.Find(x => x.SeasonId == seasonId).ToList();
-                    List<Team> homeTeams = pointsOfSeason.Select(x => x.Result.Match.Home).ToList();
-                    List<Team> awayTeams = pointsOfSeason.Select(x => x.Result.Match.Away).ToList();
-                    List<Team> teamsOfSeason = homeTeams.Union(awayTeams).ToList();
+                    List<int> homeTeams = pointsOfSeason.Select(x => x.Result.Match.Home.Id).ToList();
+                    List<int> awayTeams = pointsOfSeason.Select(x => x.Result.Match.Away.Id).ToList();
+                    List<int> teamIdsOfSeason = homeTeams.Union(awayTeams).ToList();
                     List<PointTableRow> pointTable = new List<PointTableRow>();
-                    foreach (var team in teamsOfSeason)
+                    foreach (var team in teamIdsOfSeason)
                     {
                         int average = 0, matchCount = 0, winCount = 0, loseCount = 0, totalPoint = 0;
-                        List<Point> homeWins = pointsOfSeason.Where(x => x.Result.Match.Home == team && x.HomePoint > x.AwayPoint).ToList();
-                        List<Point> awayWins = pointsOfSeason.Where(x => x.Result.Match.Away == team && x.AwayPoint > x.HomePoint).ToList();
-                        List<Point> draws = pointsOfSeason.Where(x => (x.Result.Match.Away == team || x.Result.Match.Home == team) && x.AwayPoint == x.HomePoint).ToList();
-                        List<Point> homeLoses = pointsOfSeason.Where(x => x.Result.Match.Home == team && x.HomePoint < x.AwayPoint).ToList();
-                        List<Point> awayLoses = pointsOfSeason.Where(x => x.Result.Match.Away == team && x.AwayPoint < x.HomePoint).ToList();
+                        List<Point> homeWins = pointsOfSeason.Where(x => x.Result.Match.Home.Id == team && x.HomePoint > x.AwayPoint).ToList();
+                        List<Point> awayWins = pointsOfSeason.Where(x => x.Result.Match.Away.Id == team && x.AwayPoint > x.HomePoint).ToList();
+                        List<Point> draws = pointsOfSeason.Where(x => (x.Result.Match.Away.Id == team || x.Result.Match.Home.Id == team) && x.AwayPoint == x.HomePoint).ToList();
+                        List<Point> homeLoses = pointsOfSeason.Where(x => x.Result.Match.Home.Id == team && x.HomePoint < x.AwayPoint).ToList();
+                        List<Point> awayLoses = pointsOfSeason.Where(x => x.Result.Match.Away.Id == team && x.AwayPoint < x.HomePoint).ToList();
                         foreach (var point in homeWins)
                         {
                             totalPoint += point.HomePoint;
                             average += point.Result.HomeScore;
                             average -= point.Result.AwayScore;
+                            winCount += 1;
                             matchCount++;
                         }
                         foreach (var point in awayWins)
@@ -64,6 +67,7 @@ namespace BisLeagues.Core.Services
                             totalPoint += point.AwayPoint;
                             average += point.Result.AwayScore;
                             average -= point.Result.HomeScore;
+                            winCount += 1;
                             matchCount++;
                         }
                         foreach (var point in draws)
@@ -76,6 +80,7 @@ namespace BisLeagues.Core.Services
                             totalPoint += point.HomePoint; // -'li değer gelecek zaten
                             average += point.Result.HomeScore;
                             average -= point.Result.AwayScore;
+                            loseCount += 1;
                             matchCount++;
                         }
                         foreach (var point in awayLoses)
@@ -83,9 +88,12 @@ namespace BisLeagues.Core.Services
                             totalPoint += point.AwayPoint; // -'li değer gelecek zaten
                             average += point.Result.AwayScore;
                             average -= point.Result.HomeScore;
+                            loseCount += 1;
                             matchCount++;
                         }
-                        pointTable.Add(new PointTableRow() { SeasonId = seasonId, Team = team, Average = average, MatchCount = matchCount, WinCount = winCount, LoseCount = loseCount, Point = totalPoint });
+
+                        var teamToRow = _teamRepository.Get(team);
+                        pointTable.Add(new PointTableRow() { SeasonId = seasonId, Team = teamToRow, Average = average, MatchCount = matchCount, WinCount = winCount, LoseCount = loseCount, Point = totalPoint });
                     }
                     pointTable = pointTable.OrderByDescending(x => x.Point).ThenByDescending(x => x.Average).ThenByDescending(x => x.MatchCount).ThenBy(x => x.Team.Name).ToList();
 

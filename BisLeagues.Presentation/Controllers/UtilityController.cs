@@ -17,7 +17,8 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ICountyRepository _countyRepository;
         private readonly ISeasonRepository _seasonRepository;
 
-        public UtilityController(ICityRepository cityRepository, ICountyRepository countyRepository, ISeasonRepository seasonRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public UtilityController(ICityRepository cityRepository, ICountyRepository countyRepository,
+            ISeasonRepository seasonRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _cityRepository = cityRepository;
             _countyRepository = countyRepository;
@@ -31,27 +32,40 @@ namespace BisLeagues.Presentation.Controllers
             List<County> counties = new List<County>();
             List<SelectListItem> slCounties = new List<SelectListItem>();
             counties = _countyRepository.Find(x => x.CityId == cityId).ToList();
-            slCounties.Add(new SelectListItem { Text = "Şimdi ilçe seçiniz..", Value = "" });
+            slCounties.Add(new SelectListItem {Text = "Şimdi ilçe seçiniz..", Value = ""});
             foreach (var item in counties)
             {
-                slCounties.Add(new SelectListItem { Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower()), Value = item.Id.ToString() });
+                slCounties.Add(new SelectListItem
+                {
+                    Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower()),
+                    Value = item.Id.ToString()
+                });
             }
+
             return Json(new SelectList(slCounties, "Value", "Text"));
         }
 
 
         [HttpPost]
-        public JsonResult GetSeasons()
+        public ActionResult GetSeasons()
         {
             List<Season> seasons = new List<Season>();
             List<SelectListItem> slSeasons = new List<SelectListItem>();
-            seasons = _seasonRepository.GetActiveSeasons().ToList();
+
+
             foreach (var item in seasons)
             {
-                slSeasons.Add(new SelectListItem { Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower()), Value = item.Id.ToString() });
+                slSeasons.Add(new SelectListItem
+                {
+                    Text =
+                        System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower()),
+                    Value = item.Id.ToString()
+                });
             }
+
             return Json(new SelectList(slSeasons, "Value", "Text", UserPreferredSeasonId));
         }
+
 
         public JsonResult SetSelectedSeason(string selectedSeasonId)
         {
@@ -74,8 +88,8 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult SeasonSelector()
         {
-            return View();
+            return RedirectToAction("SetSelectedSeason", "Utility", new {selectedSeasonId = 3});
+            // return View();
         }
-
     }
 }

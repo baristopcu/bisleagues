@@ -29,8 +29,10 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ITransferRequestRepository _transferRequestRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGoalKingService _goalKingService;
+        private readonly IMatchRepository _matchRepository;
+        private readonly INewRepository _newsRepository;
 
-        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, IGoalKingService goalKingService, ISeasonRepository seasonRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, IGoalKingService goalKingService, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newsRepository, ISettingRepository settingRepository) : base(settingRepository)
         {
             _cityRepository = cityRepository;
             _photoRepository = photoRepository;
@@ -40,6 +42,8 @@ namespace BisLeagues.Presentation.Controllers
             _transferRequestRepository = transferRequestRepository;
             _seasonRepository = seasonRepository;
             _goalKingService = goalKingService;
+            _matchRepository = matchRepository;
+            _newsRepository = newsRepository;
         }
 
         public IActionResult Application()
@@ -179,6 +183,11 @@ namespace BisLeagues.Presentation.Controllers
                 incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Team == team).ToList();
                 outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Team == team).ToList();
             }
+
+            var pastMatchesIdList = _matchRepository.GetPastMatchIdsBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
+            var pastMatchesNews = _newsRepository.GetNewsBySeasonAndMatchIds(UserPreferredSeasonId, pastMatchesIdList).ToList();
+            var upcomingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
+            
             var totalGoalCount = _goalKingService.GetTeamGoalsByTeamIdAndSeasonId(team.Id, UserPreferredSeasonId);
             var model = new TeamDetailViewModel()
             {
@@ -186,6 +195,9 @@ namespace BisLeagues.Presentation.Controllers
                 TotalGoalCount = totalGoalCount,
                 IncomingTransferRequests = incomingTransferRequests,
                 OutgoingTransferRequests = outgoingTransferRequests,
+                PastMatchesNews = pastMatchesNews,
+                UpcomingMatches = upcomingMatches
+                
             };
             return View(model);
 

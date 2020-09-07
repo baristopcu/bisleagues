@@ -194,6 +194,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                         var newsPicture = model.NewsPicture;
                         bool videoPictureDefined = (videoPicture != null && videoPicture.Length > 0);
                         bool newsPictureDefined = (newsPicture != null && newsPicture.Length > 0);
+                        
+                        
                         if (videoPictureDefined || newsPictureDefined)
                         {
                             if (videoPictureDefined) //Deprecated

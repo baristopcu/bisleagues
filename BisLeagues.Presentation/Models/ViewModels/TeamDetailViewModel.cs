@@ -12,5 +12,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
         public int TotalGoalCount { get; set; }
         public IEnumerable<TransferRequest> IncomingTransferRequests { get; set; }
         public IEnumerable<TransferRequest> OutgoingTransferRequests { get; set; }
+        public IEnumerable<New> PastMatchesNews { get; set; }
+        public IEnumerable<Match> UpcomingMatches { get; set; }
     }
 }
