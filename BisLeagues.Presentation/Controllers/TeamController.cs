@@ -165,14 +165,16 @@ namespace BisLeagues.Presentation.Controllers
         {
             if (id == 0 && User.Identity.IsAuthenticated)
             {
-                MessageCode = 0;
-                Message = "Hangi takım ?";
-                return RedirectToAction("Index", "Home");
-            }
-            string homePageCacheKey = String.Format(MemoryCacheKeys.TeamDetailKey, id);
-            if (_memoryCache.TryGetValue(homePageCacheKey, out object cachedObject))
-            {
-                return View((TeamDetailViewModel) cachedObject);
+                var player = _userManager.GetCurrentUser(this.HttpContext).Player;
+                if (player != null)
+                {
+                    var teamPlayers = player.TeamPlayers.FirstOrDefault();
+                    if (teamPlayers != null)
+                    {
+                        id = teamPlayers.TeamId;
+                    }
+                }
+                return RedirectToAction("Detail", "Team", new { id = id});
             }
 
             var team = _teamRepository.SingleOrDefault(x => x.Id == id);
@@ -210,12 +212,6 @@ namespace BisLeagues.Presentation.Controllers
                 PastMatchesNews = pastMatchesNews,
                 UpcomingMatches = upcomingMatches
             };
-
-
-            _memoryCache.Set(homePageCacheKey, model, new MemoryCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
-            });
 
             return View(model);
         }
