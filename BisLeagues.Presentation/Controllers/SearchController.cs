@@ -10,6 +10,7 @@ using BisLeagues.Core.Models;
 using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Presentation.BaseControllers;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -18,7 +19,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ITeamRepository _teamRepository;
         private readonly IPlayerRepository _playerRepository;
 
-        public SearchController(ITeamRepository teamRepository, IPlayerRepository playerRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public SearchController(ITeamRepository teamRepository, IPlayerRepository playerRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _teamRepository = teamRepository;
             _playerRepository = playerRepository;

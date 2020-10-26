@@ -31,6 +31,7 @@ namespace BisLeagues.Core.Models
         public int MatchCount { get; set; }
         public int WinCount { get; set; }
         public int LoseCount { get; set; }
+        public int DrawCount { get; set; }
         public int Point { get; set; }
 
         public Season Season

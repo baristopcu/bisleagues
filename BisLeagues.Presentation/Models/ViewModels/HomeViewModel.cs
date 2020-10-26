@@ -11,7 +11,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
     {
         public List<ExchangeRow> ExchangeTopPlayers { get; set; }
         public List<GoalKingRow> GoalKingPlayers { get; set; }
-        public List<Match> UpComingMatches { get; set; }
+        public List<UpComingMatchModel> UpComingMatches { get; set; }
         public Match UpComingMatch { get; set; }
         public TimeSpan UpComingMatchCounter { get; set; }
         public List<New> TopNews { get; set; }

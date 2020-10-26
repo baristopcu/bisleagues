@@ -12,6 +12,7 @@ using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.ServiceModels;
 using BisLeagues.Core.Interfaces;
 using BisLeagues.Presentation.BaseControllers;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -20,7 +21,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly IExchangeService _exchangeService;
         private readonly IResultRepository _resultRepository;
-        public ExchangeController(ISeasonRepository seasonRepository, IExchangeService exchangeService, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public ExchangeController(ISeasonRepository seasonRepository, IExchangeService exchangeService, IResultRepository resultRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _seasonRepository = seasonRepository;
             _exchangeService = exchangeService;

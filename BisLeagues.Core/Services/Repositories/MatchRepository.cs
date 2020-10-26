@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BisLeagues.Core.Services.Repositories
 {
@@ -51,7 +52,7 @@ namespace BisLeagues.Core.Services.Repositories
 
         public IEnumerable<Match> GetUpcomingMatchesBySeasonIdAndLimit(int seasonId, int limit)
         {
-            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).OrderBy(p => p.MatchDate).Take(limit);
+            IEnumerable<Match> matches = _dbContext.Matches.Where(x => x.SeasonId == seasonId && x.IsPlayed == false && x.MatchDate > DateTime.UtcNow).Include(match => match.Home).Include(match => match.Away).OrderBy(p => p.MatchDate).Take(limit);
             return matches;
         }
         

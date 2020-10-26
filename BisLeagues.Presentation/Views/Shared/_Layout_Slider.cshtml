@@ -2,38 +2,38 @@
 <html class="no-js" lang="en">
 <head>
 
-    <partial name="_Partials/_Head" />
-
+    <partial name="_Partials/_Head"/>
+    <meta name="google-site-verification" content="Lje5SWULaKiw2XmZX_xK94x1tghIKTuUNCQyEs7Yks8"/>
 </head>
 <body>
 
-    <!-- Wrapper -->
-    <div class="wrap push">
+<!-- Wrapper -->
+<div class="wrap push">
 
-        <!-- Header -->
-        <header class="header style-3">
+    <!-- Header -->
+    <header class="header style-3">
 
-            <div id="message"></div>
+        <div id="message"></div>
 
-            <partial name="_Partials/_TopBar" />
+        <partial name="_Partials/_TopBar"/>
 
-            <partial name="_Partials/_Nav" />
+        <partial name="_Partials/_Nav"/>
 
-        </header>
-        <!-- Header -->
+    </header>
+    <!-- Header -->
 
-        @RenderSection("Slider", required: false)
+    @RenderSection("Slider", required: false)
 
-        <!-- Main Content -->
-        <main class="main-content">
-            @RenderBody()
+    <!-- Main Content -->
+    <main class="main-content">
+        @RenderBody()
 
-        </main>
-        <!-- Main Content -->
+    </main>
+    <!-- Main Content -->
 
-        <partial name="_Partials/_Footer" />
-        <partial name="_Partials/_Message" />
-    </div>
-    @RenderSection("Scripts", required: false)
+    <partial name="_Partials/_Footer"/>
+    <partial name="_Partials/_Message"/>
+</div>
+@RenderSection("Scripts", required: false)
 </body>
 </html>

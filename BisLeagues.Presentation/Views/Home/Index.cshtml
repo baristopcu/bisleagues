@@ -5,59 +5,95 @@
     Layout = "~/Views/Shared/_Layout_Slider.cshtml";
 
 }
+
 @section Slider
-    {
-    <partial name="_Partials/_Slider" model="Model.TopNews" />
+{
+    <partial name="_Partials/_Slider" model="Model.TopNews"/>
 
 }
 
-<!-- Next Match -->
-<div class="next-match style-2">
-    <div class="container p-0">
-        <!-- Macth left Time -->
-        <div class="col-sm-6 bg-2">
-            <div class="left-match-time">
-                <h2>Gelecek Maç</h2>
-                <ul id="countdown-1" class="countdown">
-                    <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün</li>
-                    <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat </li>
-                    <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika </li>
-                </ul>
-                <span>@(Model.UpComingMatch != null ? TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm") : "Sırada maç yok !")</span>
-            </div>
-        </div>
-        <!-- Macth left Time -->
-        <!-- Vs Team -->
-        <div class="col-sm-6 bg-1">
-            <div class="vs-team">
-                <div class="team-btw-match">
-                    @if (Model.UpComingMatch != null)
-                    {
-                        <ul>
-                            <li>
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name">
-                                <span><a style="color:black;" href="@Url.Action("Detail", "Team", new { Model.UpComingMatch.Home.Id } )">@Model.UpComingMatch.Home.Name</a></span>
-                            </li>
-                            <li>
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name">
-                                <span><a style="color:black;" href="@Url.Action("Detail", "Team", new { Model.UpComingMatch.Away.Id })">@Model.UpComingMatch.Away.Name</a></span>
-                            </li>
-                        </ul>
-                    }
-                </div>
-            </div>
-        </div>
-        <!-- Vs Team -->
+<div id="myCarouselFixture" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+      @{int i = 0; }
+      @foreach(var item in Model.UpComingMatches)
+      {
+        <li data-target="#myCarouselFixture" data-slide-to="@i" class="@(i==0 ? "active" : "")"></li>
+        i++;
+      }
+      </ol>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        @{ i = 0; }
+        @foreach (var item in Model.UpComingMatches)
+        {
+            <div class="item @(i == 0 ? "active" : "")">
 
+                <!-- Next Match -->
+                <div class="next-match style-2">
+                    <div class="container p-0">
+                        <!-- Macth left Time -->
+                        <div class="col-sm-6 bg-2">
+                            <div class="left-match-time">
+                                <h2>Gelecek Maç</h2>
+                                <ul id="countdown-1" class="countdown">
+                                    <li><span class="days">@item.Counter.Days</span>Gün</li>
+                                    <li><span class="hours">@item.Counter.Hours</span>Saat </li>
+                                    <li><span class="minutes">@item.Counter.Minutes</span>Dakika </li>
+                                </ul>
+                                <span>@(item.Match != null ? TimeZoneInfo.ConvertTimeFromUtc(item.Match.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm") : "Sırada maç yok !")</span>
+                            </div>
+                        </div>
+                        <!-- Macth left Time -->
+                        <!-- Vs Team -->
+                        <div class="col-sm-6 bg-1">
+                            <div class="vs-team">
+                                <div class="team-btw-match">
+                                    @if (item.Match != null)
+                                    {
+                                        <ul>
+                                            <li>
+                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home.Logo.Path, width = 105, height = 105})" alt="@item.Match.Home.Name">
+                                                <span>
+                                                    <a style="color:black;" href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">@item.Match.Home.Name</a>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away.Logo.Path, width = 105, height = 105})" alt="@item.Match.Away.Name">
+                                                <span>
+                                                    <a style="color:black;" href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">@item.Match.Away.Name</a>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Vs Team -->
+
+                    </div>
+                </div>
+                <!-- Next Match -->
+            </div>
+            i++;
+        }
     </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarouselFixture" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarouselFixture" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
-<!-- Next Match -->
 <!-- Match Detail -->
 <section class="theme-padding-bottom bg-fixed">
     <div class="container">
-        <br />
-        <br />
-        <br />
+        <br/>
+        <br/>
+        <br/>
         <!-- Match Detail Content -->
         <div class="match-detail-content">
             <div class="row">
@@ -66,8 +102,8 @@
                     <div class="row" style="margin-top: 20px;">
                         <!-- Point Table -->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            @await Component.InvokeAsync("PointTable", new { numberOfItems = 10 })
-                        </div> 
+                            @await Component.InvokeAsync("PointTable", new {numberOfItems = 10})
+                        </div>
                         <!-- Point Table -->
                         <!-- Goal King-->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -77,34 +113,33 @@
                             <div class="last-matches styel-3">
                                 <table class="table table-bordered table-hover">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>AD</th>
-                                            <th>TAKIM</th>
-                                            <th>DEĞER</th>
-                                        </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>AD</th>
+                                        <th>TAKIM</th>
+                                        <th>DEĞER</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @{int order = 1; }
-                                        @foreach (var row in Model.GoalKingPlayers)
-                                        {
-
-                                            <tr>
-                                                <td>@order</td>
-                                                <td>
-                                                    <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
-                                                        @row.Player.User.FirstName
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="@Url.Action("Detail", "Team", new { row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
-                                                        @row.Player.TeamPlayers.FirstOrDefault().Team.Name
-                                                    </a>
-                                                </td>
-                                                <td>@row.Goals</td>
-                                            </tr>
-                                            order++;
-                                        }
+                                    @{ int order = 1; }
+                                    @foreach (var row in Model.GoalKingPlayers)
+                                    {
+                                        <tr>
+                                            <td>@order</td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Profile", new {row.Player.User.Id})">
+                                                    @row.Player.User.FirstName
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Team", new {row.Player.TeamPlayers.FirstOrDefault().Team.Id})">
+                                                    @row.Player.TeamPlayers.FirstOrDefault().Team.Name
+                                                </a>
+                                            </td>
+                                            <td>@row.Goals</td>
+                                        </tr>
+                                        order++;
+                                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -112,38 +147,39 @@
                         <!-- Goal King-->
                         <!-- Exchange-->
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <h3><span>BORSA DURUMU</span></h3>
+                            <h3>
+                                <span>BORSA DURUMU</span>
+                            </h3>
                             <div class="last-matches styel-3">
                                 <table class="table table-bordered table-hover">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>AD</th>
-                                            <th>TAKIM</th>
-                                            <th>DEĞER</th>
-                                        </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>AD</th>
+                                        <th>TAKIM</th>
+                                        <th>DEĞER</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @{int orderForExchange = 1; }
-                                        @foreach (var row in Model.ExchangeTopPlayers)
-                                        {
-
-                                            <tr>
-                                                <td>@orderForExchange</td>
-                                                <td>
-                                                    <a href="@Url.Action("Detail", "Profile", new { row.Player.User.Id })">
-                                                        @row.Player.User.FirstName
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="@Url.Action("Detail", "Team", new { @row.Player.TeamPlayers.FirstOrDefault().Team.Id })">
-                                                        @row.Player.TeamPlayers.FirstOrDefault().Team.Name
-                                                    </a>
-                                                </td>
-                                                <td>@row.Value $</td>
-                                            </tr>
-                                            orderForExchange++;
-                                        }
+                                    @{ int orderForExchange = 1; }
+                                    @foreach (var row in Model.ExchangeTopPlayers)
+                                    {
+                                        <tr>
+                                            <td>@orderForExchange</td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Profile", new {row.Player.User.Id})">
+                                                    @row.Player.User.FirstName
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Detail", "Team", new {@row.Player.TeamPlayers.FirstOrDefault().Team.Id})">
+                                                    @row.Player.TeamPlayers.FirstOrDefault().Team.Name
+                                                </a>
+                                            </td>
+                                            <td>@row.Value $</td>
+                                        </tr>
+                                        orderForExchange++;
+                                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -157,7 +193,9 @@
                 <!-- Latest News -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="latest-news-holder">
-                        <h3><span>HABERLER</span></h3>
+                        <h3>
+                            <span>HABERLER</span>
+                        </h3>
 
                         <!-- latest-news Slider -->
                         <div class="row no-gutters white-bg">
@@ -168,20 +206,20 @@
                                     @foreach (var newItem in Model.TopNews)
                                     {
                                         <li>
-                                            <a href="@Url.Action("Detail","News", new { id = newItem.Id })">
+                                            <a href="@Url.Action("Detail", "News", new {id = newItem.Id})">
                                                 @if (newItem.CoverPhoto != null)
                                                 {
-                                                    <img src="@Url.Action("Resize", "Image", new { url = newItem.CoverPhoto.Path, width = 855, height = 346 })" alt="@newItem.Caption">
-
+                                                    <img src="@Url.Action("Resize", "Image", new {url = newItem.CoverPhoto.Path, width = 855, height = 346})" alt="@newItem.Caption">
                                                 }
                                                 else
                                                 {
                                                     <img src="#" alt="@newItem.Caption">
-
                                                 }
 
 
-                                                <p style="color:black;">@newItem.ShortDescription <span style="color:red;">Devamını Oku</span></p>
+                                                <p style="color:black;">
+                                                    @newItem.ShortDescription <span style="color:red;">Devamını Oku</span>
+                                                </p>
                                             </a>
                                         </li>
                                     }
@@ -200,8 +238,12 @@
                                     }
                                 </ul>
                                 <ul class="news-thumb-arrows">
-                                    <li class="prev"><span class="fa fa-angle-up"></span></li>
-                                    <li class="next"><span class="fa fa-angle-down"></span></li>
+                                    <li class="prev">
+                                        <span class="fa fa-angle-up"></span>
+                                    </li>
+                                    <li class="next">
+                                        <span class="fa fa-angle-down"></span>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- Thumnail -->
@@ -222,7 +264,9 @@
 <div class="gallery-holder" style="padding-bottom: 150px;">
     <!-- Separator -->
     <div class="container text-center">
-        <span class="sprater"><i class="fa fa-futbol-o"></i></span>
+        <span class="sprater">
+            <i class="fa fa-futbol-o"></i>
+        </span>
     </div>
     <!-- Separator -->
     <!-- Team -->
@@ -246,10 +290,10 @@
                         <!-- Team Column -->
                         <div class="item">
                             <div class="team-column">
-                                <img src="@Url.Action("Resize", "Image", new { url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
+                                <img src="@Url.Action("Resize", "Image", new {url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
                                 <div class="team-detail">
                                     <h5>
-                                        <a href="@Url.Action("Detail", "Team", new { team.Id })">
+                                        <a href="@Url.Action("Detail", "Team", new {team.Id})">
                                             @team.Name
                                         </a>
                                     </h5>
@@ -277,10 +321,26 @@
 
                                             <li>
                                                 <ul class="social-icons">
-                                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                                    <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                                    <li>
+                                                        <a class="facebook" href="#">
+                                                            <i class="fa fa-facebook"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="twitter" href="#">
+                                                            <i class="fa fa-twitter"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="youtube" href="#">
+                                                            <i class="fa fa-youtube-play"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="pinterest" href="#">
+                                                            <i class="fa fa-pinterest-p"></i>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -301,3 +361,23 @@
 
 </div>
 <!-- Gallery And Team -->
+@section Scripts
+{
+    <script>
+    $(".carousel").on("touchstart", function(event){
+            var xClick = event.originalEvent.touches[0].pageX;
+        $(this).one("touchmove", function(event){
+            var xMove = event.originalEvent.touches[0].pageX;
+            if( Math.floor(xClick - xMove) > 5 ){
+                $(this).carousel('next');
+            }
+            else if( Math.floor(xClick - xMove) < -5 ){
+                $(this).carousel('prev');
+            }
+        });
+        $(".carousel").on("touchend", function(){
+                $(this).off("touchmove");
+        });
+    });
+    </script>
+}

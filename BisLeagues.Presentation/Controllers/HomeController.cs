@@ -11,6 +11,8 @@ using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.Interfaces;
 using BisLeagues.Core.ServiceModels;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -23,8 +25,12 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IPointTableRowRepository _pointTableRowRepository;
         private readonly IGoalKingRowRepository _goalKingRowRepository;
         private readonly IExchangeService _exchangeService;
+        private readonly IMemoryCache _memoryCache;
 
-        public HomeController(IPlayerRepository playerRepository, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository, IPointTableRowRepository pointTableRowRepository, IGoalKingRowRepository goalKingRowRepository, IExchangeService exchangeService, ISettingRepository settingRepository) : base(settingRepository)
+        public HomeController(IPlayerRepository playerRepository,
+            ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository,
+            IPointTableRowRepository pointTableRowRepository, IGoalKingRowRepository goalKingRowRepository,
+            IExchangeService exchangeService, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
@@ -33,15 +39,35 @@ namespace BisLeagues.Presentation.Controllers
             _pointTableRowRepository = pointTableRowRepository;
             _goalKingRowRepository = goalKingRowRepository;
             _exchangeService = exchangeService;
+            _memoryCache = memoryCache;
         }
 
         public IActionResult Index()
         {
-            List<Match> upComingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndLimit(UserPreferredSeasonId, 5).ToList();
+            string homePageCacheKey = MemoryCacheKeys.HomePageKey;
+            if (_memoryCache.TryGetValue(homePageCacheKey, out object cachedObject))
+            {
+                return View((HomeViewModel) cachedObject);
+            }
+            
+            List<Match> upComingMatches =
+                _matchRepository.GetUpcomingMatchesBySeasonIdAndLimit(UserPreferredSeasonId, 5).ToList();
+            List<UpComingMatchModel> upComingMatchesWithCounter = new List<UpComingMatchModel>();
+            foreach (var match in upComingMatches)
+            {
+                upComingMatchesWithCounter.Add(new UpComingMatchModel()
+                {
+                    Match = match,
+                    Counter = match != null ? (match.MatchDate - DateTime.UtcNow) : new TimeSpan()
+                });
+            }
+
             var upComingMatch = upComingMatches.FirstOrDefault();
             upComingMatches.Remove(upComingMatch);
-            TimeSpan matchCounter = upComingMatch != null ? (upComingMatch.MatchDate - DateTime.UtcNow) : new TimeSpan();
-            List<GoalKingRow> goalKingPlayersRows = _goalKingRowRepository.GetGoalKingTableRowsBySeasonId(UserPreferredSeasonId).ToList();
+            TimeSpan matchCounter =
+                upComingMatch != null ? (upComingMatch.MatchDate - DateTime.UtcNow) : new TimeSpan();
+            List<GoalKingRow> goalKingPlayersRows =
+                _goalKingRowRepository.GetGoalKingTableRowsBySeasonId(UserPreferredSeasonId).ToList();
             List<ExchangeRow> exchangeTableRows = _exchangeService.GetTopPlayersInExchange(UserPreferredSeasonId);
             List<New> topFiveNews = _newRepository.GetTopNewsBySeasonIdAndLimit(UserPreferredSeasonId, 5).ToList();
             List<Team> topTeams = new List<Team>();
@@ -56,12 +82,17 @@ namespace BisLeagues.Presentation.Controllers
             {
                 ExchangeTopPlayers = exchangeTableRows,
                 GoalKingPlayers = goalKingPlayersRows,
-                UpComingMatches = upComingMatches,
+                UpComingMatches = upComingMatchesWithCounter,
                 UpComingMatch = upComingMatch,
                 UpComingMatchCounter = matchCounter,
                 TopNews = topFiveNews,
                 TopTeams = topTeams
             };
+            _memoryCache.Set(homePageCacheKey, model, new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
+            });
+            
             return View(model);
         }
     }

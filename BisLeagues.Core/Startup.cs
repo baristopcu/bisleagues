@@ -31,7 +31,7 @@ namespace BisLeagues
         {
 
 
-            services.AddDistributedMemoryCache();
+            services.AddMemoryCache();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 

@@ -9,6 +9,7 @@ using BisLeagues.Core.Utility;
 using BisLeagues.Presentation.BaseControllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -20,7 +21,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ITransferRequestRepository _transferRequestRepository;
         private readonly IUserManager _userManager;
 
-        public TransferController(ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, IUserManager userManager, ISettingRepository settingRepository) : base(settingRepository)
+        public TransferController(ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, IUserManager userManager, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _teamRepository = teamRepository;
             _playerRepository = playerRepository;

@@ -7,6 +7,7 @@ using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Core.Interfaces;
 using BisLeagues.Core.Utility;
 using BisLeagues.Presentation.Models.RequestModels;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -18,7 +19,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IPlayerRepository _playerRepository;
         private readonly IPasswordService _passwordService;
 
-        public AuthenticationController(IUserRepository userRepository, IUserManager userManager, IUserRoleRepository userRoleRepository, IPlayerRepository playerRepository, IPasswordService passwordService, ISettingRepository settingRepository) : base(settingRepository)
+        public AuthenticationController(IUserRepository userRepository, IUserManager userManager, IUserRoleRepository userRoleRepository, IPlayerRepository playerRepository, IPasswordService passwordService, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _userManager = userManager;
             _userRepository = userRepository;

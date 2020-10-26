@@ -16,6 +16,7 @@ using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Core.Utility;
 using BisLeagues.Core.Enums;
 using BisLeagues.Core.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -28,7 +29,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGoalKingService _goalKingService;
 
-        public ProfileController(IUserManager userManager, IPlayerRepository playerRepository, IUserRepository userRepository, ITransferRequestRepository transferRequestRepository, ISeasonRepository seasonRepository, IGoalKingService goalKingService, ISettingRepository settingRepository) : base(settingRepository)
+        public ProfileController(IUserManager userManager, IPlayerRepository playerRepository, IUserRepository userRepository, ITransferRequestRepository transferRequestRepository, ISeasonRepository seasonRepository, IGoalKingService goalKingService, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _userManager = userManager;
             _playerRepository = playerRepository;

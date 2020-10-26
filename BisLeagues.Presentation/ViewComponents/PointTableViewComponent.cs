@@ -19,7 +19,7 @@ namespace BisLeagues.Presentation.ViewComponents
 
         public IViewComponentResult Invoke(int numberOfItems)
         {
-            int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 0;
+            int activeSeasonId = Request.Cookies["SelectedSeasonId"] != null ? int.Parse(Request.Cookies["SelectedSeasonId"]) : 3;
             List<PointTableRow> pointTableRows =  _pointTableRowRepository.GetPointTableRowsBySeasonId(activeSeasonId).ToList();
             pointTableRows = pointTableRows.Count > numberOfItems ? pointTableRows.GetRange(0, numberOfItems) : pointTableRows.GetRange(0, pointTableRows.Count);
             return View(pointTableRows);

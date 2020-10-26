@@ -16,6 +16,7 @@ using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Core.Utility;
 using BisLeagues.Core.Enums;
 using BisLeagues.Core.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -31,8 +32,13 @@ namespace BisLeagues.Presentation.Controllers
         private readonly IGoalKingService _goalKingService;
         private readonly IMatchRepository _matchRepository;
         private readonly INewRepository _newsRepository;
+        private readonly IMemoryCache _memoryCache;
 
-        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository, IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository, ITransferRequestRepository transferRequestRepository, IGoalKingService goalKingService, ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newsRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public TeamController(ICityRepository cityRepository, IPhotoRepository photoRepository,
+            IUserManager userManager, ITeamRepository teamRepository, IPlayerRepository playerRepository,
+            ITransferRequestRepository transferRequestRepository, IGoalKingService goalKingService,
+            ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newsRepository,
+            ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _cityRepository = cityRepository;
             _photoRepository = photoRepository;
@@ -44,6 +50,7 @@ namespace BisLeagues.Presentation.Controllers
             _goalKingService = goalKingService;
             _matchRepository = matchRepository;
             _newsRepository = newsRepository;
+            _memoryCache = memoryCache;
         }
 
         public IActionResult Application()
@@ -56,6 +63,7 @@ namespace BisLeagues.Presentation.Controllers
                     Message = "Bir takımın varken takım başvurusu oluşturamazsın, önce takımından ayrıl";
                     return RedirectToAction("Index", "Home");
                 }
+
                 TeamApplicationViewModel model = new TeamApplicationViewModel
                 {
                     Cities = _cityRepository.GetAll().ToList()
@@ -67,9 +75,7 @@ namespace BisLeagues.Presentation.Controllers
                 MessageCode = 0;
                 Message = "Takım başvurusu yapmadan önce sisteme giriş yapmalısın.";
                 return RedirectToAction("Index", "Home");
-
             }
-
         }
 
         [HttpPost]
@@ -84,13 +90,13 @@ namespace BisLeagues.Presentation.Controllers
 
             if (ModelState.IsValid)
             {
-
                 if (_userManager.GetCurrentUser(this.HttpContext).Player.TeamPlayers.Count > 0)
                 {
                     MessageCode = 0;
                     Message = "Bir takımın varken takım başvurusu oluşturamazsın, önce takımından ayrıl";
                     return RedirectToAction("Index", "Home");
                 }
+
                 var image = model.Logo;
                 if (image != null && image.Length > 0)
                 {
@@ -101,11 +107,13 @@ namespace BisLeagues.Presentation.Controllers
                         if (image.Length < limit)
                         {
                             var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\team_logos", fileName);
+                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\team_logos",
+                                fileName);
                             using (var fileSteam = new FileStream(filePath, FileMode.Create))
                             {
                                 await image.CopyToAsync(fileSteam);
                             }
+
                             var user = _userManager.GetCurrentUser(this.HttpContext);
                             var team = new Team()
                             {
@@ -125,7 +133,7 @@ namespace BisLeagues.Presentation.Controllers
                                 CreatedOnUtc = DateTime.UtcNow
                             };
                             _teamRepository.Add(team);
-                            team.TeamPlayers.Add(new TeamPlayers() { Player = user.Player, Team = team });
+                            team.TeamPlayers.Add(new TeamPlayers() {Player = user.Player, Team = team});
                             _teamRepository.Update(team);
                         }
                         else
@@ -157,18 +165,17 @@ namespace BisLeagues.Presentation.Controllers
         {
             if (id == 0 && User.Identity.IsAuthenticated)
             {
-                var player = _userManager.GetCurrentUser(this.HttpContext).Player;
-                if (player != null)
-                {
-                    var teamPlayers = player.TeamPlayers.FirstOrDefault();
-                    if (teamPlayers != null)
-                    {
-                        id = teamPlayers.TeamId;
-                    }
-                }
+                MessageCode = 0;
+                Message = "Hangi takım ?";
+                return RedirectToAction("Index", "Home");
+            }
+            string homePageCacheKey = String.Format(MemoryCacheKeys.TeamDetailKey, id);
+            if (_memoryCache.TryGetValue(homePageCacheKey, out object cachedObject))
+            {
+                return View((TeamDetailViewModel) cachedObject);
             }
 
-            var team = _teamRepository.Find(x => x.Id == id).FirstOrDefault();
+            var team = _teamRepository.SingleOrDefault(x => x.Id == id);
             if (team == null)
             {
                 MessageCode = 0;
@@ -180,14 +187,19 @@ namespace BisLeagues.Presentation.Controllers
             List<TransferRequest> outgoingTransferRequests = new List<TransferRequest>();
             if (_userManager.GetCurrentUser(this.HttpContext)?.Player == team.CaptainPlayer)
             {
-                incomingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Team == team).ToList();
-                outgoingTransferRequests = _transferRequestRepository.Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Team == team).ToList();
+                incomingTransferRequests = _transferRequestRepository
+                    .Find(x => x.Type == (int) TransferTypes.PlayerToTeam && x.Team == team).ToList();
+                outgoingTransferRequests = _transferRequestRepository
+                    .Find(x => x.Type == (int) TransferTypes.TeamToPlayer && x.Team == team).ToList();
             }
 
-            var pastMatchesIdList = _matchRepository.GetPastMatchIdsBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
-            var pastMatchesNews = _newsRepository.GetNewsBySeasonAndMatchIds(UserPreferredSeasonId, pastMatchesIdList).ToList();
-            var upcomingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
-            
+            var pastMatchesIdList =
+                _matchRepository.GetPastMatchIdsBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
+            var pastMatchesNews = _newsRepository.GetNewsBySeasonAndMatchIds(UserPreferredSeasonId, pastMatchesIdList)
+                .ToList();
+            var upcomingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndTeamId(UserPreferredSeasonId, id)
+                .ToList();
+
             var totalGoalCount = _goalKingService.GetTeamGoalsByTeamIdAndSeasonId(team.Id, UserPreferredSeasonId);
             var model = new TeamDetailViewModel()
             {
@@ -197,10 +209,15 @@ namespace BisLeagues.Presentation.Controllers
                 OutgoingTransferRequests = outgoingTransferRequests,
                 PastMatchesNews = pastMatchesNews,
                 UpcomingMatches = upcomingMatches
-                
             };
-            return View(model);
 
+
+            _memoryCache.Set(homePageCacheKey, model, new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
+            });
+
+            return View(model);
         }
 
         [HttpPost]
@@ -225,13 +242,13 @@ namespace BisLeagues.Presentation.Controllers
                         _teamRepository.Update(team);
                         MessageCode = 1;
                         Message = "Takım açıklamasını güncelledik.";
-                        return RedirectToAction("Detail", "Team", new { id = teamId });
+                        return RedirectToAction("Detail", "Team", new {id = teamId});
                     }
                     else
                     {
                         MessageCode = 0;
                         Message = "Sen kaptan değilsin, düzenleyemezsin !";
-                        return RedirectToAction("Detail", "Team", new { id = teamId });
+                        return RedirectToAction("Detail", "Team", new {id = teamId});
                     }
                 }
             }
@@ -239,7 +256,7 @@ namespace BisLeagues.Presentation.Controllers
             {
                 MessageCode = 0;
                 Message = "Önce bir giriş yap hele !";
-                return RedirectToAction("Detail", "Team", new { id = teamId });
+                return RedirectToAction("Detail", "Team", new {id = teamId});
             }
         }
     }

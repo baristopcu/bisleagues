@@ -12,6 +12,7 @@ using BisLeagues.Presentation.Models.ViewModels;
 using BisLeagues.Core.ServiceModels;
 using BisLeagues.Core.Interfaces;
 using BisLeagues.Presentation.BaseControllers;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -20,7 +21,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGoalKingRowRepository _goalKingRowRepository;
         private readonly IResultRepository _resultRepository;
-        public GoalKingController(ISeasonRepository seasonRepository, IGoalKingRowRepository goalKingRowRepository, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public GoalKingController(ISeasonRepository seasonRepository, IGoalKingRowRepository goalKingRowRepository, IResultRepository resultRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _seasonRepository = seasonRepository;
             _goalKingRowRepository = goalKingRowRepository;

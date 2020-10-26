@@ -6,6 +6,7 @@ using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Presentation.BaseControllers;
 using BisLeagues.Presentation.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BisLeagues.Presentation.Controllers
 {
@@ -14,7 +15,7 @@ namespace BisLeagues.Presentation.Controllers
         private readonly INewRepository _newRepository;
         private readonly IResultRepository _resultRepository;
 
-        public NewsController(INewRepository newRepository, IResultRepository resultRepository, ISettingRepository settingRepository) : base(settingRepository)
+        public NewsController(INewRepository newRepository, IResultRepository resultRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _newRepository = newRepository;
             _resultRepository = resultRepository;

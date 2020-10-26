@@ -20,7 +20,8 @@ namespace BisLeagues.Core.Services.Repositories
 
         public IEnumerable<PointTableRow> GetPointTableRowsBySeasonId(int seasonId)
         {
-            var pointTableRows = _dbContext.PointTableRows.Where(x => x.SeasonId == seasonId).OrderByDescending(x=>x.Point);
+            var pointTableRows = _dbContext.PointTableRows.Where(x => x.SeasonId == seasonId).OrderByDescending(x => x.Point).ThenByDescending(x => x.Average)
+                .ThenByDescending(x => x.MatchCount).ThenBy(x => x.Team.Name).ToList();
             return pointTableRows;
         }
     }
