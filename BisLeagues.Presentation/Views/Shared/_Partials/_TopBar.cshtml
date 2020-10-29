@@ -26,14 +26,18 @@
                 </ul>
             </li>
             <li class="language-dropdown">
-                <a id="choses-lang" href="@Url.Action("Detail","Team")"><i class="fa fa-users"></i>  TAKIMIM</a>
-                <ul id="language-dropdown">
-                </ul>
+                <a id="choses-lang" href="@Url.Action("Detail","Team")">
+                    <i class="fa fa-users"></i>  TAKIMIM
+                    <ul id="language-dropdown">
+                    </ul>
+                </a>
             </li>
             <li class="language-dropdown">
-                <a id="choses-lang" href="@Url.Action("Detail","Profile")"><i class="fa fa-user"></i>  PROFİLİM</a>
-                <ul id="language-dropdown">
-                </ul>
+                <a id="choses-lang" href="@Url.Action("Detail","Profile")">
+                    <i class="fa fa-user"></i>  PROFİLİM
+                    <ul id="language-dropdown">
+                    </ul>
+                </a>
             </li>
             <li class="login-modal">
                 @if (!User.Identity.IsAuthenticated)
