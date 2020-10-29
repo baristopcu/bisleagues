@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BisLeagues.Presentation.Models.ViewModels
 {
-    public class NewViewModel
+    public class NewListViewModel
     {
-        public New New;
-        public Result Result;
+        public Pagination Pagination;
+        public List<New> News;
     }
 }

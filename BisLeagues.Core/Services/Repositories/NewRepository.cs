@@ -33,6 +33,13 @@ namespace BisLeagues.Core.Services.Repositories
             IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId && x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
             return newsOfMatches;
         }
+        public IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId, int skip, int take, out int totalCount)
+        {
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId && x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
+            totalCount = newsOfMatches.Count();
+            newsOfMatches = newsOfMatches.Skip(skip).Take(take);
+            return newsOfMatches;
+        }
 
         public IEnumerable<New> GetNewsOfPastMatchesBySeasonIdAndLimit(int seasonId, int limit)
         {

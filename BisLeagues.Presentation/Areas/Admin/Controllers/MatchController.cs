@@ -95,6 +95,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                 var match = new Match()
                 {
                     Season = season,
+                    StadiumName = model.StadiumName,
                     Home = home,
                     Away = away,
                     IsPlayed = false,
@@ -160,6 +161,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
                     try
                     {
                         var match = _matchRepository.Get(matchId);
+                        match.StadiumName = model.StadiumName;
                         if (match != null)
                         {
                             bool needRefresh = false;

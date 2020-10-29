@@ -1,11 +1,11 @@
-﻿@model IEnumerable<BisLeagues.Core.Models.New>
+﻿@model BisLeagues.Presentation.Models.ViewModels.NewListViewModel
 
 @{
     ViewData["Title"] = "Haberler";
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 }
 
-@if (Model.Count() > 0)
+@if (Model.News.Count() > 0)
 {
     @section Heading{
         <!-- Page Heading & Breadcrumbs  -->
@@ -13,7 +13,7 @@
             <div class="container">
                 <h2>Haberler</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Anasayfa</a></li>
                     <li>Haberler</li>
                 </ul>
             </div>
@@ -33,7 +33,10 @@
 
                 <!-- Blog Content -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 r-full-width">
-                    @foreach (var item in Model)
+                    @{ Model.Pagination.ControllerName = "News"; Model.Pagination.ActionName = "Index"; }
+                    <partial name="../Shared/_Partials/_Pagination" model="Model.Pagination" />
+
+                    @foreach (var item in Model.News)
                     {
 
                         <div class="large-post theme-padding-bottom">
@@ -50,6 +53,9 @@
                             <div class="large-post-detail">
                                 <h2><a href="@Url.Action("Detail", "News", new { item.Id })">@item.Caption</a></h2>
                                 <p>@item.ShortDescription</p>
+
+                                <p><span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match.StadiumName</span></p>
+                                <p><span class="location-marker"><i class="fa fa-clock-o"></i>@item.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span></p>
                                 <a class="btn gary-btn" href="@Url.Action("Detail", "News", new { item.Id })"><i>+</i>Haberi Oku</a>
                             </div>
                             <!-- Detail -->
@@ -57,6 +63,7 @@
                         <hr />
                         <br />
                     }
+                    <partial name="../Shared/_Partials/_Pagination" model="Model.Pagination" />
                 </div>
             </div>
         </div>

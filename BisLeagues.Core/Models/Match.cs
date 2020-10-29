@@ -31,6 +31,7 @@ namespace BisLeagues.Core.Models
         public int SeasonId { get; set; }
         public int HomeId { get; set; }
         public int AwayId { get; set; }
+        public string StadiumName { get; set; }
         public bool IsPlayed { get; set; }
         public DateTime MatchDate { get; set; }
 

@@ -99,7 +99,7 @@ namespace BisLeagues.Presentation.Controllers
                             if (image.Length < limit)
                             {
                                 var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/user_pictures", fileName);
+                                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\user_pictures", fileName);
                                 using (var fileSteam = new FileStream(filePath, FileMode.Create))
                                 {
                                     await image.CopyToAsync(fileSteam);

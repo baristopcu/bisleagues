@@ -18,6 +18,8 @@ namespace BisLeagues.Presentation.Areas.Admin.Models.ViewModels
         [Required]
 
         public int AwayId { get; set; }
+
+        public string StadiumName { get; set; }
         [Required]
 
         public DateTime MatchDate { get; set; }

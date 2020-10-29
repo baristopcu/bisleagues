@@ -69,7 +69,6 @@
                                         <input type="text" name="matchHour" id="matchHour" class="form-control" value="@TimeZoneInfo.ConvertTimeFromUtc(Model.Match.MatchDate, TimeZoneInfo.Local).ToString("hh:mm")" />
                                     </div>
                                 </div>
-
                             </div>
                             <br />
                             <hr style="height:2px;border:none;color:#333;background-color:#333;" />
@@ -90,6 +89,14 @@
                             <br />
                             <hr style="height:2px;border:none;color:#333;background-color:#333;" />
                             <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Stad Adı</label>
+                                        <input name="StadiumName" id="StadiumName" value="@Model.Match.StadiumName" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

@@ -342,6 +342,9 @@
     <Content Update="Views\Home\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\_Partials\_Pagination.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Utility\SeasonSelector.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

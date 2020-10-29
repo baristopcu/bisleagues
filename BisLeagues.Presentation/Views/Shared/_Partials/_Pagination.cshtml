@@ -1,0 +1,51 @@
+﻿@model BisLeagues.Presentation.Models.ViewModels.Pagination  
+
+                  <!-- Pagination -->
+    <div class="pagination-holder">
+        <ul class="pagination hidden-sm hidden-xs">
+            @if (Model.PageNumber - 1 != 0 && Model.PageNumber - 1 > 0)
+            {
+                <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.PageNumber - 1, PageSize = Model.PageSize })"><i class="fa fa-angle-double-left"></i>Önceki Sayfa</a></li>
+            }
+            @if (Model.PageNumber - 2 != 0 && Model.PageNumber - 2 > 0)
+            {
+                <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.PageNumber - 2, PageSize = Model.PageSize })">@(Model.PageNumber - 2). Sayfa</a></li>
+            }
+            @if (Model.PageNumber - 1 != 0 && Model.PageNumber - 1 > 0)
+            {
+                <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.PageNumber - 1, PageSize = Model.PageSize })">@(Model.PageNumber - 1). Sayfa</a></li>
+            }
+            <li><a href="#" style="color:red;">@Model.PageNumber. Sayfa</a></li>
+            @if (Model.PageNumber + 1 < Model.TotalPageCount)
+            {
+                <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.PageNumber + 1, PageSize = Model.PageSize })">@(Model.PageNumber + 1). Sayfa</a></li>
+            }
+            @if (Model.PageNumber + 2 < Model.TotalPageCount)
+            {
+                <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.PageNumber + 2, PageSize = Model.PageSize })">@(Model.PageNumber + 2). Sayfa</a></li>
+            }
+            <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
+
+            <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.TotalPageCount, PageSize = Model.PageSize })">@Model.TotalPageCount. Sayfa</a></li>
+            @if (Model.PageNumber + 1 < Model.TotalPageCount)
+            {
+                <li><a href="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = Model.PageNumber + 1, PageSize = Model.PageSize })">Sonraki Sayfa<i class="fa fa-angle-double-right"></i></a></li>
+            }
+        </ul>
+        <br />
+        <br />
+        <ul class="pagination">
+            <li>
+                Beni şu sayfaya uçur:
+                <select name="forma" onchange="location = this.value;">
+                    @for (int i = 1; i <= Model.TotalPageCount; i++)
+                    {
+                        <!option @(i==Model.PageNumber ? "selected" : "") value="@Url.Action(Model.ActionName, Model.ControllerName, new { PageNumber = i, PageSize = Model.PageSize })">@i. Sayfa</!option>
+                    }
+                </select>
+            </li>
+        </ul>
+    </div>
+<br />
+<hr />
+<!-- Pagination -->

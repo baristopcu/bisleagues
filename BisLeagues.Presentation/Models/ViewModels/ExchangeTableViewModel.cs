@@ -9,6 +9,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
 {
     public class ExchangeTableViewModel
     {
+        public Pagination Pagination;
         public bool NoMatchFound;
         public Result LastMatchsResult;
         public List<ExchangeRow> ExchangeTableRows;

@@ -12,6 +12,7 @@ namespace BisLeagues.Core.Interfaces.Repositories
         New GetNewByMatchId(int matchId);
         IEnumerable<New> GetTopNewsBySeasonIdAndLimit(int seasonId, int limit);
         IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId);
+        IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId, int skip, int take, out int totalCount);
         IEnumerable<New> GetNewsOfPastMatchesBySeasonIdAndLimit(int seasonId, int limit);
         IEnumerable<New> GetGeneralNews();
         IEnumerable<New> GetNewsBySeasonAndMatchIds(int seasonId, List<int> matchIds);

@@ -54,6 +54,7 @@
                             <span class="end-time">
                                 <i class="fa fa-clock-o"></i>@Model.LastMatchsResult.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)
                             </span>
+                            <span class="end-time"><i class="fa fa-map-marker"></i>@Model.LastMatchsResult.Match.StadiumName</span>
                         </div>
                         <span class="pull-right @awayTag ">
                             <img src="@Url.Action("Resize", "Image", new {url = Model.LastMatchsResult.Match.Away.Logo.Path, width = 200, height = 200})" alt="">
@@ -73,9 +74,9 @@
             <div class="col-lg-12 col-sm-12">
 
                 <!-- Piont Table -->
-                <div class="macth-fixture table-responsive">
+                <div class="macth-fixture">
                     <h5>Puan Durumu</h5>
-                    <div class="last-matches styel-3">
+                    <div class="last-matches styel-3 table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead>
                             <tr>

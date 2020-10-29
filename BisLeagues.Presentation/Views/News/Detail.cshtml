@@ -50,6 +50,7 @@
                             <div class="vs-match-heading position-center-center">
                                 <strong class="vs-match-result">@Model.Result.HomeScore<span>Vs</span>@Model.Result.AwayScore</strong>
                                 <span class="end-time"><i class="fa fa-clock-o"></i>@Model.New.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                                <span class="end-time"><i class="fa fa-map-marker"></i>@Model.New.Match.StadiumName</span>
                             </div>
                             <span class="pull-right @awayTag ">
                                 <img src="@Url.Action("Resize", "Image", new { url = Model.New.Match.Away.Logo.Path, width = 200, height = 200 })" alt="">
@@ -126,6 +127,9 @@
                     {
                         <div class="row">
                             <div class="col-md-12">
+                                <p><span style="color:red;">Maç Tarihi <i class="fa fa-clock-o"></i> :</span> @Model.New.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</p>
+                                <p><span style="color:red;">Oynanan Stad <i class="fa fa-location-arrow"></i> :</span> @Model.New.Match.StadiumName</p>
+
                                 <h5><span style="color:red;">Maçın Adamı :</span> @Model.Result.PlayerOfTheMatch.User.FirstName @Model.Result.PlayerOfTheMatch.User.LastName / @Model.Result.PlayerOfTheMatch.TeamPlayers.FirstOrDefault()?.Team.Name</h5>
                             </div>
                         </div>

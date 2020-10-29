@@ -41,7 +41,7 @@
                                     <li><span class="hours">@item.Counter.Hours</span>Saat </li>
                                     <li><span class="minutes">@item.Counter.Minutes</span>Dakika </li>
                                 </ul>
-                                <span>@(item.Match != null ? TimeZoneInfo.ConvertTimeFromUtc(item.Match.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm") : "Sırada maç yok !")</span>
+                                <span>@(item.Match != null ? TimeZoneInfo.ConvertTimeFromUtc(item.Match.MatchDate, TimeZoneInfo.Local).ToString("dd.MM.yyyy H:mm") + Html.Raw(" | ") + item.Match.StadiumName : "Sırada maç yok !")</span>
                             </div>
                         </div>
                         <!-- Macth left Time -->

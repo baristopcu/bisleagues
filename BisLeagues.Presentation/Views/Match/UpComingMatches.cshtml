@@ -35,7 +35,7 @@
                         <span class="result-vs">vs</span>
                         <div class="location-marker">
                             <ul>
-                                <li></li>
+                                <li><i class="fa fa-map-marker"></i>@Model.UpComingMatch.StadiumName</li>
                                 <li><i class="fa fa-clock-o"></i> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</li>
                             </ul>
                         </div>
@@ -67,29 +67,14 @@
                                         <div class="detail">
                                             <a href="#"><i></i></a>
                                             <strong>@match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name</strong>
-                                            <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                                            <span class="location-marker"><i class="fa fa-map-marker"></i>@match.StadiumName</span>
                                         </div>
                                     </li>
                                 }
                             </ul>
                         </div>
                         <!-- Matches Dates Shedule -->
-                        <!-- Pagination -->
-                        <div class="pagination-holder">
-                            <ul class="pagination">
-                                <li><a href="#"><i class="fa fa-angle-double-left"></i>Previous</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">7</a></li>
-                                <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
-                                <li><a href="#">28</a></li>
-                                <li><a href="#">Next<i class="fa fa-angle-double-right"></i></a></li>
-                            </ul>
-                        </div>
-                        <!-- Pagination -->
+                        
 
                     </div>
                 </div>

@@ -48,6 +48,7 @@
                                 <div class="vs-match-heading position-center-center">
                                     <strong class="vs-match-result">@Model.LastMatchsResult.HomeScore<span>Vs</span>@Model.LastMatchsResult.AwayScore</strong>
                                     <span class="end-time"><i class="fa fa-clock-o"></i>@Model.LastMatchsResult.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
+                                    <span class="end-time"><i class="fa fa-map-marker"></i>@Model.LastMatchsResult.Match.StadiumName</span>
                                 </div>
                                 <span class="pull-right @awayTag ">
                                     <img src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Away.Logo.Path, width = 200, height = 200 })" alt="">
@@ -68,7 +69,8 @@
                 <!-- match Contenet -->
                 <div class="matches-shedule-holder">
                     <div class="col-lg-12 col-sm-12">
-
+                        @{ Model.Pagination.ControllerName = "Match"; Model.Pagination.ActionName = "PastMatches"; }
+                        <partial name="../Shared/_Partials/_Pagination" model="Model.Pagination" />
                         <!-- Matches Dates Shedule -->
                         <div class="matches-dates-shedule">
                             <ul>
@@ -80,29 +82,15 @@
                                         <div class="detail">
                                             <a href="@Url.Action("Detail", "News", new { item.Id })"><i>Maçın Haberine Git</i></a>
                                             <strong>@item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name</strong>
-                                            <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                                            <span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match.StadiumName</span>
                                         </div>
                                     </li>
                                 }
                             </ul>
                         </div>
                         <!-- Matches Dates Shedule -->
-                        <!-- Pagination -->
-                        <div class="pagination-holder">
-                            <ul class="pagination">
-                                <li><a href="#"><i class="fa fa-angle-double-left"></i>Previous</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">7</a></li>
-                                <li><a href="#"><i class="fa fa-ellipsis-h"></i></a></li>
-                                <li><a href="#">28</a></li>
-                                <li><a href="#">Next<i class="fa fa-angle-double-right"></i></a></li>
-                            </ul>
-                        </div>
-                        <!-- Pagination -->
+
+                        <partial name="../Shared/_Partials/_Pagination" model="Model.Pagination" />
 
                     </div>
                 </div>

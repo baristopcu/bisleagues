@@ -25,5 +25,12 @@ namespace BisLeagues.Core.Services
             IEnumerable<ExchangeRow> exchangeRows = scores.GroupBy(x => x.Result.PlayerOfTheMatch).Select(g => new ExchangeRow { Player = g.Key, Value = g.Count()*10 }).OrderByDescending(x => x.Value);
             return exchangeRows.ToList();
         }
+        public List<ExchangeRow> GetTopPlayersInExchange(int seasonId, int skip, int take, out int totalCount)
+        {
+            var scores = _scoreRepository.GetAllScoresBySeasonId(seasonId);
+            IEnumerable<ExchangeRow> exchangeRows = scores.GroupBy(x => x.Result.PlayerOfTheMatch).Select(g => new ExchangeRow { Player = g.Key, Value = g.Count() * 10 }).OrderByDescending(x => x.Value);
+            totalCount = exchangeRows.Count();
+            return exchangeRows.Skip(skip).Take(take).ToList();
+        }
     }
 }

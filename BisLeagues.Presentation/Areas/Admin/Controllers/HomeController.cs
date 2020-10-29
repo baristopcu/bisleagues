@@ -35,7 +35,7 @@ namespace BisLeagues.Presentation.Areas.Admin.Controllers
         {
             try
             {
-                _memoryCache.Remove(MemoryCacheKeys.HomePageKey);
+                _memoryCache.Remove("*");
                 // _memoryCache.Remove(MemoryCacheKeys.CompanyNameCacheKey);
                 // _memoryCache.Remove(MemoryCacheKeys.CompanyAddressCacheKey);
                 // _memoryCache.Remove(MemoryCacheKeys.CompanyPhoneCacheKey);

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace BisLeagues.Presentation.Models.ViewModels
 {
-    public class PastMatchesViewModel
+    public class NewViewModel
     {
-        public Pagination Pagination;
-        public bool NoMatchFound;
-        public IList<New> NewsOfPastMatches;
-        public Result LastMatchsResult;
+        public New New;
+        public Result Result;
     }
 }

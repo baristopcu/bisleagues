@@ -133,7 +133,7 @@ namespace BisLeagues.Presentation.Controllers
                                 CreatedOnUtc = DateTime.UtcNow
                             };
                             _teamRepository.Add(team);
-                            team.TeamPlayers.Add(new TeamPlayers() {Player = user.Player, Team = team});
+                            team.TeamPlayers.Add(new TeamPlayers() { Player = user.Player, Team = team });
                             _teamRepository.Update(team);
                         }
                         else
@@ -174,7 +174,7 @@ namespace BisLeagues.Presentation.Controllers
                         id = teamPlayers.TeamId;
                     }
                 }
-                return RedirectToAction("Detail", "Team", new { id = id});
+                return RedirectToAction("Detail", "Team", new { id = id });
             }
 
             var team = _teamRepository.SingleOrDefault(x => x.Id == id);
@@ -190,15 +190,29 @@ namespace BisLeagues.Presentation.Controllers
             if (_userManager.GetCurrentUser(this.HttpContext)?.Player == team.CaptainPlayer)
             {
                 incomingTransferRequests = _transferRequestRepository
-                    .Find(x => x.Type == (int) TransferTypes.PlayerToTeam && x.Team == team).ToList();
+                    .Find(x => x.Type == (int)TransferTypes.PlayerToTeam && x.Team == team).ToList();
                 outgoingTransferRequests = _transferRequestRepository
-                    .Find(x => x.Type == (int) TransferTypes.TeamToPlayer && x.Team == team).ToList();
+                    .Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Team == team).ToList();
             }
 
             var pastMatchesIdList =
                 _matchRepository.GetPastMatchIdsBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
-            var pastMatchesNews = _newsRepository.GetNewsBySeasonAndMatchIds(UserPreferredSeasonId, pastMatchesIdList)
-                .ToList();
+
+            List<New> pastMatchesNews;
+            string teamDetailPastMatchesByIdCacheKey = String.Format(MemoryCacheKeys.TeamDetailPastMatchesByIdCacheKey, team.Id);
+            if (_memoryCache.TryGetValue(teamDetailPastMatchesByIdCacheKey, out object cachedObject))
+            {
+                pastMatchesNews = (List<New>)cachedObject;
+            }
+            else
+            {
+                pastMatchesNews = _newsRepository.GetNewsBySeasonAndMatchIds(UserPreferredSeasonId, pastMatchesIdList).ToList();
+                _memoryCache.Set(teamDetailPastMatchesByIdCacheKey, pastMatchesNews, new MemoryCacheEntryOptions()
+                {
+                    AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
+                });
+            }
+
             var upcomingMatches = _matchRepository.GetUpcomingMatchesBySeasonIdAndTeamId(UserPreferredSeasonId, id)
                 .ToList();
 
@@ -238,13 +252,13 @@ namespace BisLeagues.Presentation.Controllers
                         _teamRepository.Update(team);
                         MessageCode = 1;
                         Message = "Takım açıklamasını güncelledik.";
-                        return RedirectToAction("Detail", "Team", new {id = teamId});
+                        return RedirectToAction("Detail", "Team", new { id = teamId });
                     }
                     else
                     {
                         MessageCode = 0;
                         Message = "Sen kaptan değilsin, düzenleyemezsin !";
-                        return RedirectToAction("Detail", "Team", new {id = teamId});
+                        return RedirectToAction("Detail", "Team", new { id = teamId });
                     }
                 }
             }
@@ -252,8 +266,110 @@ namespace BisLeagues.Presentation.Controllers
             {
                 MessageCode = 0;
                 Message = "Önce bir giriş yap hele !";
-                return RedirectToAction("Detail", "Team", new {id = teamId});
+                return RedirectToAction("Detail", "Team", new { id = teamId });
             }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditTeamLogo(EditTeamLogoRequestModel model)
+        {
+            try
+            {
+                var user = _userManager.GetCurrentUser(this.HttpContext);
+
+                if (user != null)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        var player = user.Player;
+                        var team = _teamRepository.Find(x => x.Id == model.TeamId).FirstOrDefault();
+                        if (team == null)
+                        {
+                            MessageCode = 0;
+                            Message = "Böyle bir takım yok ! Hiç olmadı ki";
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            if (player == team.CaptainPlayer)
+                            {
+                                var image = model.TeamLogo;
+                                if (image != null && image.Length > 0)
+                                {
+                                    string extension = Path.GetExtension(image.FileName);
+                                    if (extension.Equals(".jpg") || extension.Equals(".jpeg") || extension.Equals(".png"))
+                                    {
+                                        int limit = 2 * 1024 * 1024; //2MB
+                                        if (image.Length < limit)
+                                        {
+                                            var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\team_logos");
+                                            using (var fileSteam = new FileStream(filePath, FileMode.Create))
+                                            {
+                                                await image.CopyToAsync(fileSteam);
+                                            }
+                                            team.Logo = new Photo()
+                                            {
+                                                Name = fileName,
+                                                Path = "team_logos/" + fileName,
+                                                DisplayOrder = 1,
+                                                CreatedOnUtc = DateTime.UtcNow
+                                            };
+                                            _teamRepository.Update(team);
+                                            MessageCode = 1;
+                                            Message = "Her şeyi hallettik, yeni profilin hayırlı olsun.";
+                                            return RedirectToAction("Detail", "Profile");
+                                        }
+                                        else
+                                        {
+                                            Message = "Logo 2MB fazla olamaz dostum.";
+                                            return RedirectToAction();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Message = "Sadece \".jpg, .jpeg, .png\" uzantılı fotoğrafları yükleyebilirsin.";
+                                        return RedirectToAction();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageCode = 0;
+                                    Message = "Ee nerede görsel ?";
+                                    return RedirectToAction("Index", "Home");
+                                }
+                            }
+                            else
+                            {
+                                MessageCode = 0;
+                                Message = "Bir bakayım kaptan mısın ? Değilsin.. :(";
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        MessageCode = 0;
+                        Message = "Sen aslında yoksun, bir giriş yapsan mı acaba ?";
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    MessageCode = 0;
+                    Message = "Sen aslında yoksun, bir giriş yapsan mı acaba ?";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (Exception)
+            {
+                MessageCode = 0;
+                Message = "Bir şeyler fena ters gitti ama ne gitti inan bende bilmiyorum :(";
+                return RedirectToAction("Detail", "Profile");
+            }
+
         }
     }
 }

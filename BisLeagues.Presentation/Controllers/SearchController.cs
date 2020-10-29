@@ -30,7 +30,11 @@ namespace BisLeagues.Presentation.Controllers
         {
             if (!string.IsNullOrWhiteSpace(query))
             {
-
+                if (query.Length < 3)
+                {
+                    MessageCode = 2;
+                    Message = "3 harfle aramaya kalkarsak çok uğraşırız, daha fazla detay ver bence :)";
+                }
                 var teams = _teamRepository.Find(x => x.Name.Contains(query)).ToList();
                 var players = _playerRepository.Find(x => (x.User.FirstName + x.User.LastName).Contains(query)).ToList();
                 SearchViewModel model = new SearchViewModel()

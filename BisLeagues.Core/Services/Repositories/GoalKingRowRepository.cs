@@ -21,5 +21,11 @@ namespace BisLeagues.Core.Services.Repositories
             var goalKingRows = _dbContext.GoalKingRows.Where(x => x.SeasonId == seasonId).OrderByDescending(x=>x.Goals);
             return goalKingRows;
         }
+        public IEnumerable<GoalKingRow> GetGoalKingTableRowsBySeasonId(int seasonId, int skip, int take, out int totalCount)
+        {
+            totalCount = _dbContext.GoalKingRows.Where(x => x.SeasonId == seasonId).Count();
+            var goalKingRows = _dbContext.GoalKingRows.Where(x => x.SeasonId == seasonId).OrderByDescending(x => x.Goals).Skip(skip).Take(take);
+            return goalKingRows;
+        }
     }
 }
