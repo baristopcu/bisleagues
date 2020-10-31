@@ -19,14 +19,14 @@ namespace BisLeagues.Presentation.Controllers
     public class ExchangeController : BaseController<ExchangeController>
     {
         private readonly ISeasonRepository _seasonRepository;
-        private readonly IExchangeService _exchangeService;
+        private readonly IExchangeTableRowRepository _exchangeTableRowRepository;
         private readonly IResultRepository _resultRepository;
         private readonly IMemoryCache _memoryCache;
         public ExchangeController(ISeasonRepository seasonRepository,
-            IExchangeService exchangeService, IResultRepository resultRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
+            IExchangeTableRowRepository exchangeTableRowRepository, IResultRepository resultRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _seasonRepository = seasonRepository;
-            _exchangeService = exchangeService;
+            _exchangeTableRowRepository = exchangeTableRowRepository;
             _resultRepository = resultRepository;
             _memoryCache = memoryCache;
         }
@@ -39,18 +39,18 @@ namespace BisLeagues.Presentation.Controllers
             }
             var lastMatchsResult = _resultRepository.GetLastMatchsResultBySeasonId(UserPreferredSeasonId);
 
-            List<ExchangeRow> exchangeTableRows;
+            List<ExchangeTableRow> exchangeTableRows;
             int totalCount;
             string exchangeTableCacheKey = String.Format(MemoryCacheKeys.ExchangeTableCacheKey, pagination.PageNumber, pagination.PageSize);
             string exchangeTableTotalCountCacheKey = String.Format(MemoryCacheKeys.ExchangeTableTotalCountCacheKey, pagination.PageNumber, pagination.PageSize);
             if (_memoryCache.TryGetValue(exchangeTableCacheKey, out object cachedObject) && _memoryCache.TryGetValue(exchangeTableTotalCountCacheKey, out object cachedTotalCountObject))
             {
-                exchangeTableRows = (List<ExchangeRow>)cachedObject;
+                exchangeTableRows = (List<ExchangeTableRow>)cachedObject;
                 totalCount = (int) cachedTotalCountObject;
             }
             else
             {
-                exchangeTableRows = _exchangeService.GetTopPlayersInExchange(UserPreferredSeasonId, pagination.GetSkipCount(), pagination.GetPageSize(), out totalCount);
+                exchangeTableRows = _exchangeTableRowRepository.GetExchangeTableRowsBySeasonId(UserPreferredSeasonId, pagination.GetSkipCount(), pagination.GetPageSize(), out totalCount).ToList();
                 _memoryCache.Set(exchangeTableCacheKey, exchangeTableRows, new MemoryCacheEntryOptions()
                 {
                     AbsoluteExpiration = DateTime.UtcNow.AddDays(1)

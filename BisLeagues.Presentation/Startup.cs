@@ -71,7 +71,7 @@ namespace BisLeagues.Presentation
             services.AddScoped<IScoreRepository, ScoreRepository>();
             services.AddScoped<IPointTableRowRepository, PointTableRowRepository>();
             services.AddScoped<IGoalKingService, GoalKingService>();
-            services.AddScoped<IExchangeService, ExchangeService>();
+            services.AddScoped<IExchangeTableService, ExchangeTableService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IPhotoService, PhotoService>();
@@ -92,6 +92,7 @@ namespace BisLeagues.Presentation
             
             services.AddScoped<IPointTableService, PointTableService>();
             services.AddScoped<IGoalKingRowRepository, GoalKingRowRepository>();
+            services.AddScoped<IExchangeTableRowRepository, ExchangeTableRowRepository>();
 
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

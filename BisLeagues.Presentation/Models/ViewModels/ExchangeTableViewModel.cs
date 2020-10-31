@@ -12,6 +12,6 @@ namespace BisLeagues.Presentation.Models.ViewModels
         public Pagination Pagination;
         public bool NoMatchFound;
         public Result LastMatchsResult;
-        public List<ExchangeRow> ExchangeTableRows;
+        public List<ExchangeTableRow> ExchangeTableRows;
     }
 }

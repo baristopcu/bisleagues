@@ -49,7 +49,7 @@ namespace BisLeagues.Presentation.Controllers
             }
             pagination.TotalLineCount = _newRepository.Find(x => x.SeasonId == UserPreferredSeasonId || x.SeasonId == null).Count();
             pagination.TotalPageCount = pagination.TotalLineCount % pagination.PageSize == 0 ? (pagination.TotalLineCount / pagination.PageSize) : (pagination.TotalLineCount / pagination.PageSize) + 1;
-            var news = _newRepository.Find(x=>x.SeasonId == UserPreferredSeasonId || x.SeasonId == null).Skip(pagination.GetSkipCount()).Take(pagination.GetPageSize()).OrderByDescending(x=>x.CreatedOnUtc).ToList();
+            var news = _newRepository.Find(x=>x.SeasonId == UserPreferredSeasonId || x.SeasonId == null).OrderByDescending(x => x.CreatedOnUtc).Skip(pagination.GetSkipCount()).Take(pagination.GetPageSize()).ToList();
             var viewModel = new NewListViewModel()
             {
                 Pagination = pagination,

@@ -8,6 +8,7 @@ namespace BisLeagues.Core.Interfaces
         public const string CompanyPhoneCacheKey = "CompanySettings-Phone";
         public const string CompanyEmailCacheKey = "CompanySettings-Email";
         public const string TeamDetailPastMatchesByIdCacheKey = "TeamDetail-PastMatches-Id-{0}";
+        public const string TeamDetailPastMatchesNewsByIdCacheKey = "TeamDetail-PastMatchesNews-Id-{0}";
         public const string ExchangeTableCacheKey = "ExchangeTable-PageNumber-{0}-PageSize-{1}";
         public const string ExchangeTableTotalCountCacheKey = "ExchangeTableTotalCount-PageNumber-{0}-PageSize-{1}";
         public const string GoalKingTableCacheKey = "GoalKingTable-PageNumber-{0}-PageSize-{1}";

@@ -24,13 +24,13 @@ namespace BisLeagues.Presentation.Controllers
         private readonly INewRepository _newRepository;
         private readonly IPointTableRowRepository _pointTableRowRepository;
         private readonly IGoalKingRowRepository _goalKingRowRepository;
-        private readonly IExchangeService _exchangeService;
+        private readonly IExchangeTableRowRepository _exchangeTableRowRepository;
         private readonly IMemoryCache _memoryCache;
 
         public HomeController(IPlayerRepository playerRepository,
             ISeasonRepository seasonRepository, IMatchRepository matchRepository, INewRepository newRepository,
             IPointTableRowRepository pointTableRowRepository, IGoalKingRowRepository goalKingRowRepository,
-            IExchangeService exchangeService, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
+            IExchangeTableRowRepository exchangeTableRowRepository, ISettingRepository settingRepository, IMemoryCache memoryCache) : base(settingRepository, memoryCache)
         {
             _seasonRepository = seasonRepository;
             _matchRepository = matchRepository;
@@ -38,7 +38,7 @@ namespace BisLeagues.Presentation.Controllers
             _newRepository = newRepository;
             _pointTableRowRepository = pointTableRowRepository;
             _goalKingRowRepository = goalKingRowRepository;
-            _exchangeService = exchangeService;
+            _exchangeTableRowRepository = exchangeTableRowRepository;
             _memoryCache = memoryCache;
         }
 
@@ -68,7 +68,7 @@ namespace BisLeagues.Presentation.Controllers
                 upComingMatch != null ? (upComingMatch.MatchDate - DateTime.UtcNow) : new TimeSpan();
             List<GoalKingRow> goalKingPlayersRows =
                 _goalKingRowRepository.GetGoalKingTableRowsBySeasonId(UserPreferredSeasonId).ToList();
-            List<ExchangeRow> exchangeTableRows = _exchangeService.GetTopPlayersInExchange(UserPreferredSeasonId);
+            List<ExchangeTableRow> exchangeTableRows = _exchangeTableRowRepository.GetExchangeTableRowsBySeasonId(UserPreferredSeasonId).ToList();
             List<New> topFiveNews = _newRepository.GetTopNewsBySeasonIdAndLimit(UserPreferredSeasonId, 5).ToList();
             List<Team> topTeams = new List<Team>();
 

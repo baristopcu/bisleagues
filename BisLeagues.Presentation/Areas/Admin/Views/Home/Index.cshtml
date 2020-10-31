@@ -9,10 +9,13 @@
     <form action="@Url.Action("ClearCache", "Home")">
         <input type="submit" class="btn btn-warning" value="Cache Temizle">
     </form>
-    <form action="@Url.Action("UpdatePointTable", "Home")">
+    <form action="@Url.Action("CreateOrUpdatePointTablesForActiveSeasons", "Home")">
         <input type="submit" class="btn btn-success" value="Puan Tablolarını Güncelle">
     </form>
-    <form action="@Url.Action("UpdateGoalKings", "Home")">
+    <form action="@Url.Action("CreateOrUpdateGoalKingsForActiveSeasons", "Home")">
         <input type="submit" class="btn btn-success" value="Gol Krallıklarını Güncelle">
+    </form>
+    <form action="@Url.Action("CreateOrUpdateExchangeTablesForActiveSeasons", "Home")">
+        <input type="submit" class="btn btn-success" value="Borsa Tablolarını Güncelle">
     </form>
 </div>

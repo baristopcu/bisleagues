@@ -6,6 +6,6 @@ namespace BisLeagues.Core.Interfaces
 {
     public interface IPointTableService
     {
-        Task<bool> CreatePointTablesForActiveSeasons();
+        Task<bool> CreateOrUpdatePointTablesForActiveSeasons();
     }
 }

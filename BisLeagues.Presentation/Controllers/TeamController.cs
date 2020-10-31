@@ -195,19 +195,22 @@ namespace BisLeagues.Presentation.Controllers
                     .Find(x => x.Type == (int)TransferTypes.TeamToPlayer && x.Team == team).ToList();
             }
 
-            var pastMatchesIdList =
-                _matchRepository.GetPastMatchIdsBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList();
+            string teamDetailPastMatchesByIdCacheKey = String.Format(MemoryCacheKeys.TeamDetailPastMatchesByIdCacheKey, team.Id);
+
+            List<int> pastMatchesIdList = _memoryCache.GetOrCreate(teamDetailPastMatchesByIdCacheKey, entry =>
+                 _matchRepository.GetPastMatchIdsBySeasonIdAndTeamId(UserPreferredSeasonId, id).ToList()
+             );
 
             List<New> pastMatchesNews;
-            string teamDetailPastMatchesByIdCacheKey = String.Format(MemoryCacheKeys.TeamDetailPastMatchesByIdCacheKey, team.Id);
-            if (_memoryCache.TryGetValue(teamDetailPastMatchesByIdCacheKey, out object cachedObject))
+            string teamDetailPastMatchesNewsByIdCacheKey = String.Format(MemoryCacheKeys.TeamDetailPastMatchesNewsByIdCacheKey, team.Id);
+            if (_memoryCache.TryGetValue(teamDetailPastMatchesNewsByIdCacheKey, out object cachedObject))
             {
                 pastMatchesNews = (List<New>)cachedObject;
             }
             else
             {
                 pastMatchesNews = _newsRepository.GetNewsBySeasonAndMatchIds(UserPreferredSeasonId, pastMatchesIdList).ToList();
-                _memoryCache.Set(teamDetailPastMatchesByIdCacheKey, pastMatchesNews, new MemoryCacheEntryOptions()
+                _memoryCache.Set(teamDetailPastMatchesNewsByIdCacheKey, pastMatchesNews, new MemoryCacheEntryOptions()
                 {
                     AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
                 });

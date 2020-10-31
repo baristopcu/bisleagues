@@ -34,6 +34,7 @@ namespace BisLeagues.Core.Data
         public virtual DbSet<Point> Point { get; set; }
         public virtual DbSet<PointTableRow> PointTableRows { get; set; }
         public virtual DbSet<GoalKingRow> GoalKingRows { get; set; }
+        public virtual DbSet<ExchangeTableRow> ExchangeTableRows { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -160,11 +161,15 @@ namespace BisLeagues.Core.Data
 
             modelBuilder.Entity<PointTableRow>()
                 .ToTable("PointTableRow")
-                .HasOne(p=>p.Season);
+                .HasOne(p => p.Season);
 
             modelBuilder.Entity<GoalKingRow>()
                 .ToTable("GoalKingRow")
-                .HasOne(p=>p.Season);
+                .HasOne(p => p.Season);
+
+            modelBuilder.Entity<ExchangeTableRow>()
+                .ToTable("ExchangeTableRow")
+                .HasOne(p => p.Season);
 
         }
     }

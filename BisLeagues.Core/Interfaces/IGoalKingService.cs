@@ -6,8 +6,7 @@ namespace BisLeagues.Core.Interfaces
 {
     public interface IGoalKingService
     {
-        Task<bool> CreateGoalKingTablesForActiveSeasons();
-        //List<GoalKingRowForPlayers> GetGoalKingsBySeasonId(int seasonId);
+        Task<bool> CreateOrUpdateGoalKingTablesForActiveSeasons();
 
         int GetPlayersGoalsByPlayerIdAndSeasonId(int playerId, int seasonId);
 
