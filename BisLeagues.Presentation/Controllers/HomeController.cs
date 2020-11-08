@@ -47,7 +47,10 @@ namespace BisLeagues.Presentation.Controllers
             string homePageCacheKey = MemoryCacheKeys.HomePageKey;
             if (_memoryCache.TryGetValue(homePageCacheKey, out object cachedObject))
             {
-                return View((HomeViewModel) cachedObject);
+                if (cachedObject != null)
+                {
+                    return View((HomeViewModel)cachedObject);
+                }
             }
             
             List<Match> upComingMatches =

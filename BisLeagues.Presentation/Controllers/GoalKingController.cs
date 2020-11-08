@@ -32,7 +32,6 @@ namespace BisLeagues.Presentation.Controllers
 
         public IActionResult Index(Pagination pagination)
         {
-
             if (pagination == null)
             {
                 pagination = new Pagination();
