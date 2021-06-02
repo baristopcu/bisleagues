@@ -77,7 +77,7 @@ namespace BisLeagues.Presentation.Controllers
                 cookie.Expires = DateTime.UtcNow.AddDays(7);
                 Response.Cookies.Append("SelectedSeasonId", selectedSeasonId, cookie);
                 MessageCode = 1;
-                Message = "Arenalig Akşam ligine hoşgeldin.";
+                Message = "Ols Akşam ligine hoşgeldin.";
                 return RedirectToAction("Index", "Home");
                 // return Json("status: true");
             }

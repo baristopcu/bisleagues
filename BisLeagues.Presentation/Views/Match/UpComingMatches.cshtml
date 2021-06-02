@@ -20,27 +20,31 @@
         </div>
         <!-- Page Heading & Breadcrumbs  -->
         <!-- Page Heading banner -->
-        <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
+        <div class="inner-banner style-2 overlay-dark theme-padding parallax-window"  style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))">
             <div class="container">
-                <div class="pager-heading match-detail white-heading">
-                    <span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Home.Name"></span>
-                    <div class="match-vs-heading position-center-center">
+                <div class="last-match-banner">
+                    <div class="home-team">
+                        <span>
+                            <img class="team-logo" src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 120, height = 120 })" alt="@Model.UpComingMatch.Home.Name">
+                        </span>
+                    </div>
+                    <div class="info">
                         <div class="left-tiem-acounter">
-                            <ul id="countdown-3" class="countdown">
-                                <li><span class="days">@Model.UpComingMatchCounter.Days</span>Gün</li>
-                                <li><span class="hours">@Model.UpComingMatchCounter.Hours</span>Saat</li>
-                                <li><span class="minutes">@Model.UpComingMatchCounter.Minutes</span>Dakika</li>
-                            </ul>
+                            <span class="days"><b>@Model.UpComingMatchCounter.Days</b> Gün</span>
+                            <span class="hours"><b>@Model.UpComingMatchCounter.Hours</b> Saat</span>
+                            <span class="minutes"><b>@Model.UpComingMatchCounter.Minutes</b> Dakika</span>
                         </div>
-                        <span class="result-vs">vs</span>
+                        <div class="vs-box">VS</div>
                         <div class="location-marker">
-                            <ul>
-                                <li><i class="fa fa-map-marker"></i>@Model.UpComingMatch.StadiumName</li>
-                                <li><i class="fa fa-clock-o"></i> @TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</li>
-                            </ul>
+                            <span><i class="fa fa-map-marker"></i>@Model.UpComingMatch.StadiumName</span>
+                            <span><i class="fa fa-clock-o"></i>@TimeZoneInfo.ConvertTimeFromUtc(Model.UpComingMatch.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy")</span>
                         </div>
                     </div>
-                    <span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 105, height = 105 })" alt="@Model.UpComingMatch.Away.Name"></span>
+                    <div class="away-team">
+                        <span>
+                            <img class="team-logo" src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Away.Logo.Path, width = 120, height = 120 })" alt="@Model.UpComingMatch.Away.Name">
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,7 +91,7 @@
 }
 else
 	{
-<div style="margin:auto;width: 50%;margin-top:100px; margin-bottom:100px;">
+<div style="margin:auto;width: 50%;margin-top:100px; min-height:200px; text-align: center; margin-bottom:100px;">
     <h1>Ufukta hiç maç yok !</h1>
 </div>
 	}

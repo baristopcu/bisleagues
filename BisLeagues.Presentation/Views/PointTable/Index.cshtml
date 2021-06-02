@@ -22,51 +22,51 @@
 }
 @if (!Model.NoMatchFound)
 {
-@section Heading{
+    @section Heading{
 
 
-    <!-- Page Heading & Breadcrumbs  -->
-    <div class="page-heading-breadcrumbs hidden-xs">
-        <div class="container">
-            <h2>Puan Durumu</h2>
-            <ul class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index", "Home")">Anasayfa</a>
-                </li>
-                <li>Puan Durumu</li>
-            </ul>
+        <!-- Page Heading & Breadcrumbs  -->
+        <div class="page-heading-breadcrumbs hidden-xs">
+            <div class="container">
+                <h2>Puan Durumu</h2>
+                <ul class="breadcrumbs">
+                    <li>
+                        <a href="@Url.Action("Index", "Home")">Anasayfa</a>
+                    </li>
+                    <li>Puan Durumu</li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!-- Page Heading & Breadcrumbs  -->
-    <!-- Page Heading banner -->
-    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new {url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900}))">
-        <div class="container theme-padding">
-            <ul id="match-detail-slider" class="match-detail-slider">
-                <li>
-                    <div class="pager-heading match-detail h-white">
-                        <span class="pull-left @homeTag">
-                            <img src="@Url.Action("Resize", "Image", new {url = Model.LastMatchsResult.Match.Home.Logo.Path, width = 200, height = 200})" alt="">
+        <!-- Page Heading & Breadcrumbs  -->
+        <!-- Page Heading banner -->
+        <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))">
+            <div class="container">
+                <div class="last-match-banner">
+                    <div class="home-team">
+                        <span>
+                            <img class="team-logo"  src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Home.Logo.Path, width = 120, height = 120 })"  alt="">
                         </span>
-                        <div class="vs-match-heading position-center-center">
-                            <strong class="vs-match-result">
-                                @Model.LastMatchsResult.HomeScore<span>Vs</span>@Model.LastMatchsResult.AwayScore
-                            </strong>
-                            <span class="end-time">
-                                <i class="fa fa-clock-o"></i>@Model.LastMatchsResult.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)
-                            </span>
+                        <span class="@homeTag"></span>
+                    </div>
+                    <div class="score">
+                        <div class="rectangle">
+                            <strong class="vs-match-result">@Model.LastMatchsResult.HomeScore<span>Vs</span>@Model.LastMatchsResult.AwayScore</strong>
+                            <span class="end-time"><i class="fa fa-clock-o"></i>@Model.LastMatchsResult.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
                             <span class="end-time"><i class="fa fa-map-marker"></i>@Model.LastMatchsResult.Match.StadiumName</span>
                         </div>
-                        <span class="pull-right @awayTag ">
-                            <img src="@Url.Action("Resize", "Image", new {url = Model.LastMatchsResult.Match.Away.Logo.Path, width = 200, height = 200})" alt="">
+                    </div>
+                    <div class="away-team">
+                        <span class="@awayTag"></span>
+                        <span>
+                            <img class="team-logo"  src="@Url.Action("Resize", "Image", new { url = Model.LastMatchsResult.Match.Home.Logo.Path, width = 120, height = 120 })" alt="">
                         </span>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- Page Heading banner -->
-
-}}
+        <!-- Page Heading banner -->
+    }
+}
 
 <div class="theme-padding white-bg">
     <div class="container">

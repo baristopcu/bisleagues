@@ -54,13 +54,8 @@
         </div>
     </div>
     <!-- Page Heading & Breadcrumbs  -->
-    <!-- Page Heading banner -->
-    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new {url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900}))">
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))" >
     </div>
-    @*<div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">*@
-
-    <!-- Page Heading banner -->
-
 }
 
 <!-- Team Detail -->
@@ -134,18 +129,20 @@
                 <!-- default tab -->
                 <div role="tabpanel" class="tab-pane in fade active" id="detail">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
 
                         <!-- Team Detail Content -->
                         <div class="team-detail-content theme-padding-bottom">
                             <h2>@Model.Team.Name Hakkında</h2>
-                            @Html.Raw(Model.Team.Description)
+                            <div class="description">
+                                @Html.Raw(Model.Team.Description)
+                            </div>
                         </div>
                         <!-- Team Detail Content -->
                         <!-- Palyer Career -->
                         <div class="palyer-career theme-padding-bottom">
                             <h2>Takım Oyuncuları</h2>
-                            <div class="table-responsive">
+                            <div class="last-matches styel-3 table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -173,33 +170,35 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="past-matches">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         <!-- Matches Dates Shedule -->
                         <div class="matches-dates-shedule">
                             <ul>
                                 @foreach (var item in Model.PastMatchesNews)
                                 {
-                                    <li>
-                                        <a href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">
-                                            <span class="pull-left">
-                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home.Logo.Path, width = 105, height = 105})" alt="@item.Match.Home.Name">
-                                            </span>
-                                        </a>
-                                        <a href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">
-                                            <span class="pull-right">
-                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away.Logo.Path, width = 105, height = 105})" alt="@item.Match.Away.Name">
-                                            </span>
-                                        </a>
-                                        <div class="detail">
-                                            <a href="@Url.Action("Detail", "News", new {item.Id})">
-                                                <i>Maçın Haberine Git</i>
+                                    @if(item.Match != null && item.Match.Home != null && item.Match.Away != null) {
+                                        <li>
+                                            <a href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">
+                                                <span class="pull-left">
+                                                    <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home.Logo.Path, width = 105, height = 105})" alt="@item.Match.Home.Name">
+                                                </span>
                                             </a>
-                                            <strong>
-                                                @item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name
-                                            </strong>
-                                            <span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match.StadiumName</span>
-                                        </div>
-                                    </li>
+                                            <a href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">
+                                                <span class="pull-right">
+                                                    <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away.Logo.Path, width = 105, height = 105})" alt="@item.Match.Away.Name">
+                                                </span>
+                                            </a>
+                                            <div class="detail">
+                                                <a href="@Url.Action("Detail", "News", new {item.Id})">
+                                                    <i>Maçın Haberine Git</i>
+                                                </a>
+                                                <strong>
+                                                    @item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name
+                                                </strong>
+                                                <span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match.StadiumName</span>
+                                            </div>
+                                        </li>
+                                    }
                                 }
                             </ul>
                         </div>
@@ -210,7 +209,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="upcoming-matches">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
 
                         <!-- Matches Dates Shedule -->
                         <div class="matches-dates-shedule">
@@ -246,11 +245,11 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="requests">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
                         {
                             <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom">
+                            <div class="last-matches styel-3 table-responsive">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
@@ -318,11 +317,11 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="requesteds">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
                         {
                             <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom">
+                            <div class="last-matches styel-3 table-responsive">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
@@ -410,7 +409,7 @@
 
                 <div role="tabpanel" class="tab-pane fade" id="teamlogoedit">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
                         {
                             <!-- Palyer Career -->

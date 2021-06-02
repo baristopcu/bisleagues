@@ -36,32 +36,8 @@
         </div>
     </div>
     <!-- Page Heading & Breadcrumbs  -->
-    <!-- Page Heading banner -->
-    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">
-        <div class="container theme-padding">
-            @if (Model.New.Match != null)
-            {
-                <ul id="match-detail-slider" class="match-detail-slider">
-                    <li>
-                        <div class="pager-heading match-detail h-white">
-                            <span class="pull-left @homeTag">
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.Match.Home.Logo.Path, width = 200, height = 200 })" alt="">
-                            </span>
-                            <div class="vs-match-heading position-center-center">
-                                <strong class="vs-match-result">@Model.Result.HomeScore<span>Vs</span>@Model.Result.AwayScore</strong>
-                                <span class="end-time"><i class="fa fa-clock-o"></i>@Model.New.Match.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
-                                <span class="end-time"><i class="fa fa-map-marker"></i>@Model.New.Match.StadiumName</span>
-                            </div>
-                            <span class="pull-right @awayTag ">
-                                <img src="@Url.Action("Resize", "Image", new { url = Model.New.Match.Away.Logo.Path, width = 200, height = 200 })" alt="">
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-            }
-        </div>
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))" >
     </div>
-    <!-- Page Heading banner -->
 }
 
 <!-- Match Detail -->

@@ -33,7 +33,7 @@
                 <div class="next-match style-2">
                     <div class="container p-0">
                         <!-- Macth left Time -->
-                        <div class="col-sm-6 bg-2">
+                        <div class="col-sm-6 bg-2 left-side">
                             <div class="left-match-time">
                                 <h2>Gelecek Maç</h2>
                                 <ul id="countdown-1" class="countdown">
@@ -46,20 +46,20 @@
                         </div>
                         <!-- Macth left Time -->
                         <!-- Vs Team -->
-                        <div class="col-sm-6 bg-1">
+                        <div class="col-sm-6 bg-1 right-side">
                             <div class="vs-team">
                                 <div class="team-btw-match">
                                     @if (item.Match != null)
                                     {
                                         <ul>
                                             <li>
-                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home.Logo.Path, width = 105, height = 105})" alt="@item.Match.Home.Name">
+                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home?.Logo?.Path, width = 100, height = 100})" alt="@item.Match.Home.Name">
                                                 <span>
                                                     <a style="color:black;" href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">@item.Match.Home.Name</a>
                                                 </span>
                                             </li>
                                             <li>
-                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away.Logo.Path, width = 105, height = 105})" alt="@item.Match.Away.Name">
+                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away?.Logo?.Path, width = 100, height = 100})" alt="@item.Match.Away.Name">
                                                 <span>
                                                     <a style="color:black;" href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">@item.Match.Away.Name</a>
                                                 </span>
@@ -70,7 +70,6 @@
                             </div>
                         </div>
                         <!-- Vs Team -->
-
                     </div>
                 </div>
                 <!-- Next Match -->
@@ -80,11 +79,11 @@
     </div>
     <!-- Left and right controls -->
     <a class="left carousel-control" href="#myCarouselFixture" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
+        <i class="fa fa-chevron-left" style="position: absolute; top: 45%;"></i>
         <span class="sr-only">Previous</span>
     </a>
     <a class="right carousel-control" href="#myCarouselFixture" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
+        <i class="fa fa-chevron-right" style="position: absolute; top: 45%;"></i>
         <span class="sr-only">Next</span>
     </a>
 </div>
@@ -209,7 +208,7 @@
                                             <a href="@Url.Action("Detail", "News", new {id = newItem.Id})">
                                                 @if (newItem.CoverPhoto != null)
                                                 {
-                                                    <img src="@Url.Action("Resize", "Image", new {url = newItem.CoverPhoto.Path, width = 855, height = 346})" alt="@newItem.Caption">
+                                                    <img src="@Url.Action("Resize", "Image", new {url = newItem.CoverPhoto.Path, width = 855, height = 360})" alt="@newItem.Caption">
                                                 }
                                                 else
                                                 {
@@ -217,7 +216,7 @@
                                                 }
 
 
-                                                <p style="color:black;">
+                                                <p style="color:black; height: 85px;">
                                                     @newItem.ShortDescription <span style="color:red;">Devamını Oku</span>
                                                 </p>
                                             </a>
@@ -260,107 +259,6 @@
 </section>
 <!-- Match Detail -->
 <!-- Player Features And History -->
-<!-- Gallery And Team -->
-<div class="gallery-holder" style="padding-bottom: 150px;">
-    <!-- Separator -->
-    <div class="container text-center">
-        <span class="sprater">
-            <i class="fa fa-futbol-o"></i>
-        </span>
-    </div>
-    <!-- Separator -->
-    <!-- Team -->
-    <div class="container">
-        <div class="team-holder theme-padding-top">
-
-            <!-- Main Heading -->
-            <div class="main-heading-holder">
-                <div class="main-heading">
-                    <h2>Zirvede ki dört takım</h2>
-                    <p>Zirvede ki takımların kartları</p>
-                </div>
-            </div>
-            <!-- Main Heading -->
-            <!-- Team Row -->
-            <div id="team-slider" class="team-slider">
-                @if (Model.TopTeams != null)
-                {
-                    @foreach (var team in Model.TopTeams)
-                    {
-                        <!-- Team Column -->
-                        <div class="item">
-                            <div class="team-column">
-                                <img src="@Url.Action("Resize", "Image", new {url = team.Logo.Path, width = 269, height = 416})" alt="@team.Name">
-                                <div class="team-detail">
-                                    <h5>
-                                        <a href="@Url.Action("Detail", "Team", new {team.Id})">
-                                            @team.Name
-                                        </a>
-                                    </h5>
-                                    <span class="desination">@team.County.Name</span>
-                                    <div class="detail-inner">
-                                        <ul>
-                                            <li>Kuruluş Tarihi</li>
-                                            <li>Şehir</li>
-                                            <li>İlçe</li>
-                                            <li>Sosyal Medya</li>
-                                            <li>Sosyal Medya</li>
-
-                                        </ul>
-                                        <ul>
-                                            <li>
-                                                @team.CreatedOnUtc.Value.ToShortDateString()
-                                            </li>
-                                            <li>
-                                                @team.City.Name
-                                            </li>
-                                            <li>
-                                                @team.County.Name
-                                            </li>
-                                            <li>Sosyal Medya</li>
-
-                                            <li>
-                                                <ul class="social-icons">
-                                                    <li>
-                                                        <a class="facebook" href="#">
-                                                            <i class="fa fa-facebook"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="twitter" href="#">
-                                                            <i class="fa fa-twitter"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="youtube" href="#">
-                                                            <i class="fa fa-youtube-play"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="pinterest" href="#">
-                                                            <i class="fa fa-pinterest-p"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Team Column -->
-                    }
-                }
-
-            </div>
-            <!-- Team Row -->
-
-        </div>
-    </div>
-    <!-- Team -->
-
-</div>
-<!-- Gallery And Team -->
 @section Scripts
 {
     <script>

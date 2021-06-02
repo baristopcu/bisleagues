@@ -54,12 +54,8 @@
         </div>
     </div>
     <!-- Page Heading & Breadcrumbs  -->
-    <!-- Page Heading banner -->
-    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">    </div>
-    @*<div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/backgrounds-football-1.jpg", width = 1920, height = 900 }))">*@
-
-    <!-- Page Heading banner -->
-
+    <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))" >
+    </div>
 }
 
 <!-- Team Detail -->
@@ -138,7 +134,7 @@
                 <!-- default tab -->
                 <div role="tabpanel" class="tab-pane in fade active" id="detail">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
 
                         <!-- Team Detail Content -->
                         <div class="team-detail-content theme-padding-bottom">
@@ -152,11 +148,11 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="requests">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.User.Player)
                         {
-                            <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom">
+                            <!-- Palyer Careers -->
+                            <div class="last-matches styel-3 table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -211,11 +207,11 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="requesteds">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.User.Player)
                         {
                             <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom">
+                            <div class="last-matches styel-3 table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -270,7 +266,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="editprofile">
                     <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
+                    <div class="col-lg-9 col-md-9 col-sm-7 p-0">
                         @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.User.Player)
                         {
                             <!-- Palyer Career -->

@@ -1,42 +1,38 @@
 ﻿@inject BisLeagues.Core.Utility.IUserManager UserManager
     <!-- Top bar -->
 <div class="topbar-and-logobar">
-    <div class="container">
-
+    <div class="container flexible-container">
         <!-- Responsive Button -->
         <div class="responsive-btn pull-right">
             <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
         </div>
         <!-- Responsive Button -->
+        <!-- Logo -->
+        <div class="logo">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/images/logo.png" alt="">
+            </a>
+        </div>
+        <!-- Logo -->
+        <!-- Search Bar -->
+        <div class="search-bar-holder">
+            <div class="search-bar">
+                <form method="get" id="search" action="@Url.Action("Find", "Search")">
+                    <input type="text" class="form-control" name="query" id="query" placeholder="takım, oyuncu falan ara..">
+                    <i class="fa fa-search searchTop"></i>
+                </form>
+            </div>
+        </div>
+        <!-- Search Bar -->
         <!-- User Login Option -->
-        <ul class="user-login-option pull-right">
-            <li class="language-dropdown">
-                <div class="language-dropdown">
-                    <select class="language-dropdown" id="SeasonPick" name="SeasonPick">
-                        <option value="" selected>Sezon</option>
-                    </select>
-                </div>
-            </li>
-            <li class="social-icon">
-                <ul class="social-icons style-5">
-                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a class="youtube" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                </ul>
-            </li>
-            <li class="language-dropdown">
-                <a id="choses-lang" href="@Url.Action("Detail","Team")">
-                    <i class="fa fa-users"></i>  TAKIMIM
-                    <ul id="language-dropdown">
-                    </ul>
+        <ul class="user-login-option">
+            <li class="language-dropdown" style="display: none;">
+                <a id="choses-lang" href="@Url.Action("Application","Team")">
                 </a>
             </li>
-            <li class="language-dropdown">
+            <li class="profile-button">
                 <a id="choses-lang" href="@Url.Action("Detail","Profile")">
-                    <i class="fa fa-user"></i>  PROFILE
-                    <ul id="language-dropdown">
-                    </ul>
+                    <i class="fa fa-user"></i>  PROFIL
                 </a>
             </li>
             <li class="login-modal">

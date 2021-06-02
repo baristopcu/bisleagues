@@ -11,7 +11,9 @@
 .top-story h2{ font-size: 16px;}
 .other-stroies li a{ font-size: 11px;}
 .news-post-detail h2{ font-size: 16px;}
-.aside-video-detail p{ font-size: 11px;} 
+.aside-video-detail p{ font-size: 11px;}
+
+}
 
 @media (max-width: 1199px) {
 .latest-tad-nav li.active::after{ display: none;}
@@ -54,6 +56,7 @@
 
 .brand-icons-slider-2 li a{ width: 29.13%;}
 .brand-icons-slider-2 li a img{ width: 80%;}
+.header.style-3 .search-bar-holder .form-control { width: 300px;}
 }
 
 @media (max-width: 1024px) {
@@ -132,7 +135,7 @@
 
 .next-match.style-2 .left-match-time ul li{ font-size: 11px;}
 .next-match.style-2 .team-btw-match ul li span{ font-size: 16px;}
-.vs-team{ padding: 38.5px 0;}
+.vs-team{ padding: 0}
 .content-widget iframe{ height: 202px;}
 
 .header.style-3 .logo img{ width: 55%;}
@@ -149,6 +152,13 @@
 .main-footer.style-2 .social-icons li{ margin: 0 0 0 10px;}
 .brand-icons-slider-2 li a{ width: 27.73%; height: 80px; line-height: 80px;}
 .brand-icons-slider-2 li a img{ width: 70%;}
+.user-login-option{ display: none;}
+
+.language-dropdown { display: none;}
+
+.next-match.style-2 .right-side { padding-top: 27px;}
+.left-tiem-acounter span { display: block;}
+.last-match-banner .location-marker span  { display: block;}
 }
 
 @media (max-width: 800px) {
@@ -164,6 +174,7 @@
 
 @media (max-width: 768px) {
 .main-slides .owl-buttons{ right: 2%;}
+.footer-column { padding: 50px;}
 }
 
 @media (max-width: 767px) {
@@ -267,6 +278,8 @@ transform: translate(-50%, -50%);}
 .thmnail-arrows li span{ height: 40px; line-height: 40px;}
 .thmnail-arrows li span{ font-size: 10px;}
 .r-full-width-2{ width: 68%; margin: 0 auto!important;}
+.win-tag{ display: none;}
+.loss-tag{ display: none;}
 }
 
 @media (max-width: 480px) {
@@ -328,6 +341,10 @@ transform: translate(-50%, -50%);}
 .team-slider .slick-list{ margin: 0!important;}
 .main-footer.style-2 .back-to-top{ display: inline-block;}
 .brand-icons-slider-2 li a img{ width: 53%;}
+.last-match-banner .score .rectangle{ padding: 10px;}
+.last-match-banner .team-logo { width: 100px; margin: 0;}
+
+.next-match.style-2 .right-side { padding-top: 0;}
 }
 
 @media (max-width: 360px) {

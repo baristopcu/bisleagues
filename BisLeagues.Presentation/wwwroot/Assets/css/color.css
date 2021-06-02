@@ -122,3 +122,5 @@ a:hover,
 .previous-videos::before,
 .play-lable
 { background: rgba( 204,0,0,0.5);}
+
+.btn.primary-btn { background-color: #0E4270; color: #fff; }

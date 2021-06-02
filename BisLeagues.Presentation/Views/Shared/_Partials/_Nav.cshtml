@@ -3,24 +3,8 @@
 <div class="nav-holder">
     <div class="container">
         <div class="maga-drop-wrap">
-
-            <!-- Logo -->
-            <div class="logo hidden-sm hidden-xs">
-                <a href="@Url.Action("Index", "Home")"><img src="~/Assets/images/logo-4.png" alt=""></a>
-            </div>
-            <!-- Logo -->
-            <!-- Search Bar -->
-            <div class="search-bar-holder pull-right">
-                <div class="search-bar">
-                    <form method="get" id="search" action="@Url.Action("Find", "Search")">
-                        <input type="text" class="form-control" name="query" id="query" placeholder="takım, oyuncu falan ara..">
-                        <i class="fa fa-search searchTop"></i>
-                    </form>
-                </div>
-            </div>
-            <!-- Search Bar -->
             <!-- Nav List -->
-            <ul class="nav-list pull-right">
+            <ul class="nav-list">
                 @if (UserManager.GetCurrentUser(this.Context)?.Player?.TeamPlayers?.Count > 0)
                 {
                     <li>
