@@ -50,9 +50,10 @@
                             <div class="large-post-detail">
                                 <h2><a href="@Url.Action("Detail", "News", new { item.Id })">@item.Caption</a></h2>
                                 <p>@item.ShortDescription</p>
-
-                                <p><span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match?.StadiumName</span></p>
-                                <p><span class="location-marker"><i class="fa fa-clock-o"></i>@item.Match?.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span></p>
+                                @if(item.Match != null) {
+                                    <p><span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match?.StadiumName</span></p>
+                                    <p><span class="location-marker"><i class="fa fa-clock-o"></i>@item.Match?.MatchDate.ToLocalTime().ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</span></p>
+                                }
                                 <a class="btn gary-btn" href="@Url.Action("Detail", "News", new { item.Id })"><i>+</i>Haberi Oku</a>
                             </div>
                             <!-- Detail -->
