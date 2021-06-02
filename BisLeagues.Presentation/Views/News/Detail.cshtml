@@ -140,9 +140,7 @@
                     }
                     @if (!string.IsNullOrWhiteSpace(Model.New.VideoUrl))
                     {
-                        <div class="col-md-12">
-                                @Html.Raw(Model.New.VideoUrl)
-                        </div>
+                        @Html.Raw(Model.New.VideoUrl)
                     }
                     <article>
                         @Html.Raw(Model.New.Content)
