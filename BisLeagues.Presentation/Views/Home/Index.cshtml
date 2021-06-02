@@ -56,13 +56,13 @@
                                             <li>
                                                 <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home?.Logo?.Path, width = 100, height = 100})" alt="@item.Match.Home.Name">
                                                 <span>
-                                                    <a style="color:black;" href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">@item.Match.Home.Name</a>
+                                                    <a style="color:white;" href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">@item.Match.Home.Name</a>
                                                 </span>
                                             </li>
                                             <li>
                                                 <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away?.Logo?.Path, width = 100, height = 100})" alt="@item.Match.Away.Name">
                                                 <span>
-                                                    <a style="color:black;" href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">@item.Match.Away.Name</a>
+                                                    <a style="color:white;" href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">@item.Match.Away.Name</a>
                                                 </span>
                                             </li>
                                         </ul>

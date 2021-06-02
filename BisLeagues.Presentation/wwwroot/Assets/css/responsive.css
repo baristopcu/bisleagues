@@ -280,6 +280,8 @@ transform: translate(-50%, -50%);}
 .r-full-width-2{ width: 68%; margin: 0 auto!important;}
 .win-tag{ display: none;}
 .loss-tag{ display: none;}
+.carousel-inner .carousel-caption h1 {font-size: 30px; }
+.carousel-inner .carousel-caption p {font-size: 15px; }
 }
 
 @media (max-width: 480px) {

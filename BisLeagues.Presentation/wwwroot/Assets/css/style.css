@@ -1421,6 +1421,9 @@ left: 0; width: 100%; visibility: hidden; opacity: 0;}
 .header.style-2 .search-bar-holder .search-bar i{ background: #d8302f; color: #fff;}
 
 .carousel-inner {max-height: 800px;}
+.carousel-inner .carousel-caption { text-align: left; left:10%; bottom: 10%;}
+.carousel-inner .carousel-caption h1 {color: #fff; font-size: 50px; z-index: 2;}
+.carousel-inner .carousel-caption p {color: #fff; font-size: 25px; z-index: 2;}
 .carousel-inner > .item > a > img, .carousel-inner > .item > img{ width: 100%;}
 .header.style-2 .logo{ position: absolute; left: -4px; top: -10px;}
 .banner-layer{ margin: 0 0 0 -315px; width: 40%;}
