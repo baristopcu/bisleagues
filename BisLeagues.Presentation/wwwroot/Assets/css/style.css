@@ -828,7 +828,7 @@ color: #dddddd; font-size: 14px;}
 /****** Blog ***********************************************************
 *********************************************************** Blog ******/
 /* Inner Banner */
-.inner-banner{ text-align: center; min-height: 250px; background-size: cover;}
+.inner-banner{ text-align: center; min-height: 200px; background-size: cover;}
 @media only screen and (max-device-width : 640px) {
 .inner-banner{ text-align: center; min-height: 50px;}
 }
