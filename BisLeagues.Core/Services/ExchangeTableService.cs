@@ -32,7 +32,7 @@ namespace BisLeagues.Core.Services
                 var seasons = _seasonRepository.GetActiveSeasons();
                 foreach (var season in seasons)
                 {
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec BisUser.UpdateExchangeTableBySeasonId @p0", season.Id);
+                    await _dbContext.Database.ExecuteSqlCommandAsync("exec UpdateExchangeTableBySeasonId @p0", season.Id);
 
                 }
                 return true;
