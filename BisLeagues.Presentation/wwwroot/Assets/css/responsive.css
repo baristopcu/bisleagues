@@ -246,7 +246,7 @@
 .next-match.style-2{ width: 100%;}
 .next-match.style-2 .bg-1::before,
 .next-match.style-2 .bg-2::before{width: 100%;}
-.next-match.style-2 .bg-1::before{ left: 0; background: #d8302f;}
+.next-match.style-2 .bg-1::before{ left: 0; background: #0E4270;}
 .next-match.style-2 .bg-2::before{ right: 0; background: #ffcb0b;}
 
 .inner-banner-2 .banner-caption{ margin: 0!important; text-align: center;
