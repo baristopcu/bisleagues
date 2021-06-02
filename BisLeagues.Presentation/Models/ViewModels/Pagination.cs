@@ -17,7 +17,7 @@ namespace BisLeagues.Presentation.Models.ViewModels
         public Pagination()
         {
             this.PageNumber = 1;
-            this.PageSize = 20;
+            this.PageSize = 5;
         }
         public Pagination(int pageNumber, int pageSize)
         {
