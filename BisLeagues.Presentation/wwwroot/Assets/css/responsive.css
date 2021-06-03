@@ -159,6 +159,8 @@
 .next-match.style-2 .right-side { padding-top: 27px;}
 .left-tiem-acounter span { display: block;}
 .last-match-banner .location-marker span  { display: block;}
+.win-tag{ display: none;}
+.loss-tag{ display: none;}
 }
 
 @media (max-width: 800px) {
@@ -278,10 +280,12 @@ transform: translate(-50%, -50%);}
 .thmnail-arrows li span{ height: 40px; line-height: 40px;}
 .thmnail-arrows li span{ font-size: 10px;}
 .r-full-width-2{ width: 68%; margin: 0 auto!important;}
-.win-tag{ display: none;}
-.loss-tag{ display: none;}
 .carousel-inner .carousel-caption h1 {font-size: 30px; }
 .carousel-inner .carousel-caption p {font-size: 15px; }
+.last-match-banner .team-logo { margin: 0 !important;}
+.left-tiem-acounter { font-size: 16px;}
+.future-match-banner .vs-box { display: none !important;}
+.future-match-banner .team-logo { width: 90px;}
 }
 
 @media (max-width: 480px) {
@@ -306,6 +310,10 @@ transform: translate(-50%, -50%);}
 
 .inner-banner.style-2 .theme-padding{ padding: 0;}
 .matches-dates-shedule.style-2 .location-marker ul li{ font-size: 10px;}
+.matches-dates-shedule ul li { display: flex; flex-direction: column; justify-content: center;}
+.matches-dates-shedule ul li .competition-logos { display: flex; justify-content: center;}
+.matches-dates-shedule ul li .competition-logos img { margin: 0 10px }
+
 .error-content h1{ font-size: 55px;}
 .error-content h1 i{ font-size: 46px;}
 
@@ -344,7 +352,7 @@ transform: translate(-50%, -50%);}
 .main-footer.style-2 .back-to-top{ display: inline-block;}
 .brand-icons-slider-2 li a img{ width: 53%;}
 .last-match-banner .score .rectangle{ padding: 10px;}
-.last-match-banner .team-logo { width: 100px; margin: 0;}
+.last-match-banner .team-logo { width: 90px; margin: 0;}
 
 .next-match.style-2 .right-side { padding-top: 0;}
 }

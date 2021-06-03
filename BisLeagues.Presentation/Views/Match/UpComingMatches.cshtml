@@ -22,7 +22,7 @@
         <!-- Page Heading banner -->
         <div class="inner-banner style-2 overlay-dark theme-padding parallax-window"  style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))">
             <div class="container">
-                <div class="last-match-banner">
+                <div class="last-match-banner future-match-banner">
                     <div class="home-team">
                         <span>
                             <img class="team-logo" src="@Url.Action("Resize", "Image", new { url = Model.UpComingMatch.Home.Logo.Path, width = 120, height = 120 })" alt="@Model.UpComingMatch.Home.Name">
@@ -66,8 +66,10 @@
                                 @foreach (var match in Model.Matches)
                                 {
                                     <li>
+                                        <div class="competition-logos">
                                         <a href="@Url.Action("Detail", "Team", new { match.Home.Id })"><span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = match.Home.Logo.Path, width = 105, height = 105 })" alt="@match.Home.Name"></span></a>
                                         <a href="@Url.Action("Detail", "Team", new { match.Away.Id })"><span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = match.Away.Logo.Path, width = 105, height = 105 })" alt="@match.Away.Name"></span></a>
+                                        </div>
                                         <div class="detail">
                                             <a href="#"><i></i></a>
                                             <strong>@match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name</strong>

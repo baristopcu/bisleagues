@@ -35,7 +35,7 @@
         </div>
         <!-- Page Heading & Breadcrumbs  -->
         <!-- Page Heading banner -->
-        <div class="inner-banner style-2 overlay-dark theme-padding parallax-window"  style="background-image: url(@Url.Action("Resize", "Image", new { url = "Assets/images/banner.jpeg", width = 1280, height = 250 }))">
+        <div class="inner-banner style-2 overlay-dark theme-padding parallax-window" style="background-image: url('../images/banner.jpeg')">
             <div class="container">
                 <div class="last-match-banner">
                     <div class="home-team">
@@ -78,8 +78,10 @@
                                 @foreach (var item in Model.NewsOfPastMatches)
                                 {
                                     <li>
+                                        <div class="competition-logos">
                                         <a href="@Url.Action("Detail", "Team", new { item.Match.Home.Id })"><span class="pull-left"><img src="@Url.Action("Resize", "Image", new { url = item.Match.Home.Logo.Path, width = 105, height = 105 })" alt="@item.Match.Home.Name"></span></a>
                                         <a href="@Url.Action("Detail", "Team", new { item.Match.Away.Id })"><span class="pull-right"><img src="@Url.Action("Resize", "Image", new { url = item.Match.Away.Logo.Path, width = 105, height = 105 })" alt="@item.Match.Away.Name"></span></a>
+                                        </div>
                                         <div class="detail">
                                             <a href="@Url.Action("Detail", "News", new { item.Id })"><i>Maçın Haberine Git</i></a>
                                             <strong>@item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name</strong>
