@@ -355,6 +355,8 @@ transform: translate(-50%, -50%);}
 .last-match-banner .team-logo { width: 90px; margin: 0;}
 
 .next-match.style-2 .right-side { padding-top: 0;}
+
+.vs-team .team-btw-match { margin-top: 30px;}
 }
 
 @media (max-width: 360px) {
