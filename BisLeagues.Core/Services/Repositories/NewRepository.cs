@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BisLeagues.Core.Services.Repositories
 {
@@ -30,7 +31,7 @@ namespace BisLeagues.Core.Services.Repositories
 
         public IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId)
         {
-            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId && x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
+            IEnumerable<New> newsOfMatches = _dbContext.News.Include(x=>x.Match).Where(x => x.SeasonId == seasonId && x.Match.IsPlayed == true && x.Match.MatchDate < DateTime.UtcNow).OrderByDescending(p => p.Match.MatchDate);
             return newsOfMatches;
         }
         public IEnumerable<New> GetNewsOfPastMatchesBySeasonId(int seasonId, int skip, int take, out int totalCount)
@@ -55,7 +56,8 @@ namespace BisLeagues.Core.Services.Repositories
         
         public IEnumerable<New> GetNewsBySeasonAndMatchIds(int seasonId, List<int> matchIds)
         {
-            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId &&  matchIds.Any(k => k == x.MatchId)).OrderByDescending(p => p.CreatedOnUtc);
+            IEnumerable<New> newsOfMatches = _dbContext.News.Where(x => x.SeasonId == seasonId &&  matchIds.Any(k => 
+            k == x.MatchId)).Include(x=>x.Match).OrderByDescending(p => p.CreatedOnUtc);
             return newsOfMatches;
         }
     }

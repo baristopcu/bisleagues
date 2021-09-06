@@ -1054,7 +1054,7 @@ padding: 10px 30px;}
 .matches-dates-shedule > ul{ border-top: 1px solid; margin: 0 0 60px}
 .matches-dates-shedule > ul > li{ text-align: center; padding: 30px; border: 1px solid #f5f5f5; border-top: 0;}
 .matches-dates-shedule > ul > li:nth-child(odd){ background: #fafafa;}
-.matches-dates-shedule > ul > li .detail{ display: inline-block; }
+.matches-dates-shedule > ul > li .detail{ display: inline-block; margin-top: 15px; }
 .matches-dates-shedule > ul > li a{ margin: 0 0 10px;}
 .matches-dates-shedule > ul > li a i{ margin: 0 0 0 5px;}
 .matches-dates-shedule > ul > li .detail span{ display: block; margin: 0 0 10px;}
@@ -1111,6 +1111,14 @@ text-align: center; border-radius: 4px; color: #fff; font-size: 20px;}
 .match-detail-deep blockquote p::after{ content: "\f10e"; position: absolute; font-family: fontawesome;}
 .match-detail-deep blockquote span{ margin: 0 0 0 50px;  font-size: 14px;}
 .match-detail-deep blockquote span i{ font-style: normal;}
+
+.last-match-banner { display: flex; justify-content: center; align-items: center;}
+.last-match-banner .score .rectangle{ border: 1px solid #868686; padding: 20px;}
+.last-match-banner .team-logo { width: 120px; margin: 0 40px;}
+.last-match-banner .info { display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.last-match-banner .vs-box { width: 35px; padding: 5px; background-color: #d8302f; color: #fff; font-size: 16px;}
+.last-match-banner .location-marker {margin-top: 15px;}
+.last-match-banner .location-marker span { color: #fff; font-weight: 400; margin-right: 10px;}
 
 /****** Product Detail ***********************************************************
 *********************************************************** Product Detail ******/

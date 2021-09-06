@@ -6,6 +6,7 @@
     ViewData["Title"] = Model.Team.Name;
     Layout = "~/Views/Shared/_Layout_Heading.cshtml";
 }
+
 @section Head {
     <style>
 
@@ -65,384 +66,390 @@
 
 <!-- Team Detail -->
 <div class="team-detail-holder theme-padding white-bg">
-    <div class="container">
+<div class="container">
 
-        <!-- Row Holder -->
-        <div class="row">
-            <div>
-                <!-- Team without Hover -->
-                <div class="col-lg-3 col-md-3 col-sm-12">
-                    <div class="team-column without-hover">
-                        <img src="@Url.Action("Resize", "Image", new {url = Model.Team.Logo.Path, width = 269, height = 269})" alt="">
-                        <div class="team-detail" style="position:initial !important;">
-                            <h5>@Model.Team.Name</h5>
-                            <span class="desination">Defender</span>
-                            <div class="detail-inner">
-                                <ul>
-                                    <li>Kuruluş Tarihi</li>
-                                    <li>Şehir</li>
-                                    <li>İlçe</li>
-                                    <li>Toplam Gol</li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        @Html.DisplayFor(modelItem => Model.Team.CreatedOnUtc)
-                                    </li>
-                                    <li>
-                                        @Html.DisplayFor(modelItem => Model.Team.City.Name)
-                                    </li>
-                                    <li>
-                                        @Html.DisplayFor(modelItem => Model.Team.County.Name)
-                                    </li>
-                                    <li>
-                                        @Html.DisplayFor(modelItem => Model.TotalGoalCount)
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+<!-- Row Holder -->
+<div class="row">
+<div>
+    <!-- Team without Hover -->
+    <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="team-column without-hover">
+            <img src="@Url.Action("Resize", "Image", new {url = Model.Team.Logo.Path, width = 269, height = 269})" alt="">
+            <div class="team-detail" style="position:initial !important;">
+                <h5>@Model.Team.Name</h5>
+                <span class="desination">Defender</span>
+                <div class="detail-inner">
+                    <ul>
+                        <li>Kuruluş Tarihi</li>
+                        <li>Şehir</li>
+                        <li>İlçe</li>
+                        <li>Toplam Gol</li>
+                    </ul>
+                    <ul>
+                        <li>
+                            @Html.DisplayFor(modelItem => Model.Team.CreatedOnUtc)
+                        </li>
+                        <li>
+                            @Html.DisplayFor(modelItem => Model.Team.City.Name)
+                        </li>
+                        <li>
+                            @Html.DisplayFor(modelItem => Model.Team.County.Name)
+                        </li>
+                        <li>
+                            @Html.DisplayFor(modelItem => Model.TotalGoalCount)
+                        </li>
+                    </ul>
                 </div>
-                <!-- Team without Hover -->
             </div>
-            <div style="width: 100%; margin: 0 10% 50px 10%;">
-                <a href="#detail" data-toggle="tab" class="btn btn-primary tab-button">Takım Detay</a>
-                <a href="#past-matches" data-toggle="tab" class="btn btn-primary tab-button">Geçmiş Maçlar</a>
-                <a href="#upcoming-matches" data-toggle="tab" class="btn btn-primary tab-button">Gelecek Maçlar</a>
-                @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
-                {
-                    <a href="#requests" data-toggle="tab" class="btn btn-primary tab-button">Gelen İstekler</a>
-                    <a href="#requesteds" data-toggle="tab" class="btn btn-primary tab-button">Giden İstekler</a>
-                    <a href="#teamdescedit" data-toggle="tab" class="btn btn-primary tab-button">Açıklama Değiştir</a>
-                    <a href="#teamlogoedit" data-toggle="tab" class="btn btn-primary tab-button">Logo Değiştir</a>
-                }
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @if (UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId != Model.Team.Id)
-                    {
-                        <a href="@Url.Action("CreateRequest", "Transfer", new {teamId = Model.Team.Id, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam})" class="btn btn-success tab-button">Transfer İsteği Oluştur</a>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("LeaveTeam", "Transfer", new {teamId = Model.Team.Id})" class="btn btn-danger tab-button">Takımdan Ayrıl !</a>
-                    }
-                }
-
-            </div>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <!-- default tab -->
-                <div role="tabpanel" class="tab-pane in fade active" id="detail">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
-
-                        <!-- Team Detail Content -->
-                        <div class="team-detail-content theme-padding-bottom">
-                            <h2>@Model.Team.Name Hakkında</h2>
-                            @Html.Raw(Model.Team.Description)
-                        </div>
-                        <!-- Team Detail Content -->
-                        <!-- Palyer Career -->
-                        <div class="palyer-career theme-padding-bottom">
-                            <h2>Takım Oyuncuları</h2>
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Ad Soyad</th>
-                                            <th>Doğum Tarihi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var mapping in Model.Team.TeamPlayers)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a href="@Url.Action("Detail", "Profile", new {mapping.Player.User.Id})">@mapping.Player.User.FirstName @mapping.Player.User.LastName</a>
-                                                </td>
-                                                <td>@(mapping.Player.BirthDate.HasValue ? mapping.Player.BirthDate.Value.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture) : "")</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- Palyer Career -->
-                    </div>
-                    <!-- Detail -->
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="past-matches">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
-                        <!-- Matches Dates Shedule -->
-                        <div class="matches-dates-shedule">
-                            <ul>
-                                @foreach (var item in Model.PastMatchesNews)
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">
-                                            <span class="pull-left">
-                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home.Logo.Path, width = 105, height = 105})" alt="@item.Match.Home.Name">
-                                            </span>
-                                        </a>
-                                        <a href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">
-                                            <span class="pull-right">
-                                                <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away.Logo.Path, width = 105, height = 105})" alt="@item.Match.Away.Name">
-                                            </span>
-                                        </a>
-                                        <div class="detail">
-                                            <a href="@Url.Action("Detail", "News", new {item.Id})">
-                                                <i>Maçın Haberine Git</i>
-                                            </a>
-                                            <strong>
-                                                @item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name
-                                            </strong>
-                                            <span class="location-marker"><i class="fa fa-map-marker"></i>@item.Match.StadiumName</span>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                        <!-- Matches Dates Shedule -->
-
-                    </div>
-                    <!-- Detail -->
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="upcoming-matches">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
-
-                        <!-- Matches Dates Shedule -->
-                        <div class="matches-dates-shedule">
-                            <ul>
-                                @foreach (var match in Model.UpcomingMatches)
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Detail", "Team", new {match.Home.Id})">
-                                            <span class="pull-left">
-                                                <img src="@Url.Action("Resize", "Image", new {url = match.Home.Logo.Path, width = 105, height = 105})" alt="@match.Home.Name">
-                                            </span>
-                                        </a>
-                                        <a href="@Url.Action("Detail", "Team", new {match.Away.Id})">
-                                            <span class="pull-right">
-                                                <img src="@Url.Action("Resize", "Image", new {url = match.Away.Logo.Path, width = 105, height = 105})" alt="@match.Away.Name">
-                                            </span>
-                                        </a>
-                                        <div class="detail">
-                                            <a href="#">
-                                                <i></i>
-                                            </a>
-                                            <strong>
-                                                @match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name
-                                            </strong>
-                                            <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Detail -->
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="requests">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
-                        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
-                        {
-                            <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Ad Soyad</th>
-                                                <th>Statu</th>
-                                                <th>Kabul et / Reddet</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var request in Model.IncomingTransferRequests)
-                                            {
-                                                <tr>
-                                                    <td>@request.Player.User.FirstName @request.Player.User.LastName</td>
-                                                    <td>
-                                                        @{ switch ((TransferStatus)request.Status)
-                                                            {
-                                                                case TransferStatus.Pending:
-                                                                    <text>Bekliyor.</text>
-                                                                    ;
-                                                                    break;
-                                                                case TransferStatus.Confirmed:
-                                                                    <text>Onaylandı.</text>
-                                                                    ;
-                                                                    break;
-                                                                case TransferStatus.Rejected:
-                                                                    <text>Reddedildi.</text>
-                                                                    ;
-                                                                    break;
-                                                                case TransferStatus.Cancelled:
-                                                                    <text>İptal Edildi.</text>
-                                                                    ;
-                                                                    break;
-                                                                default:
-                                                                    <text>Tanımlanamadı.</text>
-                                                                    ;
-                                                                    break;
-                                                            } }
-                                                    </td>
-
-                                                    <td>
-                                                        @if ((TransferStatus)request.Status == TransferStatus.Pending)
-                                                        {
-                                                            <text>
-                                                                <a href="@Url.Action("HandleRequest", "Transfer", new {requestId = request.Id, status = (int) TransferStatus.Confirmed, redirectTo = "Team"})" class="btn btn-success"> Kabul Et </a>
-                                                                <a href="@Url.Action("HandleRequest", "Transfer", new {requestId = request.Id, status = (int) TransferStatus.Rejected, redirectTo = "Team"})" class="btn btn-danger"> Reddet </a>
-                                                            </text>
-                                                        }
-                                                        else
-                                                        {
-                                                            <text>İşlem Yapılamaz.</text>
-                                                        }
-                                                    </td>
-
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- Palyer Career -->
-                        }
-
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="requesteds">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
-                        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
-                        {
-                            <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Ad Soyad</th>
-                                                <th>Statu</th>
-                                                <th>Kabul et / Reddet</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var request in Model.OutgoingTransferRequests)
-                                            {
-                                                <tr>
-                                                    <td>@request.Player.User.FirstName @request.Player.User.LastName</td>
-                                                    <td>
-                                                        @{ switch ((TransferStatus)request.Status)
-                                                            {
-                                                                case TransferStatus.Pending:
-                                                                    <text>Bekliyor.</text>
-                                                                    ;
-                                                                    break;
-                                                                case TransferStatus.Confirmed:
-                                                                    <text>Onaylandı.</text>
-                                                                    ;
-                                                                    break;
-                                                                case TransferStatus.Rejected:
-                                                                    <text>Reddedildi.</text>
-                                                                    ;
-                                                                    break;
-                                                                case TransferStatus.Cancelled:
-                                                                    <text>İptal Edildi.</text>
-                                                                    ;
-                                                                    break;
-                                                                default:
-                                                                    <text>Tanımlanamadı.</text>
-                                                                    ;
-                                                                    break;
-                                                            } }
-                                                    </td>
-
-                                                    <td>
-                                                        @if ((TransferStatus)request.Status == TransferStatus.Pending)
-                                                        {
-                                                            <text>
-                                                                <a href="@Url.Action("HandleRequest", "Transfer", new {requestId = request.Id, status = (int) TransferStatus.Cancelled, redirectTo = "Team"})" class="btn btn-danger"> Tekliften Vazgeç </a>
-                                                            </text>
-                                                        }
-                                                        else
-                                                        {
-                                                            <text>İşlem Yapılamaz.</text>
-                                                        }
-                                                    </td>
-
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- Palyer Career -->
-                        }
-
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="teamdescedit">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
-                        {
-                            <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom about-aurthor">
-                                <form action="@Url.Action("EditDescription", "Team")" method="post">
-                                    <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                                    <textarea name="description" id="description" style="height: 500px; width: 100%">
-                                    @Model.Team.Description
-                                 </textarea><br />
-                                    <input type="submit" class="btn btn-success form-control" value="Gönder Gitsin" />
-                                </form>
-                            </div>
-                            <!-- Palyer Career -->
-                        }
-
-                    </div>
-                </div>
-
-                <div role="tabpanel" class="tab-pane fade" id="teamlogoedit">
-                    <!-- Detail -->
-                    <div class="col-lg-9 col-md-9 col-sm-7">
-                        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
-                        {
-                            <!-- Palyer Career -->
-                            <div class="palyer-career theme-padding-bottom about-aurthor">
-                                <form action="@Url.Action("EditTeamLogo", "Team")" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                                    <div class="form-group" style="margin-bottom: 300px;">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-success btn-file">
-                                                    Takım Logosu : <input type="file" id="imgInp" name="teamLogo">
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                        <br />
-                                        <img id="img-upload" style="max-width:300px; max-height: 200px;" />
-                                    </div>
-                                    <input type="submit" class="btn btn-success form-control" />
-                                </form>
-                            </div>
-                            <!-- Palyer Career -->
-                        }
-
-                    </div>
-                </div>
-
-            </div>
-            <!-- Row Holder  -->
-
         </div>
     </div>
+    <!-- Team without Hover -->
+</div>
+<div style="width: 100%; margin: 0 10% 50px 10%;">
+    <a href="#detail" data-toggle="tab" class="btn btn-primary tab-button">Takım Detay</a>
+    <a href="#past-matches" data-toggle="tab" class="btn btn-primary tab-button">Geçmiş Maçlar</a>
+    <a href="#upcoming-matches" data-toggle="tab" class="btn btn-primary tab-button">Gelecek Maçlar</a>
+    @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
+    {
+        <a href="#requests" data-toggle="tab" class="btn btn-primary tab-button">Gelen İstekler</a>
+        <a href="#requesteds" data-toggle="tab" class="btn btn-primary tab-button">Giden İstekler</a>
+        <a href="#teamdescedit" data-toggle="tab" class="btn btn-primary tab-button">Açıklama Değiştir</a>
+        <a href="#teamlogoedit" data-toggle="tab" class="btn btn-primary tab-button">Logo Değiştir</a>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (UserManager.GetCurrentUser(this.Context)?.Player.TeamPlayers.FirstOrDefault()?.TeamId != Model.Team.Id)
+        {
+            <a href="@Url.Action("CreateRequest", "Transfer", new {teamId = Model.Team.Id, playerId = UserManager.GetCurrentUser(this.Context)?.Player.Id, type = (int) TransferTypes.PlayerToTeam})" class="btn btn-success tab-button">Transfer İsteği Oluştur</a>
+        }
+        else
+        {
+            <a href="@Url.Action("LeaveTeam", "Transfer", new {teamId = Model.Team.Id})" class="btn btn-danger tab-button">Takımdan Ayrıl !</a>
+        }
+    }
+
+</div>
+<!-- Tab panes -->
+<div class="tab-content">
+<!-- default tab -->
+<div role="tabpanel" class="tab-pane in fade active" id="detail">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-7">
+
+        <!-- Team Detail Content -->
+        <div class="team-detail-content theme-padding-bottom">
+            <h2>@Model.Team.Name Hakkında</h2>
+            @Html.Raw(Model.Team.Description)
+        </div>
+        <!-- Team Detail Content -->
+        <!-- Palyer Career -->
+        <div class="palyer-career theme-padding-bottom">
+            <h2>Takım Oyuncuları</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Ad Soyad</th>
+                        <th>Doğum Tarihi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var mapping in Model.Team.TeamPlayers)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Detail", "Profile", new {mapping.Player.User.Id})">@mapping.Player.User.FirstName @mapping.Player.User.LastName</a>
+                            </td>
+                            <td>@(mapping.Player.BirthDate.HasValue ? mapping.Player.BirthDate.Value.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture) : "")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Palyer Career -->
+    </div>
+    <!-- Detail -->
+</div>
+<div role="tabpanel" class="tab-pane fade" id="past-matches">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-7">
+        <!-- Matches Dates Shedule -->
+        <div class="matches-dates-shedule">
+            <ul>
+                @foreach (var item in Model.PastMatchesNews)
+                {
+                    <li>
+                        <span>
+                            <a href="@Url.Action("Detail", "Team", new {item.Match.Home.Id})">
+                                <span class="pull-left">
+                                    <img src="@Url.Action("Resize", "Image", new {url = item.Match.Home.Logo.Path, width = 105, height = 105})" alt="@item.Match.Home.Name">
+                                </span>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Detail", "Team", new {item.Match.Away.Id})">
+                                <span class="pull-right">
+                                    <img src="@Url.Action("Resize", "Image", new {url = item.Match.Away.Logo.Path, width = 105, height = 105})" alt="@item.Match.Away.Name">
+                                </span>
+                            </a>
+                        </span>
+                        <div class="detail">
+                            <a href="@Url.Action("Detail", "News", new {item.Id})">
+                                <i>Maçın Haberine Git</i>
+                            </a>
+                            <strong>
+                                @item.Match.Home.Name<i class="red-color"> | @item.Match.Result.HomeScore - @item.Match.Result.AwayScore | </i> @item.Match.Away.Name
+                            </strong>
+                            <span class="location-marker">
+                                <i class="fa fa-map-marker"></i>@item.Match.StadiumName
+                            </span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- Matches Dates Shedule -->
+
+    </div>
+    <!-- Detail -->
+</div>
+<div role="tabpanel" class="tab-pane fade" id="upcoming-matches">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-7">
+
+        <!-- Matches Dates Shedule -->
+        <div class="matches-dates-shedule">
+            <ul>
+                @foreach (var match in Model.UpcomingMatches)
+                {
+                    <li>
+                        <a href="@Url.Action("Detail", "Team", new {match.Home.Id})">
+                            <span class="pull-left">
+                                <img src="@Url.Action("Resize", "Image", new {url = match.Home.Logo.Path, width = 105, height = 105})" alt="@match.Home.Name">
+                            </span>
+                        </a>
+                        <a href="@Url.Action("Detail", "Team", new {match.Away.Id})">
+                            <span class="pull-right">
+                                <img src="@Url.Action("Resize", "Image", new {url = match.Away.Logo.Path, width = 105, height = 105})" alt="@match.Away.Name">
+                            </span>
+                        </a>
+                        <div class="detail">
+                            <a href="#">
+                                <i></i>
+                            </a>
+                            <strong>
+                                @match.Home.Name<i class="red-color"> | @TimeZoneInfo.ConvertTimeFromUtc(match.MatchDate, TimeZoneInfo.Local).ToString("dddd, dd MMMM yyyy") | </i> @match.Away.Name
+                            </strong>
+                            <!--<span class="location-marker"><i class="fa fa-map-marker"></i>3358 Evergreen Lane England</span>-->
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!-- Detail -->
+</div>
+<div role="tabpanel" class="tab-pane fade" id="requests">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-7">
+        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
+        {
+            <!-- Palyer Career -->
+            <div class="palyer-career theme-padding-bottom">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Statu</th>
+                            <th>Kabul et / Reddet</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var request in Model.IncomingTransferRequests)
+                        {
+                            <tr>
+                                <td>@request.Player.User.FirstName @request.Player.User.LastName</td>
+                                <td>
+                                    @{ switch ((TransferStatus) request.Status)
+                                       {
+                                           case TransferStatus.Pending:
+                                               <text>Bekliyor.</text>
+                                               ;
+                                               break;
+                                           case TransferStatus.Confirmed:
+                                               <text>Onaylandı.</text>
+                                               ;
+                                               break;
+                                           case TransferStatus.Rejected:
+                                               <text>Reddedildi.</text>
+                                               ;
+                                               break;
+                                           case TransferStatus.Cancelled:
+                                               <text>İptal Edildi.</text>
+                                               ;
+                                               break;
+                                           default:
+                                               <text>Tanımlanamadı.</text>
+                                               ;
+                                               break;
+                                       } }
+                                </td>
+
+                                <td>
+                                    @if ((TransferStatus) request.Status == TransferStatus.Pending)
+                                    {
+                                        <text>
+                                            <a href="@Url.Action("HandleRequest", "Transfer", new {requestId = request.Id, status = (int) TransferStatus.Confirmed, redirectTo = "Team"})" class="btn btn-success"> Kabul Et </a>
+                                            <a href="@Url.Action("HandleRequest", "Transfer", new {requestId = request.Id, status = (int) TransferStatus.Rejected, redirectTo = "Team"})" class="btn btn-danger"> Reddet </a>
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>İşlem Yapılamaz.</text>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Palyer Career -->
+        }
+
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane fade" id="requesteds">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-7">
+        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
+        {
+            <!-- Palyer Career -->
+            <div class="palyer-career theme-padding-bottom">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Statu</th>
+                            <th>Kabul et / Reddet</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var request in Model.OutgoingTransferRequests)
+                        {
+                            <tr>
+                                <td>@request.Player.User.FirstName @request.Player.User.LastName</td>
+                                <td>
+                                    @{ switch ((TransferStatus) request.Status)
+                                       {
+                                           case TransferStatus.Pending:
+                                               <text>Bekliyor.</text>
+                                               ;
+                                               break;
+                                           case TransferStatus.Confirmed:
+                                               <text>Onaylandı.</text>
+                                               ;
+                                               break;
+                                           case TransferStatus.Rejected:
+                                               <text>Reddedildi.</text>
+                                               ;
+                                               break;
+                                           case TransferStatus.Cancelled:
+                                               <text>İptal Edildi.</text>
+                                               ;
+                                               break;
+                                           default:
+                                               <text>Tanımlanamadı.</text>
+                                               ;
+                                               break;
+                                       } }
+                                </td>
+
+                                <td>
+                                    @if ((TransferStatus) request.Status == TransferStatus.Pending)
+                                    {
+                                        <text>
+                                            <a href="@Url.Action("HandleRequest", "Transfer", new {requestId = request.Id, status = (int) TransferStatus.Cancelled, redirectTo = "Team"})" class="btn btn-danger"> Tekliften Vazgeç </a>
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>İşlem Yapılamaz.</text>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Palyer Career -->
+        }
+
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane fade" id="teamdescedit">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
+        {
+            <!-- Palyer Career -->
+            <div class="palyer-career theme-padding-bottom about-aurthor">
+                <form action="@Url.Action("EditDescription", "Team")" method="post">
+                    <input type="hidden" name="teamId" value="@Model.Team.Id"/>
+                    <textarea name="description" id="description" style="height: 500px; width: 100%">
+                                    @Model.Team.Description
+                                 </textarea><br/>
+                    <input type="submit" class="btn btn-success form-control" value="Gönder Gitsin"/>
+                </form>
+            </div>
+            <!-- Palyer Career -->
+        }
+
+    </div>
+</div>
+
+<div role="tabpanel" class="tab-pane fade" id="teamlogoedit">
+    <!-- Detail -->
+    <div class="col-lg-9 col-md-9 col-sm-7">
+        @if (UserManager.GetCurrentUser(this.Context)?.Player == Model.Team.CaptainPlayer)
+        {
+            <!-- Palyer Career -->
+            <div class="palyer-career theme-padding-bottom about-aurthor">
+                <form action="@Url.Action("EditTeamLogo", "Team")" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="teamId" value="@Model.Team.Id"/>
+                    <div class="form-group" style="margin-bottom: 300px;">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-success btn-file">
+                                    Takım Logosu : <input type="file" id="imgInp" name="teamLogo">
+                                </span>
+                            </span>
+                            <input type="text" class="form-control" readonly>
+                        </div>
+                        <br/>
+                        <img id="img-upload" style="max-width:300px; max-height: 200px;"/>
+                    </div>
+                    <input type="submit" class="btn btn-success form-control"/>
+                </form>
+            </div>
+            <!-- Palyer Career -->
+        }
+
+    </div>
+</div>
+
+</div>
+<!-- Row Holder  -->
+
+</div>
+</div>
 </div> <!-- Team Detail -->
 
 @section Scripts{

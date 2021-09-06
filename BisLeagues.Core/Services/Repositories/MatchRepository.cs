@@ -58,7 +58,12 @@ namespace BisLeagues.Core.Services.Repositories
         
         public IEnumerable<int> GetPastMatchIdsBySeasonIdAndTeamId(int seasonId, int teamId)
         {
-            IEnumerable<int> matchIds = _dbContext.Matches.Where(x => x.SeasonId == seasonId &&  (x.HomeId == teamId || x.AwayId == teamId) && x.IsPlayed == true && x.MatchDate < DateTime.UtcNow && x.New != null).OrderByDescending(p => p.MatchDate).Select(x=>x.Id);
+            IEnumerable<int> matchIds = _dbContext.Matches.Include(x=>x.Away).Include(x=>x.Home).Include(x=>x.New)
+            .Include(x=>x.Result)
+            .Where(x => x
+            .SeasonId == seasonId &&
+              (x.HomeId == 
+            teamId || x.AwayId == teamId) && x.IsPlayed == true && x.MatchDate < DateTime.UtcNow && x.New != null).OrderByDescending(p => p.MatchDate).Select(x=>x.Id);
             return matchIds;
         }
     }
