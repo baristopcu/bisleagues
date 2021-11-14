@@ -1,4 +1,5 @@
-﻿using BisLeagues.Core.Interfaces.Repositories;
+﻿using BisLeagues.Core.CustomModels;
+using BisLeagues.Core.Interfaces.Repositories;
 using BisLeagues.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,7 @@ namespace BisLeagues.Core.Interfaces.Repositories
     {
         Result GetLastMatchsResultBySeasonId(int seasonId);
         IEnumerable<Result> GetResultsOfMatches(IEnumerable<Match> matches);
+        IEnumerable<ResultResponseModel> GetResultsOfMatchesForJson();
+
     }
 }
