@@ -19,7 +19,7 @@
   {
     <div class="item @(i==0 ? "active" : "")">
       <a href="@Url.Action("Detail", "News", new { item.Id })">
-        <img style="max-height:800px;" src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto.Path, width = 1177, height = 800    })" alt="@item.Caption">
+        <img style="max-height:800px;" src="@Url.Action("Resize", "Image", new { url = item.CoverPhoto?.Path, width = 1177, height = 800    })" alt="@item.Caption">
       </a>
     </div>
     i++;
